@@ -6,7 +6,11 @@ defmodule Nerves.Bootstrap.Mixfile do
      version: "0.6.2",
      elixir: "~> 1.4",
      aliases: aliases(),
-     xref: [exclude: [Nerves.Env]]]
+     xref: [exclude: [Nerves.Env]],
+     description: description(),
+     package: package(),
+     deps: deps(),
+   ]
   end
 
   def application do
@@ -17,6 +21,25 @@ defmodule Nerves.Bootstrap.Mixfile do
     ["compile.elixir": [&unload_bootstrap/1, "compile.elixir"],
      run: [&unload_bootstrap/1, "run"],
      install: ["archive.build -o nerves_bootstrap.ez", "archive.install nerves_bootstrap.ez --force"]]
+  end
+
+  defp deps do
+    [
+      {:ex_doc, "~> 0.16", only: :dev},
+    ]
+  end
+
+  defp description do
+    """
+    nerves_bootstrap
+    """
+  end
+
+  defp package do
+    [maintainers: [],
+     files: ["lib", "LICENSE", "mix.exs", "README.md", "test", "templates"],
+     licenses: ["Apache 2.0"],
+     links: %{"Github" => "https://github.com/nerves-project/nerves_bootstrap"}]
   end
 
   defp unload_bootstrap(_) do
