@@ -18,7 +18,6 @@ defmodule Mix.Tasks.Nerves.New do
     "rpi2",
     "rpi3",
     "bbb",
-    "linkit",
     "ev3",
     "qemu_arm"
   ]
