@@ -1,5 +1,9 @@
 # nerves_bootstrap
 
+## v0.6.3
+* Removed unsupported systems from default targets and added x86_64.
+* Moved to independent hex package.
+
 ## v0.6.2
 * Enhancements
   * [mix nerves.new] Use the new `rootfs_overlay` option
@@ -9,7 +13,7 @@
   * [mix nerves.new] system dependencies are appended as a list so there is a
     clear location for where system specific dependencies are added.
   * [mix nerves.new] moved the config for bootloader above so that it is
-    configured before importing target specific configuration. 
+    configured before importing target specific configuration.
 
 ## v0.6.1
 * Enhancements
