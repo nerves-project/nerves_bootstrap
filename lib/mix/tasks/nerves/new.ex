@@ -19,7 +19,8 @@ defmodule Mix.Tasks.Nerves.New do
     "rpi3",
     "bbb",
     "ev3",
-    "qemu_arm"
+    "qemu_arm",
+    "x86_64"
   ]
 
   @new [
