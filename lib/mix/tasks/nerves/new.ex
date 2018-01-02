@@ -31,6 +31,7 @@ defmodule Mix.Tasks.Nerves.New do
     {:eex, "new/test/app_name_test.exs", "test/app_name_test.exs"},
     {:eex, "new/rel/vm.args", "rel/vm.args"},
     {:text, "new/.gitignore", ".gitignore"},
+    {:text, "new/.formatter.exs", ".formatter.exs"},
     {:eex, "new/mix.exs", "mix.exs"},
     {:eex, "new/README.md", "README.md"},
     {:keep, "new/rel", "rel"}
