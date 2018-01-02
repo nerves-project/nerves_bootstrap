@@ -34,9 +34,7 @@ defmodule <%= app_module %>.MixProject do
     ]
   end
 
-  # Configuration for the OTP application.
-  #
-  # Type `mix help compile.app` for more information.
+  # Run "mix help compile.app" to learn about applications.
   def application, do: application(@target)
 
   # Specify target specific application configurations
@@ -51,23 +49,15 @@ defmodule <%= app_module %>.MixProject do
     [mod: {<%= app_module %>.Application, []}, extra_applications: [:logger]]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:my_dep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
-  def deps do
+  # Run "mix help deps" to learn about dependencies.
+  defp deps do
     [<%= nerves_dep %>] ++ deps(@target)
   end
 
   # Specify target specific dependencies
-  def deps("host"), do: []
+  defp deps("host"), do: []
 
-  def deps(target) do
+  defp deps(target) do
     [
       {:bootloader, "~> <%= bootloader_vsn %>"},
       {:nerves_runtime, "~> <%= runtime_vsn %>"}
@@ -75,14 +65,14 @@ defmodule <%= app_module %>.MixProject do
   end
 
 <%= for target <- targets do %>
-  def system("<%= target %>"), do: [{:<%= "nerves_system_#{target}" %>, ">= 0.0.0", runtime: false}]
+  defp system("<%= target %>"), do: [{:<%= "nerves_system_#{target}" %>, ">= 0.0.0", runtime: false}]
 <% end %>
-  def system(target), do: Mix.raise "Unknown MIX_TARGET: #{target}"
+  defp system(target), do: Mix.raise "Unknown MIX_TARGET: #{target}"
 
   # We do not invoke the Nerves Env when running on the Host
-  def aliases("host"), do: []
+  defp aliases("host"), do: []
 
-  def aliases(_target) do
+  defp aliases(_target) do
     [
       "deps.precompile": ["nerves.precompile", "deps.precompile"],
       "deps.loadpaths": ["deps.loadpaths", "nerves.loadpaths"]
