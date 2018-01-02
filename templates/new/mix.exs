@@ -1,4 +1,4 @@
-defmodule <%= app_module %>.Mixfile do
+defmodule <%= app_module %>.MixProject do
   use Mix.Project
 
   @target System.get_env("MIX_TARGET") || "host"
