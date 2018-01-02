@@ -25,7 +25,6 @@ defmodule Nerves.BootstrapTest do
         assert file =~ "def system(\"rpi2\"), do: [{:nerves_system_rpi2, \">= 0.0.0\""
         assert file =~ "def system(\"rpi3\"), do: [{:nerves_system_rpi3, \">= 0.0.0\""
         assert file =~ "def system(\"bbb\"), do: [{:nerves_system_bbb, \">= 0.0.0\""
-        assert file =~ "def system(\"linkit\"), do: [{:nerves_system_linkit, \">= 0.0.0\""
         assert file =~ "def system(\"ev3\"), do: [{:nerves_system_ev3, \">= 0.0.0\""
         assert file =~ "def system(\"qemu_arm\"), do: [{:nerves_system_qemu_arm, \">= 0.0.0\""
       end
