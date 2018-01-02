@@ -4,21 +4,24 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
 
   def run(_args) do
     unless System.get_env("NERVES_PRECOMPILE") == "1" do
-      debug_info "Loadpaths Start"
+      debug_info("Loadpaths Start")
+
       case Code.ensure_compiled?(Nerves.Env) do
         true ->
           try do
             Mix.Task.run("nerves.env", [])
-            Nerves.Env.bootstrap
+            Nerves.Env.bootstrap()
             env_info()
           rescue
             e ->
               reraise e, System.stacktrace()
           end
+
         false ->
-          debug_info "Env not loaded"
+          debug_info("Env not loaded")
       end
-      debug_info "Loadpaths End"
+
+      debug_info("Loadpaths End")
     end
   end
 
@@ -30,11 +33,11 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
   end
 
   def env_info do
-    debug_info "Environment Variable List", """
-      target:     #{Mix.Project.config[:target] || "unset"}
+    debug_info("Environment Variable List", """
+      target:     #{Mix.Project.config()[:target] || "unset"}
       toolchain:  #{env("NERVES_TOOLCHAIN")}
       system:     #{env("NERVES_SYSTEM")}
       app:        #{env("NERVES_APP")}
-    """
+    """)
   end
 end

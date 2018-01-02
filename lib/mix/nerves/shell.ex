@@ -1,5 +1,4 @@
 defmodule Mix.Nerves.Shell do
-
   def open(command, initial_input \\ []) do
     # We need to get raw binary access to the stdout file descriptor
     # so we can directly pass through control characters output by the command
@@ -10,12 +9,18 @@ defmodule Mix.Nerves.Shell do
     stdin_port = Port.open({:spawn, "tty_sl -c -e"}, [:binary, :eof, :stream, :in])
 
     # We run the command through the script command to emulate a pty
-    cmd_port = Port.open({:spawn, "script -q /dev/null #{command}"}, [:binary, :eof, :stream, :stderr_to_stdout])
+    cmd_port =
+      Port.open({:spawn, "script -q /dev/null #{command}"}, [
+        :binary,
+        :eof,
+        :stream,
+        :stderr_to_stdout
+      ])
 
     # Tell the script command about the terminal dimensions
     {w, h} = get_tty_geometry(stdin_port)
-    Port.command(cmd_port,
-    """
+
+    Port.command(cmd_port, """
     stty sane rows #{h} cols #{w}; stty -echo
     export PS1=""; export PS2=""
     start() {
@@ -56,10 +61,11 @@ defmodule Mix.Nerves.Shell do
   @ctrl_op_get_winsize 100
 
   defp get_tty_geometry(tty_port) do
-    geometry = :erlang.port_control(tty_port, @ctrl_op_get_winsize, [])
-    |> :erlang.list_to_binary()
+    geometry =
+      :erlang.port_control(tty_port, @ctrl_op_get_winsize, [])
+      |> :erlang.list_to_binary()
+
     <<w::native-integer-size(32), h::native-integer-size(32)>> = geometry
     {w, h}
   end
-
 end

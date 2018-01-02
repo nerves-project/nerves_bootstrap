@@ -16,7 +16,7 @@ defmodule Mix.Tasks.Nerves.Clean do
   @switches [all: :boolean]
 
   def run(argv) do
-    debug_info "Clean Start"
+    debug_info("Clean Start")
     {opts, packages, _} = OptionParser.parse(argv, switches: @switches)
     Mix.Tasks.Nerves.Env.run([])
 
@@ -24,23 +24,24 @@ defmodule Mix.Tasks.Nerves.Clean do
       case packages do
         [] ->
           if opts[:all] do
-            Nerves.Env.packages
+            Nerves.Env.packages()
           else
-            Mix.raise """
+            Mix.raise("""
             You must specify the Nerves dependencies to clean, seperated by spaces
             Example:
               mix nerves.clean nerves_system_rpi3
             Or by passing --all
               mix nerves.clean --all
-            """
+            """)
           end
+
         packages ->
           packages
           |> Enum.map(&String.to_existing_atom/1)
           |> Enum.map(&Nerves.Env.package/1)
       end
-      debug_info "Clean End"
+
+    debug_info("Clean End")
     Nerves.Env.clean(packages)
   end
-
 end
