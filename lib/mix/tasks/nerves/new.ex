@@ -9,7 +9,7 @@ defmodule Mix.Tasks.Nerves.New do
   @bootstrap_vsn "0.6"
   @runtime_vsn "0.4"
 
-  @requirement Mix.Project.config[:elixir]
+  @requirement Mix.Project.config()[:elixir]
   @shortdoc "Creates a new Nerves application"
 
   @targets [
@@ -24,16 +24,16 @@ defmodule Mix.Tasks.Nerves.New do
   ]
 
   @new [
-    {:eex,  "new/config/config.exs",                "config/config.exs"},
-    {:eex,  "new/lib/app_name.ex",                  "lib/app_name.ex"},
-    {:eex,  "new/lib/app_name/application.ex",      "lib/app_name/application.ex"},
-    {:eex,  "new/test/test_helper.exs",             "test/test_helper.exs"},
-    {:eex,  "new/test/app_name_test.exs",           "test/app_name_test.exs"},
-    {:eex,  "new/rel/vm.args",                      "rel/vm.args"},
-    {:text, "new/.gitignore",                       ".gitignore"},
-    {:eex,  "new/mix.exs",                          "mix.exs"},
-    {:eex,  "new/README.md",                        "README.md"},
-    {:keep, "new/rel",                              "rel"}
+    {:eex, "new/config/config.exs", "config/config.exs"},
+    {:eex, "new/lib/app_name.ex", "lib/app_name.ex"},
+    {:eex, "new/lib/app_name/application.ex", "lib/app_name/application.ex"},
+    {:eex, "new/test/test_helper.exs", "test/test_helper.exs"},
+    {:eex, "new/test/app_name_test.exs", "test/app_name_test.exs"},
+    {:eex, "new/rel/vm.args", "rel/vm.args"},
+    {:text, "new/.gitignore", ".gitignore"},
+    {:eex, "new/mix.exs", "mix.exs"},
+    {:eex, "new/README.md", "README.md"},
+    {:keep, "new/rel", "rel"}
   ]
 
   # Embed all defined templates
@@ -98,27 +98,31 @@ defmodule Mix.Tasks.Nerves.New do
   @switches [app: :string, module: :string, target: :keep, cookie: :string]
 
   def run([version]) when version in ~w(-v --version) do
-    Mix.shell.info "Nerves v#{@bootstrap_vsn}"
+    Mix.shell().info("Nerves v#{@bootstrap_vsn}")
   end
 
   def run(argv) do
-    unless Version.match? System.version, @requirement do
-      Mix.raise "Nerves v#{@bootstrap_vsn} requires at least Elixir #{@requirement}.\n " <>
-                "You have #{System.version}. Please update accordingly"
+    unless Version.match?(System.version(), @requirement) do
+      Mix.raise(
+        "Nerves v#{@bootstrap_vsn} requires at least Elixir #{@requirement}.\n " <>
+          "You have #{System.version()}. Please update accordingly"
+      )
     end
 
     {opts, argv} =
       case OptionParser.parse(argv, strict: @switches) do
         {opts, argv, []} ->
           {opts, argv}
+
         {_opts, _argv, [switch | _]} ->
-          Mix.raise "Invalid option: " <> switch_to_string(switch)
+          Mix.raise("Invalid option: " <> switch_to_string(switch))
       end
 
     case argv do
       [] ->
-        Mix.Task.run "help", ["nerves.new"]
-      [path|_] ->
+        Mix.Task.run("help", ["nerves.new"])
+
+      [path | _] ->
         app = opts[:app] || Path.basename(Path.expand(path))
         check_application_name!(app, !!opts[:app])
         mod = opts[:module] || Macro.camelize(app)
@@ -139,33 +143,38 @@ defmodule Mix.Tasks.Nerves.New do
       (opts || [])
       |> Keyword.get_values(:target)
 
-    Enum.each(targets, fn(target) ->
+    Enum.each(targets, fn target ->
       unless target in @targets do
         targets = Enum.join(@targets, "\n")
-        Mix.raise """
-        Unknown target #{inspect target}
+
+        Mix.raise("""
+        Unknown target #{inspect(target)}
         Supported targets
         #{targets}
-        """
+        """)
       end
     end)
 
     targets = if targets == [], do: @targets, else: targets
     cookie = opts[:cookie] || random_string(64)
-    binding = [app_name: app,
-               app_module: mod,
-               bootstrap_vsn: @bootstrap_vsn,
-               bootloader_vsn: @bootloader_vsn,
-               runtime_vsn: @runtime_vsn,
-               elixir_req: @requirement,
-               nerves_dep: nerves_dep(nerves_path),
-               in_umbrella: in_umbrella?,
-               targets: targets,
-               cookie: cookie]
 
-    copy_from path, binding, @new
+    binding = [
+      app_name: app,
+      app_module: mod,
+      bootstrap_vsn: @bootstrap_vsn,
+      bootloader_vsn: @bootloader_vsn,
+      runtime_vsn: @runtime_vsn,
+      elixir_req: @requirement,
+      nerves_dep: nerves_dep(nerves_path),
+      in_umbrella: in_umbrella?,
+      targets: targets,
+      cookie: cookie
+    ]
+
+    copy_from(path, binding, @new)
     # Parallel installs
-    install? = Mix.shell.yes?("\nFetch and install dependencies?")
+    install? = Mix.shell().yes?("\nFetch and install dependencies?")
+
     File.cd!(path, fn ->
       extra =
         if install? && Code.ensure_loaded?(Hex) do
@@ -189,20 +198,29 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   defp cmd(cmd) do
-    Mix.shell.info [:green, "* running ", :reset, cmd]
-    case Mix.shell.cmd(cmd, [quiet: true]) do
+    Mix.shell().info([:green, "* running ", :reset, cmd])
+
+    case Mix.shell().cmd(cmd, quiet: true) do
       0 ->
         true
+
       _ ->
-        Mix.shell.error [:red, "* error ", :reset, "command failed to execute, " <>
-          "please run the following command again after installation: \"#{cmd}\""]
+        Mix.shell().error([
+          :red,
+          "* error ",
+          :reset,
+          "command failed to execute, " <>
+            "please run the following command again after installation: \"#{cmd}\""
+        ])
+
         false
     end
   end
 
   defp print_mix_info(path, extra) do
     command = ["$ cd #{path}"] ++ extra
-    Mix.shell.info """
+
+    Mix.shell().info("""
     Your Nerves project was created successfully.
 
     You should now pick a target. See https://hexdocs.pm/nerves/targets.html#content
@@ -228,7 +246,7 @@ defmodule Mix.Tasks.Nerves.New do
 
     Plug the SDCard into the target and power it up. See target documentation
     above for more information and other targets.
-    """
+    """)
   end
 
   defp switch_to_string({name, nil}), do: name
@@ -239,44 +257,49 @@ defmodule Mix.Tasks.Nerves.New do
       extra =
         if !from_app_flag do
           ". The application name is inferred from the path, if you'd like to " <>
-          "explicitly name the application then use the `--app APP` option."
+            "explicitly name the application then use the `--app APP` option."
         else
           ""
         end
 
-      Mix.raise "Application name must start with a letter and have only lowercase " <>
-                "letters, numbers and underscore, got: #{inspect name}" <> extra
+      Mix.raise(
+        "Application name must start with a letter and have only lowercase " <>
+          "letters, numbers and underscore, got: #{inspect(name)}" <> extra
+      )
     end
   end
 
   defp check_module_name_validity!(name) do
     unless name =~ recompile(~r/^[A-Z]\w*(\.[A-Z]\w*)*$/) do
-      Mix.raise "Module name must be a valid Elixir alias (for example: Foo.Bar), got: #{inspect name}"
+      Mix.raise(
+        "Module name must be a valid Elixir alias (for example: Foo.Bar), got: #{inspect(name)}"
+      )
     end
   end
 
   defp check_module_name_availability!(name) do
     name = Module.concat(Elixir, name)
+
     if Code.ensure_loaded?(name) do
-      Mix.raise "Module name #{inspect name} is already taken, please choose another name"
+      Mix.raise("Module name #{inspect(name)} is already taken, please choose another name")
     end
   end
 
   defp nerves_dep("deps/nerves"), do: ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
-  defp nerves_dep(path), do: ~s[{:nerves, path: #{inspect path}, runtime: false, override: true}]
+  defp nerves_dep(path), do: ~s[{:nerves, path: #{inspect(path)}, runtime: false, override: true}]
 
   defp nerves_path(path, true) do
     absolute = Path.expand(path)
     relative = Path.relative_to(absolute, @nerves)
 
     if absolute == relative do
-      Mix.raise "--dev project must be inside Nerves directory"
+      Mix.raise("--dev project must be inside Nerves directory")
     end
 
     relative
-    |> Path.split
+    |> Path.split()
     |> Enum.map(fn _ -> ".." end)
-    |> Path.join
+    |> Path.join()
   end
 
   defp nerves_path(_path, false) do
@@ -285,18 +308,21 @@ defmodule Mix.Tasks.Nerves.New do
 
   defp copy_from(target_dir, binding, mapping) when is_list(mapping) do
     app_name = Keyword.fetch!(binding, :app_name)
+
     for {format, source, target_path} <- mapping do
-      target = Path.join(target_dir,
-                         String.replace(target_path, "app_name", app_name))
+      target = Path.join(target_dir, String.replace(target_path, "app_name", app_name))
 
       case format do
         :keep ->
           File.mkdir_p!(target)
+
         :text ->
           create_file(target, render(source))
+
         :append ->
           append_to(Path.dirname(target), Path.basename(target), render(source))
-        :eex  ->
+
+        :eex ->
           contents = EEx.eval_string(render(source), binding, file: source, trim: true)
           create_file(target, contents)
       end
@@ -310,10 +336,11 @@ defmodule Mix.Tasks.Nerves.New do
 
   defp in_umbrella?(app_path) do
     try do
-      umbrella = Path.expand(Path.join [app_path, "..", ".."])
+      umbrella = Path.expand(Path.join([app_path, "..", ".."]))
+
       File.exists?(Path.join(umbrella, "mix.exs")) &&
         Mix.Project.in_project(:umbrella_check, umbrella, fn _ ->
-          path = Mix.Project.config[:apps_path]
+          path = Mix.Project.config()[:apps_path]
           path && Path.expand(path) == Path.join(umbrella, "apps")
         end)
     catch
@@ -322,6 +349,6 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   defp random_string(length) do
-    :crypto.strong_rand_bytes(length) |> Base.encode64 |> binary_part(0, length)
+    :crypto.strong_rand_bytes(length) |> Base.encode64() |> binary_part(0, length)
   end
 end

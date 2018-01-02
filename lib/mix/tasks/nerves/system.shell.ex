@@ -36,10 +36,8 @@ defmodule Mix.Tasks.Nerves.System.Shell do
   #{@standard_error_message}
   """
 
-
   @doc false
   def run(_argv) do
-
     # We unregister :user so that the process currently holding fd 0 (stdin)
     # can't send an error message to the console when we steal it.
     user = Process.whereis(:user)
@@ -54,29 +52,32 @@ defmodule Mix.Tasks.Nerves.System.Shell do
         case e do
           %Mix.Error{message: "Unknown dependency nerves for environment " <> _env} ->
             Mix.raise(@no_nerves_dep_error)
+
           _ ->
-            reraise(e, System.stacktrace)
+            reraise(e, System.stacktrace())
         end
     end
 
     pkg = Nerves.Env.system()
+
     if is_nil(pkg) do
       target = System.get_env("MIX_TARGET") || "host"
+
       case target do
         "host" -> Mix.raise(@no_mix_target_error)
         _ -> Mix.raise(@no_system_pkg_error)
       end
     end
 
-    provider = case :os.type do
-      {_, :linux} -> Nerves.Package.Providers.Local
-      _ -> Nerves.Package.Providers.Docker
-    end
+    provider =
+      case :os.type() do
+        {_, :linux} -> Nerves.Package.Providers.Local
+        _ -> Nerves.Package.Providers.Docker
+      end
+
     provider.system_shell(pkg)
 
     # Set :user back to the real one
     Process.register(user, :user)
-
   end
-
 end
