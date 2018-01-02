@@ -3,29 +3,35 @@ defmodule <%= app_module %>.Mixfile do
 
   @target System.get_env("MIX_TARGET") || "host"
 
-  Mix.shell.info([:green, """
-  Mix environment
-    MIX_TARGET:   #{@target}
-    MIX_ENV:      #{Mix.env}
-  """, :reset])
+  Mix.shell().info([
+    :green,
+    """
+    Mix environment
+      MIX_TARGET:   #{@target}
+      MIX_ENV:      #{Mix.env()}
+    """,
+    :reset
+  ])
 
   def project do
-    [app: :<%= app_name %>,
-     version: "0.1.0",
-     elixir: "<%= elixir_req %>",
-     target: @target,
-     archives: [nerves_bootstrap: "~> <%= bootstrap_vsn %>"],<%= if in_umbrella do %>
-     deps_path: "../../deps/#{@target}",
-     build_path: "../../_build/#{@target}",
-     config_path: "../../config/config.exs",
-     lockfile: "../../mix.lock.#{@target}",<% else %>
-     deps_path: "deps/#{@target}",
-     build_path: "_build/#{@target}",
-     lockfile: "mix.lock.#{@target}",<% end %>
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     aliases: aliases(@target),
-     deps: deps()]
+    [
+      app: :<%= app_name %>,
+      version: "0.1.0",
+      elixir: "<%= elixir_req %>",
+      target: @target,
+      archives: [nerves_bootstrap: "~> <%= bootstrap_vsn %>"],<%= if in_umbrella do %>
+      deps_path: "../../deps/#{@target}",
+      build_path: "../../_build/#{@target}",
+      config_path: "../../config/config.exs",
+      lockfile: "../../mix.lock.#{@target}",<% else %>
+      deps_path: "deps/#{@target}",
+      build_path: "_build/#{@target}",
+      lockfile: "mix.lock.#{@target}",<% end %>
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      aliases: aliases(@target),
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application.
@@ -40,9 +46,9 @@ defmodule <%= app_module %>.Mixfile do
   def application("host") do
     [extra_applications: [:logger]]
   end
+
   def application(_target) do
-    [mod: {<%= app_module %>.Application, []},
-     extra_applications: [:logger]]
+    [mod: {<%= app_module %>.Application, []}, extra_applications: [:logger]]
   end
 
   # Dependencies can be Hex packages:
@@ -55,12 +61,12 @@ defmodule <%= app_module %>.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   def deps do
-    [<%= nerves_dep %>] ++
-    deps(@target)
+    [<%= nerves_dep %>] ++ deps(@target)
   end
 
   # Specify target specific dependencies
   def deps("host"), do: []
+
   def deps(target) do
     [
       {:bootloader, "~> <%= bootloader_vsn %>"},
@@ -75,9 +81,11 @@ defmodule <%= app_module %>.Mixfile do
 
   # We do not invoke the Nerves Env when running on the Host
   def aliases("host"), do: []
-  def aliases(_target) do
-    ["deps.precompile": ["nerves.precompile", "deps.precompile"],
-     "deps.loadpaths":  ["deps.loadpaths", "nerves.loadpaths"]]
-  end
 
+  def aliases(_target) do
+    [
+      "deps.precompile": ["nerves.precompile", "deps.precompile"],
+      "deps.loadpaths": ["deps.loadpaths", "nerves.loadpaths"]
+    ]
+  end
 end
