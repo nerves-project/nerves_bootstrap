@@ -36,14 +36,12 @@ defmodule Nerves.Bootstrap.Mixfile do
   end
 
   defp description do
-    """
-    nerves_bootstrap
-    """
+    "Nerves mix integration bootstrap and new project generator"
   end
 
   defp package do
     [
-      maintainers: [],
+      maintainers: ["Justin Schneck", "Frank Hunleth", "Greg Mefford"],
       files: ["lib", "LICENSE", "mix.exs", "README.md", "test", "templates"],
       licenses: ["Apache 2.0"],
       links: %{"Github" => "https://github.com/nerves-project/nerves_bootstrap"}
