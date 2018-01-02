@@ -1,8 +1,15 @@
 # nerves_bootstrap
 
+## v0.6.4
+* Enhancements
+  * Changed update location from Github to hex.pm
+  * Fixed compiler warning
+  * Synchronize new project template with Elixir 1.6 updates (includes formatter)
+
 ## v0.6.3
-* Removed unsupported systems from default targets and added x86_64.
-* Moved to independent hex package.
+* Enhancements
+  * Removed unsupported systems from default targets and added x86_64.
+  * Moved to independent hex package.
 
 ## v0.6.2
 * Enhancements
