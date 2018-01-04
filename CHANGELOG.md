@@ -1,5 +1,7 @@
 # nerves_bootstrap
 
+## v0.6.5-dev
+
 ## v0.6.4
 * Enhancements
   * Changed update location from Github to hex.pm
