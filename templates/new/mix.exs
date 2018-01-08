@@ -75,7 +75,8 @@ defmodule <%= app_module %>.MixProject do
   defp aliases(_target) do
     [
       "deps.precompile": ["nerves.precompile", "deps.precompile"],
-      "deps.loadpaths": ["deps.loadpaths", "nerves.loadpaths"]
+      "deps.loadpaths": ["deps.loadpaths", "nerves.loadpaths"],
+      "deps.get": ["deps.get", "nerves.deps.get"]
     ]
   end
 end
