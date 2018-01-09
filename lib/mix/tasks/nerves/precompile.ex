@@ -12,6 +12,7 @@ defmodule Mix.Tasks.Nerves.Precompile do
     # nerves_bootstrap.
     unless System.get_env("NERVES_ENV_DISABLED") do
       System.put_env("NERVES_PRECOMPILE", "1")
+      check_aliases()
       Mix.Tasks.Nerves.Env.run([])
       parent = Mix.Project.config()[:app]
       system_app = Nerves.Env.system().app
@@ -35,4 +36,25 @@ defmodule Mix.Tasks.Nerves.Precompile do
 
     debug_info("Precompile End")
   end
+
+  def check_aliases() do
+    aliases = Mix.Project.config()[:aliases]
+    deps_get = Keyword.get(aliases, String.to_atom("deps.get"), [])
+    unless Enum.member?(deps_get, "nerves.deps.get") do
+      Mix.shell.info([IO.ANSI.yellow(),"""
+      
+      ** Warning ** Nerves is missing an alias for \"deps.get\"
+        Please update your mix.exs target aliases to:
+        
+        defp aliases(_target) do
+          Nerves.Bootstrap.merge_aliases([
+            # You can add your own custom mix aliases here
+          ])
+        end
+        
+      """,
+      IO.ANSI.reset()])
+    end
+  end
+
 end

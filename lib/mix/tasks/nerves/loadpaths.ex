@@ -5,7 +5,7 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
   def run(_args) do
     unless System.get_env("NERVES_PRECOMPILE") == "1" do
       debug_info("Loadpaths Start")
-
+      
       case Code.ensure_compiled?(Nerves.Env) do
         true ->
           try do
