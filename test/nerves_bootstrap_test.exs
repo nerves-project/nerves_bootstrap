@@ -26,4 +26,20 @@ defmodule Nerves.BootstrapTest do
     assert Keyword.get(aliases, :"deps.get") == ["deps.get", "custom", "nerves.deps.get"]
     assert Keyword.get(aliases, :"custom") == ["custom"]
   end
+
+  test "aliases are dropped if they already exist" do
+    deps_precompile = ["nerves.precompile", "deps.precompile"]
+    deps_loadpaths = ["deps.loadpaths", "nerves.loadpaths"]
+    deps_get = ["deps.get", "nerves.deps.get"]
+ 
+    nerves_aliases = [
+      "deps.precompile": deps_precompile,
+      "deps.loadpaths": deps_loadpaths
+    ]
+
+    aliases = Nerves.Bootstrap.add_aliases(nerves_aliases)
+    assert Keyword.get(aliases, :"deps.precompile") == deps_precompile
+    assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
+    assert Keyword.get(aliases, :"deps.get") == deps_get
+  end
 end

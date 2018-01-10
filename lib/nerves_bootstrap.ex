@@ -50,19 +50,15 @@ defmodule Nerves.Bootstrap do
   
   defp append(aliases, a, na) do
     key = String.to_atom(a)
-    unless Enum.member?(aliases, key) do
-      Keyword.update(aliases, key, [a, na], &(&1 ++ [na]))
-    else
-      aliases
-    end
+    Keyword.update(aliases, key, [a, na], &(drop(&1, na) ++ [na]))
   end
   
   defp prepend(aliases, a, na) do
     key = String.to_atom(a)
-    unless Enum.member?(aliases, key) do
-      Keyword.update(aliases, key, [na, a], &([na | &1]))
-    else
-      aliases
-    end
+    Keyword.update(aliases, key, [na, a], &([na | drop(&1, na)]))
+  end
+
+  defp drop(aliases, a) do
+    Enum.reject(aliases, &(&1 === a))
   end
 end
