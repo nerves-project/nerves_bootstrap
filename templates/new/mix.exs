@@ -73,10 +73,8 @@ defmodule <%= app_module %>.MixProject do
   defp aliases("host"), do: []
 
   defp aliases(_target) do
-    [
-      "deps.precompile": ["nerves.precompile", "deps.precompile"],
-      "deps.loadpaths": ["deps.loadpaths", "nerves.loadpaths"],
-      "deps.get": ["deps.get", "nerves.deps.get"]
-    ]
+    Nerves.Bootstrap.merge_aliases([
+      # You can add your own custom mix aliases here
+    ])
   end
 end

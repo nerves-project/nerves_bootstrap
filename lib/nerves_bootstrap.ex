@@ -1,7 +1,14 @@
 defmodule Nerves.Bootstrap do
   @version Mix.Project.config()[:version]
+  
+  @doc """
+  Returns the version of nerves_bootstrap
+  """
   def version, do: @version
 
+  @doc """
+  Check the nerves_bootstrap updates from hex
+  """
   def check_for_update() do
     try do
       Hex.start()
@@ -28,6 +35,34 @@ defmodule Nerves.Bootstrap do
       end
     rescue
       _e -> :noop 
+    end
+  end
+
+  @doc """
+  Add the required Nerves bootstrap aliases to the existing ones
+  """
+  def add_aliases(aliases) do
+    aliases
+    |> append("deps.get", "nerves.deps.get")
+    |> prepend("deps.precompile", "nerves.precompile")
+    |> append("deps.loadpaths", "nerves.loadpaths")
+  end
+  
+  defp append(aliases, a, na) do
+    key = String.to_atom(a)
+    unless Enum.member?(aliases, key) do
+      Keyword.update(aliases, key, [a, na], &(&1 ++ [na]))
+    else
+      aliases
+    end
+  end
+  
+  defp prepend(aliases, a, na) do
+    key = String.to_atom(a)
+    unless Enum.member?(aliases, key) do
+      Keyword.update(aliases, key, [na, a], &([na | &1]))
+    else
+      aliases
     end
   end
 end
