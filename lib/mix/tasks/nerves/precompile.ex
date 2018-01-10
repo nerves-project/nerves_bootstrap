@@ -47,11 +47,12 @@ defmodule Mix.Tasks.Nerves.Precompile do
         Please update your mix.exs target aliases to:
         
         defp aliases(_target) do
-          Nerves.Bootstrap.merge_aliases([
-            # You can add your own custom mix aliases here
-          ])
+          [
+            # Add custom mix aliases here
+          ]
+          |> Nerves.Bootstrap.add_aliases()
         end
-        
+
       """,
       IO.ANSI.reset()])
     end

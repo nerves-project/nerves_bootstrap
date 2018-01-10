@@ -1,6 +1,6 @@
 Code.require_file("mix_helper.exs", __DIR__)
 
-defmodule Nerves.BootstrapTest do
+defmodule Nerves.NewTest do
   use ExUnit.Case
   import MixHelper
 
