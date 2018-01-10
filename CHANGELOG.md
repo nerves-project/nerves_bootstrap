@@ -1,6 +1,27 @@
 # nerves_bootstrap
 
-## v0.6.5-dev
+## v0.7.0
+* Enhancements
+  * Added Mix task `nerves.deps.get`
+  * `nerves_bootstrap` will check for updates when `nerves.deps.get` is called.
+  * Added `Nerves.Bootstrap.add_aliases/1`
+    This helper function ensures that your project has the required Nerves
+    mix aliases defined and in the correct execution order. The function takes 
+    the existing aliases as a keyword list and injects the required Nerves aliases.
+    You will need to update your `mix.exs` target aliases to use this version of 
+    `nerves_bootstrap` like this:
+
+    ```elixir
+    defp aliases(_target) do
+      [
+        # Add custom mix aliases here
+      ]
+      |> Nerves.Bootstrap.add_aliases()
+    end
+    ```
+
+    You should also update your required dependency for nerves to
+    `{:nerves, "~> 0.9", runtime: false}`
 
 ## v0.6.4
 * Enhancements
