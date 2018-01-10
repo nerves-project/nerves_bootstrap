@@ -42,4 +42,18 @@ defmodule Nerves.BootstrapTest do
     assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
     assert Keyword.get(aliases, :"deps.get") == deps_get
   end
+
+  test "raise if deps.get alias is missing" do
+    deps_precompile = ["nerves.precompile", "deps.precompile"]
+    deps_loadpaths = ["deps.loadpaths", "nerves.loadpaths"]
+ 
+    nerves_aliases = [
+      "deps.precompile": deps_precompile,
+      "deps.loadpaths": deps_loadpaths
+    ]
+
+    assert_raise Mix.Error, fn ->
+      Mix.Tasks.Nerves.Precompile.check_aliases(nerves_aliases)
+    end
+  end
 end
