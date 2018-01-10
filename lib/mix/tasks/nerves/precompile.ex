@@ -46,7 +46,11 @@ defmodule Mix.Tasks.Nerves.Precompile do
       Mix.raise("""
       
         Nerves is missing an alias for \"deps.get\"
-        Please update your mix.exs target aliases to:
+        Please update nerves to the latest version:
+
+        mix deps.update nerves
+        
+        Also update your mix.exs target aliases to:
         
         defp aliases(_target) do
           [
@@ -55,9 +59,6 @@ defmodule Mix.Tasks.Nerves.Precompile do
           |> Nerves.Bootstrap.add_aliases()
         end
 
-        and update nerves to the latest version:
-
-        mix deps.update nerves
       """)
     end
   end
