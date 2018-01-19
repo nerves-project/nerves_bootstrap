@@ -69,11 +69,7 @@ defmodule Mix.Tasks.Nerves.System.Shell do
       end
     end
 
-    provider =
-      case :os.type() do
-        {_, :linux} -> Nerves.Package.Providers.Local
-        _ -> Nerves.Package.Providers.Docker
-      end
+    {provider, _opts} = pkg.provider
 
     provider.system_shell(pkg)
 
