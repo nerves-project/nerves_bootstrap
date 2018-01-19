@@ -18,7 +18,10 @@ defmodule Mix.Tasks.Nerves.Clean do
   def run(argv) do
     debug_info("Clean Start")
     {opts, packages, _} = OptionParser.parse(argv, switches: @switches)
-    Mix.Tasks.Nerves.Env.run([])
+
+    # Start the Nerves env with the precompiler disabled
+    #  so we can clean the package without building it.
+    Mix.Tasks.Nerves.Env.run(["--disable"])
 
     packages =
       case packages do

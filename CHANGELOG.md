@@ -22,6 +22,9 @@
 
     You should also update your required dependency for nerves to
     `{:nerves, "~> 0.9", runtime: false}`
+* Bug Fixes
+  * disable precompiler when calling `mix nerves.clean` to prevent having to 
+    build the package so we can clean it.
 
 ## v0.6.4
 * Enhancements
