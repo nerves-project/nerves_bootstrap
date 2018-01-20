@@ -5,7 +5,7 @@ defmodule Mix.Tasks.Nerves.New do
   @nerves Path.expand("../../../..", __DIR__)
 
   @nerves_vsn "0.9"
-  @bootloader_vsn "0.1"
+  @shoehorn_vsn "0.2"
   @bootstrap_vsn "0.7"
   @runtime_vsn "0.4"
 
@@ -163,7 +163,7 @@ defmodule Mix.Tasks.Nerves.New do
       app_name: app,
       app_module: mod,
       bootstrap_vsn: @bootstrap_vsn,
-      bootloader_vsn: @bootloader_vsn,
+      shoehorn_vsn: @shoehorn_vsn,
       runtime_vsn: @runtime_vsn,
       elixir_req: @requirement,
       nerves_dep: nerves_dep(nerves_path),

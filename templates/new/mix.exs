@@ -59,7 +59,7 @@ defmodule <%= app_module %>.MixProject do
 
   defp deps(target) do
     [
-      {:bootloader, "~> <%= bootloader_vsn %>"},
+      {:shoehorn, "~> <%= shoehorn_vsn %>"},
       {:nerves_runtime, "~> <%= runtime_vsn %>"}
     ] ++ system(target)
   end
