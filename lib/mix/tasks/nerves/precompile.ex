@@ -32,9 +32,10 @@ defmodule Mix.Tasks.Nerves.Precompile do
       apply(m, f, a)
       Mix.Task.reenable("deps.compile")
       Mix.Task.reenable("compile")
+      
       System.put_env("NERVES_PRECOMPILE", "0")
-
-      Mix.Tasks.Nerves.Loadpaths.run([])
+      
+      Mix.Task.rerun("nerves.loadpaths")
     end
 
     debug_info("Precompile End")

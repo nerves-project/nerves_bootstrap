@@ -44,8 +44,7 @@ defmodule Nerves.Bootstrap do
   def add_aliases(aliases) do
     aliases
     |> append("deps.get", "nerves.deps.get")
-    |> prepend("deps.precompile", "nerves.precompile")
-    |> append("deps.loadpaths", "nerves.loadpaths")
+    |> prepend("deps.loadpaths", "nerves.loadpaths")
   end
   
   defp append(aliases, a, na) do
