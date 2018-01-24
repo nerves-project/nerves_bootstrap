@@ -25,6 +25,10 @@
 * Bug Fixes
   * disable precompiler when calling `mix nerves.clean` to prevent having to 
     build the package so we can clean it.
+  * Fixes issue where project dependencies that contain calls to `System.get_env` 
+    in their config or mix file or rebar deps that have `rebar-config.script` 
+    overrides that make `os:getenv` calls were not being configured for the 
+    cross compile environment.
 
 ## v0.6.4
 * Enhancements
