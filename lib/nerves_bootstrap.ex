@@ -38,14 +38,19 @@ defmodule Nerves.Bootstrap do
     end
   end
 
+  def deps_update(args) do
+    Mix.Tasks.Deps.Update.run(args)
+    Mix.Tasks.Nerves.Deps.Get.run([])
+  end
+
   @doc """
   Add the required Nerves bootstrap aliases to the existing ones
   """
   def add_aliases(aliases) do
     aliases
     |> append("deps.get", "nerves.deps.get")
-    |> append("deps.update", "nerves.deps.get")
     |> prepend("deps.loadpaths", "nerves.loadpaths")
+    |> replace("deps.update", &Nerves.Bootstrap.deps_update/1)
   end
   
   defp append(aliases, a, na) do
@@ -56,6 +61,11 @@ defmodule Nerves.Bootstrap do
   defp prepend(aliases, a, na) do
     key = String.to_atom(a)
     Keyword.update(aliases, key, [na, a], &([na | drop(&1, na)]))
+  end
+
+  defp replace(aliases, a, fun) do
+    key = String.to_atom(a)
+    Keyword.update(aliases, key, [fun], &(drop(&1, fun) ++ [fun]))
   end
 
   defp drop(aliases, a) do

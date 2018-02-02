@@ -4,7 +4,7 @@ defmodule Nerves.BootstrapTest do
   test "aliases are injected properly" do
     deps_loadpaths = ["nerves.loadpaths", "deps.loadpaths"]
     deps_get = ["deps.get", "nerves.deps.get"]
-    deps_update = ["deps.update", "nerves.deps.get"]
+    deps_update = [&Nerves.Bootstrap.deps_update/1]
  
     aliases = Nerves.Bootstrap.add_aliases([])
     assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
@@ -16,22 +16,21 @@ defmodule Nerves.BootstrapTest do
     custom_aliases = [
       "deps.loadpaths": ["custom", "deps.loadpaths"],
       "deps.get": ["deps.get", "custom"],
-      "deps.update": ["deps.update", "custom"],
+      "deps.update": ["custom"],
       "custom": ["custom"]
     ]
     aliases = Nerves.Bootstrap.add_aliases(custom_aliases)
 
     assert Keyword.get(aliases, :"deps.loadpaths") == ["nerves.loadpaths", "custom", "deps.loadpaths"]
     assert Keyword.get(aliases, :"deps.get") == ["deps.get", "custom", "nerves.deps.get"]
-    assert Keyword.get(aliases, :"deps.update") == ["deps.update", "custom", "nerves.deps.get"]
+    assert Keyword.get(aliases, :"deps.update") == ["custom", &Nerves.Bootstrap.deps_update/1]
     assert Keyword.get(aliases, :"custom") == ["custom"]
   end
 
   test "aliases are dropped if they already exist" do
     deps_loadpaths = ["nerves.loadpaths", "deps.loadpaths"]
     deps_get = ["deps.get", "nerves.deps.get"]
-    deps_update = ["deps.update", "nerves.deps.get"]
- 
+    deps_update = [&Nerves.Bootstrap.deps_update/1]
     nerves_aliases = [
       "deps.loadpaths": deps_loadpaths
     ]
