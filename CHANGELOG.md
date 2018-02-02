@@ -1,5 +1,11 @@
 # nerves_bootstrap
 
+## v0.7.1
+
+* Enhancements
+  * Added alias for `deps.update` to append `nerves.deps.get` to fetch
+    artifacts.
+
 ## v0.7.0
 * Enhancements
   * Added Mix task `nerves.deps.get`
