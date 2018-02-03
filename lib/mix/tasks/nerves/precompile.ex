@@ -19,10 +19,11 @@ defmodule Mix.Tasks.Nerves.Precompile do
       Mix.Tasks.Nerves.Env.run([])
       parent = Mix.Project.config()[:app]
       system_app = Nerves.Env.system().app
-
+      toolchain_app = Nerves.Env.toolchain().app
+      
       {m, f, a} =
         if parent == system_app do
-          Mix.Tasks.Deps.Compile.run([Nerves.Env.toolchain().app, "--include-children"])
+          Mix.Tasks.Deps.Compile.run([toolchain_app, "--include-children"])
           {Mix.Tasks.Compile, :run, [["--no-deps-check"]]}
         else
           system_app_name = to_string(system_app)
@@ -30,6 +31,10 @@ defmodule Mix.Tasks.Nerves.Precompile do
         end
 
       apply(m, f, a)
+      Nerves.Env.packages()
+      |> Enum.reject(& &1.app in [:system, :toolchain])
+      |> Enum.each(& Mix.Tasks.Deps.Compile.run([&1.app, "--include-children"]))
+      
       Mix.Task.reenable("deps.compile")
       Mix.Task.reenable("compile")
       
