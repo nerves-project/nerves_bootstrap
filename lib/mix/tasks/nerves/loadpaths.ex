@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
   use Mix.Task
   import Mix.Nerves.IO
 
-  def run(_args) do
+  def run(args) do
     unless System.get_env("NERVES_PRECOMPILE") == "1" do
       debug_info("Loadpaths Start")
       
@@ -22,6 +22,8 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
       end
       debug_info("Loadpaths End")
     end
+
+    Mix.Task.run("deps.loadpaths", args)
   end
 
   def env(k) do
