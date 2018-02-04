@@ -74,8 +74,9 @@ defmodule <%= app_module %>.MixProject do
 
   defp aliases(_target) do
     [
-      # Add custom mix aliases here
+      "deps.get": "nerves.deps.get",
+      "deps.loadpaths": "nerves.loadpaths",
+      "deps.update": "nerves.deps.update"
     ]
-    |> Nerves.Bootstrap.add_aliases()
   end
 end
