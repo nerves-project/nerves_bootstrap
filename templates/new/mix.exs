@@ -3,16 +3,6 @@ defmodule <%= app_module %>.MixProject do
 
   @target System.get_env("MIX_TARGET") || "host"
 
-  Mix.shell().info([
-    :green,
-    """
-    Mix environment
-      MIX_TARGET:   #{@target}
-      MIX_ENV:      #{Mix.env()}
-    """,
-    :reset
-  ])
-
   def project do
     [
       app: :<%= app_name %>,
@@ -29,7 +19,7 @@ defmodule <%= app_module %>.MixProject do
       lockfile: "mix.lock.#{@target}",<% end %>
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      aliases: aliases(@target),
+      aliases: ["loadconfig": "nerves.loadconfig"],
       deps: deps()
     ]
   end
@@ -69,13 +59,4 @@ defmodule <%= app_module %>.MixProject do
 <% end %>
   defp system(target), do: Mix.raise "Unknown MIX_TARGET: #{target}"
 
-  # We do not invoke the Nerves Env when running on the Host
-  defp aliases("host"), do: []
-
-  defp aliases(_target) do
-    [
-      # Add custom mix aliases here
-    ]
-    |> Nerves.Bootstrap.add_aliases()
-  end
 end

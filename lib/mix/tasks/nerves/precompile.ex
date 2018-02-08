@@ -53,12 +53,7 @@ defmodule Mix.Tasks.Nerves.Precompile do
         
         Also update your mix.exs target aliases to:
         
-        defp aliases(_target) do
-          [
-            # Add custom mix aliases here
-          ]
-          |> Nerves.Bootstrap.add_aliases()
-        end
+        aliases: ["loadconfig": ["nerves.loadconfig"]]
 
       """)
     end
