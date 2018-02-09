@@ -17,23 +17,9 @@ defmodule Mix.Tasks.Nerves.Precompile do
       |> check_aliases()
       
       Mix.Tasks.Nerves.Env.run([])
-      parent = Mix.Project.config()[:app]
-      system_app = Nerves.Env.system().app
-      toolchain_app = Nerves.Env.toolchain().app
       
-      {m, f, a} =
-        if parent == system_app do
-          Mix.Tasks.Deps.Compile.run([toolchain_app, "--include-children"])
-          {Mix.Tasks.Compile, :run, [["--no-deps-check"]]}
-        else
-          system_app_name = to_string(system_app)
-          {Mix.Tasks.Deps.Compile, :run, [[system_app_name, "--include-children"]]}
-        end
-
-      apply(m, f, a)
       Nerves.Env.packages()
-      |> Enum.reject(& &1.app in [:system, :toolchain])
-      |> Enum.each(& Mix.Tasks.Deps.Compile.run([&1.app, "--include-children"]))
+      |> Enum.each(&compile/1)
       
       Mix.Task.reenable("deps.compile")
       Mix.Task.reenable("compile")
@@ -66,6 +52,15 @@ defmodule Mix.Tasks.Nerves.Precompile do
         end
 
       """)
+    end
+  end
+
+  defp compile(%{app: app}) do
+    cond do
+      Mix.Project.config()[:app] == app ->
+        Mix.Tasks.Compile.run([app, "--include-children"])
+      true ->
+        Mix.Tasks.Deps.Compile.run([app, "--no-deps-check", "--include-children"])
     end
   end
 
