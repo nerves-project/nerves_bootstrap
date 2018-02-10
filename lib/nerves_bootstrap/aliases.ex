@@ -5,6 +5,19 @@ defmodule Nerves.Bootstrap.Aliases do
     |> append("deps.get", "nerves.deps.get")
     |> prepend("deps.loadpaths", "nerves.loadpaths")
     |> replace("deps.update", &Nerves.Bootstrap.Aliases.deps_update/1)
+    |> replace("run", &Nerves.Bootstrap.Aliases.run/1)
+  end
+
+  def run(args) do
+    case System.get_env("MIX_TARGET") do
+      nil ->
+        Mix.Tasks.Run.run(args)
+      target ->
+        Mix.raise """
+        You are trying to run code compiled for #{target}
+        on your host. Please unset MIX_TARGET to run in host mode.
+        """
+    end
   end
 
   def deps_update(args) do
