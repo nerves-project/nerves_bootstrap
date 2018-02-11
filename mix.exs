@@ -15,7 +15,10 @@ defmodule Nerves.Bootstrap.Mixfile do
   end
 
   def application do
-    [extra_applications: []]
+    [
+      extra_applications: [],
+      mod: {Nerves.Bootstrap, []}
+    ]
   end
 
   def aliases do
@@ -31,7 +34,7 @@ defmodule Nerves.Bootstrap.Mixfile do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.16", only: :dev}
+      {:ex_doc, "~> 0.16", only: :dev, runtime: false}
     ]
   end
 

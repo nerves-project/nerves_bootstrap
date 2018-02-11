@@ -1,5 +1,16 @@
 defmodule Nerves.Bootstrap do
+  use Application
+
   @version Mix.Project.config()[:version]
+
+  # See https://hexdocs.pm/elixir/Application.html
+  # for more information on OTP Applications
+  @moduledoc false  
+
+  def start(_type, _args) do
+    Nerves.Bootstrap.Aliases.init()
+    {:ok, self()}
+  end
 
   @doc """
   Returns the version of nerves_bootstrap

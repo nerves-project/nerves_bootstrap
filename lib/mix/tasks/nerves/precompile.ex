@@ -45,7 +45,14 @@ defmodule Mix.Tasks.Nerves.Precompile do
         
         Also update your mix.exs target aliases to:
         
-        aliases: ["loadconfig": ["nerves.loadconfig"]]
+        aliases: ["loadconfig": [&bootstrap/1]]
+
+        and add the following function to your mix file
+
+        def bootstrap(args) do
+          Application.start(:nerves_bootstrap)
+          Mix.Task.run("loadconfig", args)
+        end
 
       """)
     end
