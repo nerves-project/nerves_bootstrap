@@ -19,9 +19,18 @@ defmodule <%= app_module %>.MixProject do
       lockfile: "mix.lock.#{@target}",<% end %>
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      aliases: ["loadconfig": "nerves.loadconfig"],
+      aliases: ["loadconfig": &loadconfig/1],
       deps: deps()
     ]
+  end
+
+  def loadconfig(args) do
+    try do
+      Mix.Tasks.Nerves.Loadconfig.run(args)
+    rescue
+      _ ->
+      Mix.Tasks.Loadconfig.run(args)
+    end
   end
 
   # Run "mix help compile.app" to learn about applications.

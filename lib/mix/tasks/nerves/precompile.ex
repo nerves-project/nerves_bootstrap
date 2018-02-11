@@ -45,7 +45,18 @@ defmodule Mix.Tasks.Nerves.Precompile do
         
         Also update your mix.exs target aliases to:
         
-        aliases: ["loadconfig": ["nerves.loadconfig"]]
+        aliases: ["loadconfig": [&loadconfig/1]]
+
+        and add the following function to your mix file
+
+        def loadconfig(args) do
+          try do
+            Mix.Tasks.Nerves.Loadconfig.run(args)
+          rescue
+            _ ->
+            Mix.Tasks.Loadconfig.run(args)
+          end
+        end
 
       """)
     end
