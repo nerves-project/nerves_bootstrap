@@ -1,5 +1,7 @@
 # nerves_bootstrap
 
+## v0.8.0-dev
+
 ## v0.7.1
 
 * Enhancements
