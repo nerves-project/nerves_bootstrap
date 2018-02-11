@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Nerves.Deps.Get do
   use Mix.Task
 
   import Mix.Nerves.IO
-  
+
   def run(_argv) do
     debug_info("Nerves.Deps.Get Start")
 
