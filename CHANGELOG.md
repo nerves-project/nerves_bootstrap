@@ -1,6 +1,47 @@
 # nerves_bootstrap
 
-## v0.8.0-dev
+## v0.8.0
+
+In the last relase (0.7.x) we added two additional aliases `deps.get` and 
+`deps.update`. In this release, we added an alias for `run`. 
+This led to a point where is became unreasonable to manage
+all the required aliases in the project `mix.exs`. We changed the pratice to
+allow `nerves_bootstrap` to manage the required aliases for you by calling
+`Nerves.Bootstrap.add_aliases/1`, however, this causes users who 
+did not have the `nerves_bootstrap` archive installed to be stuck in an error
+loop unless they would cd to a directory that did not contain an offending 
+`mix.exs` file to install the missing archive.
+
+This version provides a safer way of allowing `nerves_bootstrap` to manage
+its required aliases by hooking into a single alias: `loadconfig`.
+
+
+To update, you will need to modify your `mix.exs` to the following:
+```elixir
+  # mix.exs
+
+  def project do
+    [
+      # ...
+      aliases: ["loadconfig": [&bootstrap/1]],
+    ]
+  end
+
+  # Starting nerves_bootstrap adds the required aliases to Mix.Project.config()
+  # Aliases are only added if MIX_TARGET is set.
+  def bootstrap(args) do
+    Application.start(:nerves_bootstrap)
+    Mix.Task.run("loadconfig", args)
+  end
+```
+
+* Enhancements
+  * `precompile` will compile all Nerves packages instead of only the system
+    and its children.
+  * Calling `run` while `MIX_TARGET` is set will raise an exception for
+    trying to run cross compiled code on the host.
+  * `Application.start(:nerves_bootstrap)` will attempt to add aliases to the 
+    mix project on the top of the stack if `MIX_TARGET` is set.
 
 ## v0.7.1
 

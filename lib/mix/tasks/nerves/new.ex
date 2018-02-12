@@ -6,7 +6,7 @@ defmodule Mix.Tasks.Nerves.New do
 
   @nerves_vsn "0.9"
   @shoehorn_vsn "0.2"
-  @bootstrap_vsn "0.7"
+  @bootstrap_vsn "0.8"
   @runtime_vsn "0.4"
 
   @requirement Mix.Project.config()[:elixir]
