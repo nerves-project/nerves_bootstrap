@@ -1,12 +1,12 @@
 defmodule Nerves.BootstrapTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
   test "aliases are injected properly" do
     deps_loadpaths = ["nerves.loadpaths", "deps.loadpaths"]
     deps_get = ["deps.get", "nerves.deps.get"]
     deps_update = [&Nerves.Bootstrap.Aliases.deps_update/1]
 
-    aliases = Nerves.Bootstrap.add_aliases([])
+    aliases = Nerves.Bootstrap.Aliases.add_aliases([])
     assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
     assert Keyword.get(aliases, :"deps.get") == deps_get
     assert Keyword.get(aliases, :"deps.update") == deps_update
@@ -20,7 +20,7 @@ defmodule Nerves.BootstrapTest do
       custom: ["custom"]
     ]
 
-    aliases = Nerves.Bootstrap.add_aliases(custom_aliases)
+    aliases = Nerves.Bootstrap.Aliases.add_aliases(custom_aliases)
 
     assert Keyword.get(aliases, :"deps.loadpaths") == [
              "nerves.loadpaths",
@@ -47,7 +47,7 @@ defmodule Nerves.BootstrapTest do
       "deps.loadpaths": deps_loadpaths
     ]
 
-    aliases = Nerves.Bootstrap.add_aliases(nerves_aliases)
+    aliases = Nerves.Bootstrap.Aliases.add_aliases(nerves_aliases)
     assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
     assert Keyword.get(aliases, :"deps.get") == deps_get
     assert Keyword.get(aliases, :"deps.update") == deps_update
@@ -63,5 +63,19 @@ defmodule Nerves.BootstrapTest do
     assert_raise Mix.Error, fn ->
       Mix.Tasks.Nerves.Precompile.check_aliases(nerves_aliases)
     end
+  end
+
+  test "install / update text is displayed only once" do
+    Nerves.Bootstrap.Config.config_file()
+    |> File.rm()
+
+    Nerves.Bootstrap.install_check()
+    assert_receive {:mix_shell, :info, [text]}
+    assert text =~ "Installing Nerves"
+    assert text =~ "Upgrading from"
+
+    Nerves.Bootstrap.Config.upgrade()
+    Nerves.Bootstrap.install_check()
+    refute_receive {:mix_shell, :info, _}
   end
 end

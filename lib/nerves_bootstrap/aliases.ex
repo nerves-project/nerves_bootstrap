@@ -1,10 +1,9 @@
 defmodule Nerves.Bootstrap.Aliases do
-  
   def init() do
     System.get_env("MIX_TARGET")
     |> init()
   end
-  
+
   def init(nil), do: :noop
   def init("host"), do: :noop
 
@@ -29,7 +28,7 @@ defmodule Nerves.Bootstrap.Aliases do
     config = update_in(config, [:aliases], &add_aliases(&1))
     Mix.ProjectStack.push(name, config, file)
   end
-  
+
   def add_aliases(aliases) do
     aliases
     |> append("deps.get", "nerves.deps.get")

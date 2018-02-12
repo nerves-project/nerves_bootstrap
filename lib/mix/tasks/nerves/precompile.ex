@@ -36,25 +36,9 @@ defmodule Mix.Tasks.Nerves.Precompile do
     deps_get = Keyword.get(aliases, String.to_atom("deps.get"), [])
 
     unless Enum.member?(deps_get, "nerves.deps.get") do
-      Mix.raise("""
-
-        Nerves is missing an alias for \"deps.get\"
-        Please update nerves to the latest version:
-
-        mix deps.update nerves
-        
-        Also update your mix.exs target aliases to:
-        
-        aliases: ["loadconfig": [&bootstrap/1]]
-
-        and add the following function to your mix file
-
-        def bootstrap(args) do
-          Application.start(:nerves_bootstrap)
-          Mix.Task.run("loadconfig", args)
-        end
-
-      """)
+      Code.ensure_loaded(Nerves.Bootstrap)
+      Nerves.Bootstrap.update_text()
+      |> Mix.raise()
     end
   end
 

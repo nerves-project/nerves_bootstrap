@@ -14,7 +14,13 @@ defmodule Nerves.Bootstrap.Mixfile do
     ]
   end
 
-  def application do
+  def application, do: application(Mix.env())
+
+  defp application(:test) do
+    []
+  end
+
+  defp application(_) do
     [
       extra_applications: [],
       mod: {Nerves.Bootstrap, []}
