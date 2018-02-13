@@ -2,21 +2,11 @@
 
 ## v0.8.0
 
-In the last relase (0.7.x) we added two additional aliases `deps.get` and 
-`deps.update`. In this release, we added an alias for `run`. 
-This led to a point where is became unreasonable to manage
-all the required aliases in the project `mix.exs`. We changed the pratice to
-allow `nerves_bootstrap` to manage the required aliases for you by calling
-`Nerves.Bootstrap.add_aliases/1`, however, this causes users who 
-did not have the `nerves_bootstrap` archive installed to be stuck in an error
-loop unless they would cd to a directory that did not contain an offending 
-`mix.exs` file to install the missing archive.
+The v0.7.x and earlier releases only required two aliases in your `mix.exs` to
+pull in the Nerves enhancements to `mix.exs`. This releases adds more aliases.
+Rather than requiring your `mix.exs` file to be updated if the Nerves aliase
+hooks change in the future, we recommend updating your `mix.exs` as follows:
 
-This version provides a safer way of allowing `nerves_bootstrap` to manage
-its required aliases by hooking into a single alias: `loadconfig`.
-
-
-To update, you will need to modify your `mix.exs` to the following:
 ```elixir
   # mix.exs
 
@@ -27,20 +17,22 @@ To update, you will need to modify your `mix.exs` to the following:
     ]
   end
 
-  # Starting nerves_bootstrap adds the required aliases to Mix.Project.config()
-  # Aliases are only added if MIX_TARGET is set.
-  def bootstrap(args) do
+  # Starting nerves_bootstrap pulls in the Nerves hooks to mix, but only
+  # if the MIX_TARGET environment variable is set.
+  defp bootstrap(args) do
     Application.start(:nerves_bootstrap)
     Mix.Task.run("loadconfig", args)
   end
 ```
 
+This release has the following changes:
+
 * Enhancements
-  * `precompile` will compile all Nerves packages instead of only the system
-    and its children.
-  * Calling `run` while `MIX_TARGET` is set will raise an exception for
-    trying to run cross compiled code on the host.
-  * `Application.start(:nerves_bootstrap)` will attempt to add aliases to the 
+  * `precompile` will compile all Nerves packages instead of only the system and
+    its children.
+  * Calling `run` while `MIX_TARGET` is set will raise an exception for trying
+    to run cross compiled code on the host.
+  * `Application.start(:nerves_bootstrap)` will attempt to add aliases to the
     mix project on the top of the stack if `MIX_TARGET` is set.
 
 ## v0.7.1
@@ -55,9 +47,9 @@ To update, you will need to modify your `mix.exs` to the following:
   * `nerves_bootstrap` will check for updates when `nerves.deps.get` is called.
   * Added `Nerves.Bootstrap.add_aliases/1`
     This helper function ensures that your project has the required Nerves
-    mix aliases defined and in the correct execution order. The function takes 
+    mix aliases defined and in the correct execution order. The function takes
     the existing aliases as a keyword list and injects the required Nerves aliases.
-    You will need to update your `mix.exs` target aliases to use this version of 
+    You will need to update your `mix.exs` target aliases to use this version of
     `nerves_bootstrap` like this:
 
     ```elixir
@@ -72,11 +64,11 @@ To update, you will need to modify your `mix.exs` to the following:
     You should also update your required dependency for nerves to
     `{:nerves, "~> 0.9", runtime: false}`
 * Bug Fixes
-  * disable precompiler when calling `mix nerves.clean` to prevent having to 
+  * disable precompiler when calling `mix nerves.clean` to prevent having to
     build the package so we can clean it.
-  * Fixes issue where project dependencies that contain calls to `System.get_env` 
-    in their config or mix file or rebar deps that have `rebar-config.script` 
-    overrides that make `os:getenv` calls were not being configured for the 
+  * Fixes issue where project dependencies that contain calls to `System.get_env`
+    in their config or mix file or rebar deps that have `rebar-config.script`
+    overrides that make `os:getenv` calls were not being configured for the
     cross compile environment.
 
 ## v0.6.4
@@ -146,7 +138,7 @@ To update, you will need to modify your `mix.exs` to the following:
       `--target` to the generator. Defaults to declaring all officially supported
       Nerves Targets.
     * A default cookie is generated and placed in the vm.args. the cookie can
-      be set by passing `--cookie`  
+      be set by passing `--cookie`
 
 ## v0.3.1
   * Bug Fixes
