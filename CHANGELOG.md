@@ -1,5 +1,11 @@
 # nerves_bootstrap
 
+## v0.8.1
+
+  * Bug Fixes
+    * `deps.get` and `deps.update` aliases should always be added to the 
+      project regardless of target.
+
 ## v0.8.0
 
 The v0.7.x and earlier releases only required two aliases in your `mix.exs` to
