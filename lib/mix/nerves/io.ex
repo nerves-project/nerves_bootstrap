@@ -5,6 +5,8 @@ defmodule Mix.Nerves.IO do
     if System.get_env("NERVES_DEBUG") == "1" do
       shell_info(header, text, loc)
     end
+
+    :ok
   end
 
   def shell_info(header, text \\ "", loc \\ @app) do
