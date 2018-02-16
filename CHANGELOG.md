@@ -1,5 +1,7 @@
 # nerves_bootstrap
 
+## v1.0.0-rc.0
+
 ## v0.8.1
 
   * Bug Fixes
