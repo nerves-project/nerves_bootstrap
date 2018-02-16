@@ -4,9 +4,9 @@ defmodule Mix.Tasks.Nerves.New do
 
   @nerves Path.expand("../../../..", __DIR__)
 
-  @nerves_vsn "0.9"
+  @nerves_vsn "1.0-rc"
   @shoehorn_vsn "0.2"
-  @bootstrap_vsn "0.8"
+  @bootstrap_vsn "1.0-rc"
   @runtime_vsn "0.4"
 
   @requirement Mix.Project.config()[:elixir]
