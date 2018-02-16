@@ -1,31 +1,30 @@
 defmodule Nerves.Bootstrap.Aliases do
-  
   def init() do
-    with \
-      %{} <- Mix.ProjectStack.peek(),
-      %{name: name, config: config, file: file} <- Mix.ProjectStack.pop(),
-      nil <- Mix.ProjectStack.peek() do
-      
+    with %{} <- Mix.ProjectStack.peek(),
+         %{name: name, config: config, file: file} <- Mix.ProjectStack.pop(),
+         nil <- Mix.ProjectStack.peek() do
       target = System.get_env("MIX_TARGET")
-      
-      config = 
+
+      config =
         config
         |> host_config()
         |> target_config(target)
-      
+
       Mix.ProjectStack.push(name, config, file)
     else
       # We are not at the top of the stack. Do nothing.
-      _ -> :noop
+      _ ->
+        :noop
     end
   end
-  
+
   def host_config(config) do
     update_in(config, [:aliases], &add_host_aliases(&1))
   end
 
   def target_config(config, nil), do: config
   def target_config(config, "host"), do: config
+
   def target_config(config, target) do
     Mix.shell().info([
       :green,
@@ -36,6 +35,7 @@ defmodule Nerves.Bootstrap.Aliases do
       """,
       :reset
     ])
+
     update_in(config, [:aliases], &add_target_aliases(&1))
   end
 
