@@ -1,11 +1,25 @@
-# nerves_bootstrap
+# Changelog
 
 ## v1.0.0-rc.0
+
+Nerves no longer automatically compiles any `nerves_package` that is missing
+it's pre-compiled artifact. This turned out to rarely be desired and caused
+unexpectantly long compilation times when things like the Linux kernel or gcc
+got compiled.
+
+When a pre-compiled artifact is missing, Nerves will now tell you what your
+options are to resolve this. It could be retrying `mix deps.get` to download it
+again. If you want to force compilation to happen, add a `:nerves` option for
+the desired package in your top level project:
+
+```elixir
+  {:nerves_system_rpi0, "~> 1.0-rc", nerves: [compile: true]}
+```
 
 ## v0.8.1
 
   * Bug Fixes
-    * `deps.get` and `deps.update` aliases should always be added to the 
+    * `deps.get` and `deps.update` aliases should always be added to the
       project regardless of target.
 
 ## v0.8.0
