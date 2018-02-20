@@ -22,8 +22,8 @@ defmodule Nerves.Bootstrap.Aliases do
     update_in(config, [:aliases], &add_host_aliases(&1))
   end
 
-  def target_config(config, nil), do: config
-  def target_config(config, "host"), do: config
+  def target_config(config, nil), do: host_only(config)
+  def target_config(config, "host"), do: host_only(config)
 
   def target_config(config, target) do
     Mix.shell().info([
@@ -92,5 +92,18 @@ defmodule Nerves.Bootstrap.Aliases do
 
   defp drop(aliases, a) do
     Enum.reject(aliases, &(&1 === a))
+  end
+
+  defp host_only(config) do
+    Mix.shell().info([
+      IO.ANSI.yellow(),
+      """
+      Nerves Environment not loaded.
+        MIX_TARGET is unset
+      """,
+      IO.ANSI.reset()
+    ])
+
+    config
   end
 end
