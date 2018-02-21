@@ -13,9 +13,6 @@ defmodule Mix.Tasks.Nerves.Precompile do
     unless System.get_env("NERVES_ENV_DISABLED") do
       System.put_env("NERVES_PRECOMPILE", "1")
 
-      Mix.Project.config()[:aliases]
-      |> check_aliases()
-
       Mix.Tasks.Nerves.Env.run([])
 
       Nerves.Env.packages()
@@ -31,32 +28,6 @@ defmodule Mix.Tasks.Nerves.Precompile do
     end
 
     debug_info("Precompile End")
-  end
-
-  def check_aliases(aliases) do
-    deps_get = Keyword.get(aliases, String.to_atom("deps.get"), [])
-
-    unless Enum.member?(deps_get, "nerves.deps.get") do
-      Mix.raise("""
-
-        Nerves is missing an alias for \"deps.get\"
-        Please update nerves to the latest version:
-
-        mix deps.update nerves
-
-        Also update your mix.exs target aliases to:
-
-        aliases: ["loadconfig": [&bootstrap/1]]
-
-        and add the following function to your mix file
-
-        def bootstrap(args) do
-          Application.start(:nerves_bootstrap)
-          Mix.Task.run("loadconfig", args)
-        end
-
-      """)
-    end
   end
 
   defp compile(%{app: app}) do
