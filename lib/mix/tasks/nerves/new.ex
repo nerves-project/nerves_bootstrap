@@ -140,9 +140,7 @@ defmodule Mix.Tasks.Nerves.New do
     nerves_path = nerves_path(path, Keyword.get(opts, :dev, false))
     in_umbrella? = in_umbrella?(path)
 
-    targets =
-      (opts || [])
-      |> Keyword.get_values(:target)
+    targets = Keyword.get_values(opts, :target)
 
     Enum.each(targets, fn target ->
       unless target in @targets do
