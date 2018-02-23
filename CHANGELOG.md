@@ -1,5 +1,11 @@
 # nerves_bootstrap
 
+## v0.8.2
+
+  * Bug Fixes
+    * Fixed check for update logic to exclude pre releases if on stable
+      and show new pre releases / stable if current version is pre release.
+
 ## v0.8.1
 
   * Bug Fixes
