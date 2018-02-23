@@ -5,6 +5,7 @@ defmodule Mix.Tasks.Nerves.System.Shell do
 
   @moduledoc """
   Open a shell in a system's build directory.
+
   In order to make the experience as similar as possible, we attach to a Docker
   container on non-Linux platforms and run a sub-shell on Linux.
 

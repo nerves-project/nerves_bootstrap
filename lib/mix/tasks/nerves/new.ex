@@ -48,20 +48,25 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   @moduledoc """
-  Creates a new Nerves project.
-  It expects the path of the project as argument.
+  Creates a new Nerves project. It expects the path of the project as argument.
 
-      mix nerves.new PATH [--module MODULE] [--app APP] [--target TARGET]
+      mix nerves.new PATH [--module MODULE] [--app APP] [--target TARGET] [--cookie STRING]
 
-  A project at the given PATH will be created. The
-  application name and module name will be retrieved
-  from the path, unless `--module` or `--app` is given.
+  A project at the given PATH will be created. The application name and module
+  name will be retrieved from the path, unless `--module` or `--app` is given.
 
-  An `--app` option can be given in order to name the OTP
-  application for the project.
+  An `--app` option can be given in order to name the OTP application for the
+  project.
 
-  A `--module` option can be given in order to name the
-  modules in the generated code skeleton.
+  A `--module` option can be given in order to name the modules in the
+  generated code skeleton.
+
+  A `--target` option can be given to limit support to one or more of the
+  officially Nerves systems. For a list of supported targets visit
+  https://hexdocs.pm/nerves/targets.html#supported-targets-and-systems
+
+  A `--cookie` options can be given to set the Erlang distribution
+  cookie in `vm.args`. This defaults to a randomly generated string.
 
   ## Examples
 
@@ -71,14 +76,6 @@ defmodule Mix.Tasks.Nerves.New do
 
       mix nerves.new blinky --module Blinky
 
-  `--target` is optional. If unspecified, the project will be generated to
-  support all official Nerves systems. Passing `--target` limits the generated
-  project to a single system, or multiple systems.
-
-  For a list of supported targets visit
-  https://hexdocs.pm/nerves/targets.html#supported-targets-and-systems
-
-  ## Examples
 
   Generate a project that only supports Raspberry Pi 3
 
@@ -87,13 +84,6 @@ defmodule Mix.Tasks.Nerves.New do
   Generate a project that supports Raspberry Pi 3 and Raspberry Pi Zero
 
       mix nerves.new blinky --target rpi3 --target rpi0
-
-
-  # Network options
-
-  `--cookie` - Specify the cookie to set for the vm.args.
-    Defaults to a randomly generated string
-
   """
 
   @switches [app: :string, module: :string, target: :keep, cookie: :string]

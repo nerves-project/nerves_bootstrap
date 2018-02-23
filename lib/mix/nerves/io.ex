@@ -1,6 +1,8 @@
 defmodule Mix.Nerves.IO do
   @app Mix.Project.config()[:app]
 
+  @moduledoc false
+
   def debug_info(header, text \\ "", loc \\ @app) do
     if System.get_env("NERVES_DEBUG") == "1" do
       shell_info(header, text, loc)
