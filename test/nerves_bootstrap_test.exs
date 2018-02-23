@@ -52,5 +52,4 @@ defmodule Nerves.BootstrapTest do
     assert Keyword.get(aliases, :"deps.get") == deps_get
     assert Keyword.get(aliases, :"deps.update") == deps_update
   end
-
 end

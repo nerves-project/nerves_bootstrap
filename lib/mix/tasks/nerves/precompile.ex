@@ -14,10 +14,11 @@ defmodule Mix.Tasks.Nerves.Precompile do
       System.put_env("NERVES_PRECOMPILE", "1")
 
       Mix.Tasks.Nerves.Env.run([])
-      {app, deps} = 
+
+      {app, deps} =
         Nerves.Env.packages()
-        |> Enum.split_with(& &1.app == Mix.Project.config()[:app])
-      
+        |> Enum.split_with(&(&1.app == Mix.Project.config()[:app]))
+
       (deps ++ app)
       |> compile_check()
       |> Enum.each(&compile/1)
