@@ -2,6 +2,8 @@ defmodule Mix.Tasks.Nerves.Env do
   use Mix.Task
   import Mix.Nerves.IO
 
+  @moduledoc false
+
   @switches [info: :boolean, disable: :boolean]
 
   def run(argv) do

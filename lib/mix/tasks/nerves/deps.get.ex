@@ -3,6 +3,8 @@ defmodule Mix.Tasks.Nerves.Deps.Get do
 
   import Mix.Nerves.IO
 
+  @moduledoc false
+
   def run(_argv) do
     debug_info("Nerves.Deps.Get Start")
 

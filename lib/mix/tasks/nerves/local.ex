@@ -1,14 +1,16 @@
 defmodule Mix.Tasks.Local.Nerves do
   use Mix.Task
 
-  @shortdoc "Updates Nerves locally"
+  @shortdoc "Checks for updates to nerves_bootstrap"
 
   @moduledoc """
-  Updates Nerves locally.
+  Check for updates to nerves_bootstrap
+
+  Example:
 
       mix local.nerves
 
-  Accepts the same command line options as `archive.install`.
+  This accepts the same command line options as `archive.install`.
   """
   def run(_args) do
     Mix.Task.run("archive.install", ["hex", "nerves_bootstrap"])
