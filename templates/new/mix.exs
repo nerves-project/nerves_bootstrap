@@ -17,9 +17,9 @@ defmodule <%= app_module %>.MixProject do
       deps_path: "deps/#{@target}",
       build_path: "_build/#{@target}",
       lockfile: "mix.lock.#{@target}",<% end %>
-      build_embedded: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
-      aliases: ["loadconfig": [&bootstrap/1]],
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      aliases: [loadconfig: [&bootstrap/1]],
       deps: deps()
     ]
   end
@@ -64,6 +64,5 @@ defmodule <%= app_module %>.MixProject do
 <%= for target <- targets do %>
   defp system("<%= target %>"), do: [{:<%= "nerves_system_#{target}" %>, ">= 0.0.0", runtime: false}]
 <% end %>
-  defp system(target), do: Mix.raise "Unknown MIX_TARGET: #{target}"
-
+  defp system(target), do: Mix.raise("Unknown MIX_TARGET: #{target}")
 end
