@@ -1,17 +1,18 @@
 defmodule <%= app_module %>.Application do
+  # See https://hexdocs.pm/elixir/Application.html
+  # for more information on OTP Applications
+  @moduledoc false
+
   use Application
 
-  # See http://elixir-lang.org/docs/stable/elixir/Application.html
-  # for more information on OTP Applications
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
-
-    # Define workers and child supervisors to be supervised
+    # List all child processes to be supervised
     children = [
-      # worker(<%= app_module %>.Worker, [arg1, arg2, arg3]),
+      # Starts a worker by calling: <%= app_module %>.Worker.start_link(arg)
+      # {<%= app_module %>.Worker, arg},
     ]
 
-    # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
+    # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: <%= app_module %>.Supervisor]
     Supervisor.start_link(children, opts)
