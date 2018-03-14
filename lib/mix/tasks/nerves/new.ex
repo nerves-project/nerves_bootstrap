@@ -30,6 +30,7 @@ defmodule Mix.Tasks.Nerves.New do
     {:eex, "new/test/test_helper.exs", "test/test_helper.exs"},
     {:eex, "new/test/app_name_test.exs", "test/app_name_test.exs"},
     {:eex, "new/rel/vm.args", "rel/vm.args"},
+    {:eex, "new/rootfs_overlay/etc/iex.exs", "rootfs_overlay/etc/iex.exs"},
     {:text, "new/.gitignore", ".gitignore"},
     {:text, "new/.formatter.exs", ".formatter.exs"},
     {:eex, "new/mix.exs", "mix.exs"},
