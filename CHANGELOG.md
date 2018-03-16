@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.0.0-rc.2
+
+* Updates
+  * Remove `build_embedded` from the mix.exs since it was unnecessary
+  * Fix update check in `mix local.nerves`
+  * Various changes to align new project generator with the one in Elixir 1.6.
+  * Add rootfs_overlay directory and populate it with an iex.exs to load the
+    nerves_runtime IEX helpers. This replaces a common manual process of doing
+    this or something similar afterwards.
+  * Add a commented out reference for enabling Erlang's heartbeat monitor
+
 ## v1.0.0-rc.1
 
 * Bug fixes
