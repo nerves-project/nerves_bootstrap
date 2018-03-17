@@ -3,6 +3,6 @@ defmodule <%= app_module %>Test do
   doctest <%= app_module %>
 
   test "greets the world" do
-    assert Starter.hello() == :world
+    assert <%= app_module %>.hello() == :world
   end
 end
