@@ -42,7 +42,10 @@ defmodule <%= app_module %>.MixProject do
   end
 
   def application(_target) do
-    [mod: {<%= app_module %>.Application, []}, extra_applications: [:logger]]
+    [
+      mod: {<%= app_module %>.Application, []},
+      extra_applications: [:logger, :runtime_tools]
+    ]
   end
 
   # Run "mix help deps" to learn about dependencies.
