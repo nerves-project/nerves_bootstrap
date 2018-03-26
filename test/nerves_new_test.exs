@@ -100,5 +100,4 @@ defmodule Nerves.NewTest do
       end)
     end)
   end
-
 end

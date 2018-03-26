@@ -11,6 +11,7 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
       case Code.ensure_compiled?(Nerves.Env) do
         true ->
           try do
+            nerves_env_info()
             Mix.Task.run("nerves.env", [])
             Nerves.Env.bootstrap()
             clear_deps_cache()
