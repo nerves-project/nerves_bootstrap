@@ -7,7 +7,7 @@ defmodule Mix.Tasks.Nerves.Deps.Get do
 
   def run(_argv) do
     debug_info("Nerves.Deps.Get Start")
-
+    nerves_env_info()
     # We want to start Nerves.Env so it compiles `nerves`
     # but pass --disable to prevent it from compiling
     # the system and toolchain during this time.

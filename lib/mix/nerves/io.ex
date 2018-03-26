@@ -20,4 +20,17 @@ defmodule Mix.Nerves.IO do
     Mix.shell().error([:inverse, :red, "|#{loc}| #{header}", :reset])
     Mix.shell().error(text)
   end
+
+  def nerves_env_info() do
+    Mix.shell().info([
+      :green,
+      """
+
+      Nerves environment
+        MIX_TARGET:   #{System.get_env("MIX_TARGET") || "unset"}
+        MIX_ENV:      #{Mix.env()}
+      """,
+      :reset
+    ])
+  end
 end
