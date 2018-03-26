@@ -1,6 +1,6 @@
 defmodule <%= app_module %> do
   @moduledoc """
-  Documentation for Starter.
+  Documentation for <%= app_module %>.
   """
 
   @doc """
