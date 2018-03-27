@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.0-rc.3
+
+* Updates
+  * Various new project generator code format updates. Include `:runtime_tools` 
+    in `:extra_applications`.
+* Bug fixes
+  * Only display Nerves environment helper text when the Nerves environment 
+    is loaded. Fixes issues with running mix commands like `mix format -` that 
+    require the I/O to remain clean.
+
 ## v1.0.0-rc.2
 
 * Updates
