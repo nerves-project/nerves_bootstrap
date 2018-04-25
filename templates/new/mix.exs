@@ -31,17 +31,7 @@ defmodule <%= app_module %>.MixProject do
   end
 
   # Run "mix help compile.app" to learn about applications.
-  def application, do: application(@target)
-
-  # Specify target specific application configurations
-  # It is common that the application start function will start and supervise
-  # applications which could cause the host to fail. Because of this, we only
-  # invoke <%= app_module %>.start/2 when running on a target.
-  def application("host") do
-    [extra_applications: [:logger]]
-  end
-
-  def application(_target) do
+  def application do
     [
       mod: {<%= app_module %>.Application, []},
       extra_applications: [:logger, :runtime_tools]
