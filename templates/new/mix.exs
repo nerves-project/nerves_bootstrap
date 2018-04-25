@@ -40,7 +40,10 @@ defmodule <%= app_module %>.MixProject do
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
-    [<%= nerves_dep %>] ++ deps(@target)
+    [
+      <%= nerves_dep %>,
+      {:shoehorn, "~> <%= shoehorn_vsn %>"}
+    ] ++ deps(@target)
   end
 
   # Specify target specific dependencies
@@ -48,7 +51,6 @@ defmodule <%= app_module %>.MixProject do
 
   defp deps(target) do
     [
-      {:shoehorn, "~> <%= shoehorn_vsn %>"},
       {:nerves_runtime, "~> <%= runtime_vsn %>"}
     ] ++ system(target)
   end
