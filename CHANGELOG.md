@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.0-rc.4
+
+* Updates
+  * New project generator no longer conditionally defines `application/0` in 
+    `mix.exs` depending on target. It is recommended to conditionally choose
+    the main supervisors children instead.
+  * New project generator moves the dependency `shoehorn` to be included for 
+    both `host` and `target` environments.
+    
+
 ## v1.0.0-rc.3
 
 * Updates
