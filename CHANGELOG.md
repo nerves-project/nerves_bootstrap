@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.0
+
+* Bug Fixes
+  * Rename `provider` to `build_runner`. Fixes issues with running
+    `mix nerves.system.shell` and `mix nerves.env --info`
+
 ## v1.0.0-rc.4
 
 * Updates
