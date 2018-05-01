@@ -70,9 +70,9 @@ defmodule Mix.Tasks.Nerves.System.Shell do
       end
     end
 
-    {provider, _opts} = pkg.provider
+    {build_runner, _opts} = pkg.build_runner
 
-    provider.system_shell(pkg)
+    build_runner.system_shell(pkg)
 
     # Set :user back to the real one
     Process.register(user, :user)
