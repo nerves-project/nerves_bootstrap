@@ -46,10 +46,10 @@ defmodule Mix.Tasks.Nerves.Env do
 
   defp print_pkg(pkg) do
     Mix.shell().info("""
-      Pkg:      #{pkg.app}
-      Vsn:      #{pkg.version}
-      Type:     #{pkg.type}
-      Provider: #{inspect(pkg.provider)}
+      Pkg:         #{pkg.app}
+      Vsn:         #{pkg.version}
+      Type:        #{pkg.type}
+      BuildRunner: #{inspect(pkg.build_runner)}
     """)
   end
 end
