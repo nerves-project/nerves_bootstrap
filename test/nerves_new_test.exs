@@ -21,15 +21,14 @@ defmodule Nerves.NewTest do
 
       assert_file("#{@app_name}/mix.exs", fn file ->
         assert file =~ "app: :#{@app_name}"
-        assert file =~ "defp system(\"rpi\"), do: [{:nerves_system_rpi, \"~> 1.0 or ~> 1.0-rc\""
-        assert file =~ "defp system(\"rpi0\"), do: [{:nerves_system_rpi0, \"~> 1.0 or ~> 1.0-rc\""
-        assert file =~ "defp system(\"rpi2\"), do: [{:nerves_system_rpi2, \"~> 1.0 or ~> 1.0-rc\""
-        assert file =~ "defp system(\"rpi3\"), do: [{:nerves_system_rpi3, \"~> 1.0 or ~> 1.0-rc\""
-        assert file =~ "defp system(\"bbb\"), do: [{:nerves_system_bbb, \"~> 1.0 or ~> 1.0-rc\""
-        assert file =~ "defp system(\"ev3\"), do: [{:nerves_system_ev3, \"~> 1.0 or ~> 1.0-rc\""
+        assert file =~ "defp system(\"rpi\"), do: [{:nerves_system_rpi, \"~> 1.0\""
+        assert file =~ "defp system(\"rpi0\"), do: [{:nerves_system_rpi0, \"~> 1.0\""
+        assert file =~ "defp system(\"rpi2\"), do: [{:nerves_system_rpi2, \"~> 1.0\""
+        assert file =~ "defp system(\"rpi3\"), do: [{:nerves_system_rpi3, \"~> 1.0\""
+        assert file =~ "defp system(\"bbb\"), do: [{:nerves_system_bbb, \"~> 1.0\""
+        assert file =~ "defp system(\"ev3\"), do: [{:nerves_system_ev3, \"~> 1.0\""
 
-        assert file =~
-                 "defp system(\"qemu_arm\"), do: [{:nerves_system_qemu_arm, \"~> 1.0 or ~> 1.0-rc\""
+        assert file =~ "defp system(\"qemu_arm\"), do: [{:nerves_system_qemu_arm, \"~> 1.0\""
       end)
     end)
   end
@@ -42,8 +41,8 @@ defmodule Nerves.NewTest do
 
       assert_file("#{@app_name}/mix.exs", fn file ->
         assert file =~ "app: :#{@app_name}"
-        assert file =~ "defp system(\"rpi\"), do: [{:nerves_system_rpi, \"~> 1.0 or ~> 1.0-rc\""
-        refute file =~ "defp system(\"rpi0\"), do: [{:nerves_system_rpi0, \"~> 1.0 or ~> 1.0-rc\""
+        assert file =~ "defp system(\"rpi\"), do: [{:nerves_system_rpi, \"~> 1.0\""
+        refute file =~ "defp system(\"rpi0\"), do: [{:nerves_system_rpi0, \"~> 1.0\""
       end)
     end)
   end
@@ -56,9 +55,9 @@ defmodule Nerves.NewTest do
 
       assert_file("#{@app_name}/mix.exs", fn file ->
         assert file =~ "app: :#{@app_name}"
-        assert file =~ "defp system(\"rpi\"), do: [{:nerves_system_rpi, \"~> 1.0 or ~> 1.0-rc\""
-        assert file =~ "defp system(\"rpi3\"), do: [{:nerves_system_rpi3, \"~> 1.0 or ~> 1.0-rc\""
-        refute file =~ "defp system(\"rpi0\"), do: [{:nerves_system_rpi0, \"~> 1.0 or ~> 1.0-rc\""
+        assert file =~ "defp system(\"rpi\"), do: [{:nerves_system_rpi, \"~> 1.0\""
+        assert file =~ "defp system(\"rpi3\"), do: [{:nerves_system_rpi3, \"~> 1.0\""
+        refute file =~ "defp system(\"rpi0\"), do: [{:nerves_system_rpi0, \"~> 1.0\""
       end)
     end)
   end

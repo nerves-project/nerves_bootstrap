@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.0.1
+
+* Enhancements
+  * Update new project generator to target 1.0 systems
+
 ## v1.0.0
 
 * Bug Fixes
