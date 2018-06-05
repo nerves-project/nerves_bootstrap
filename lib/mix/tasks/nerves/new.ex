@@ -5,7 +5,7 @@ defmodule Mix.Tasks.Nerves.New do
   @nerves Path.expand("../../../..", __DIR__)
 
   @nerves_vsn "1.0"
-  @shoehorn_vsn "0.2"
+  @shoehorn_vsn "0.3"
   @bootstrap_vsn "1.0"
   @runtime_vsn "0.4"
 

@@ -2,6 +2,9 @@
 
 ## 1.1.0-dev
 
+* Enhancements
+  * Update new project generator to support `shoehorn` v0.3.0
+
 ## v1.0.1
 
 * Enhancements
