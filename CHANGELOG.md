@@ -1,9 +1,11 @@
 # Changelog
 
-## 1.1.0-dev
+## 1.1.0
 
 * Enhancements
   * Update new project generator to support `shoehorn` v0.3.0
+  * Include dev / test / prod config.exs files by default.
+  * Update config to use `Shoehorn.Handler.Ignore` for dev / test
 
 ## v1.0.1
 
