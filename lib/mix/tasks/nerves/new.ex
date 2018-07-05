@@ -25,6 +25,9 @@ defmodule Mix.Tasks.Nerves.New do
 
   @new [
     {:eex, "new/config/config.exs", "config/config.exs"},
+    {:eex, "new/config/dev.exs", "config/dev.exs"},
+    {:eex, "new/config/prod.exs", "config/prod.exs"},
+    {:eex, "new/config/test.exs", "config/test.exs"},
     {:eex, "new/lib/app_name.ex", "lib/app_name.ex"},
     {:eex, "new/lib/app_name/application.ex", "lib/app_name/application.ex"},
     {:eex, "new/test/test_helper.exs", "test/test_helper.exs"},
