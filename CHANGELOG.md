@@ -1,12 +1,13 @@
 # Changelog
 
-## 1.1.0-dev
+## 1.1.0
 
 This release updates the new project generator to create projects that will work
 with Elixir 1.7 and Distillery 2.0.
 
 * Enhancements
-  * Update new project generator to support `shoehorn` v0.3.0
+  * Update new project generator to support `shoehorn` v0.4.
+  * Bump minimum deps to latest versions.
 
 ## v1.0.1
 
