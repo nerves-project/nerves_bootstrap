@@ -4,10 +4,10 @@ defmodule Mix.Tasks.Nerves.New do
 
   @nerves Path.expand("../../../..", __DIR__)
 
-  @nerves_vsn "1.0"
-  @shoehorn_vsn "0.3"
+  @nerves_vsn "1.3"
+  @shoehorn_vsn "0.4"
   @bootstrap_vsn "1.0"
-  @runtime_vsn "0.4"
+  @runtime_vsn "0.6"
 
   @requirement Mix.Project.config()[:elixir]
   @shortdoc "Creates a new Nerves application"
@@ -19,7 +19,6 @@ defmodule Mix.Tasks.Nerves.New do
     "rpi3",
     "bbb",
     "ev3",
-    "qemu_arm",
     "x86_64"
   ]
 
