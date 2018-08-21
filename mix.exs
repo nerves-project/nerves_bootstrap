@@ -5,7 +5,7 @@ defmodule Nerves.Bootstrap.Mixfile do
     [
       app: :nerves_bootstrap,
       version: "1.1.0-dev",
-      elixir: "~> 1.4",
+      elixir: "~> 1.6",
       aliases: aliases(),
       xref: [exclude: [Nerves.Env, Nerves.Artifact]],
       docs: [extras: ["README.md"], main: "readme"],
@@ -35,7 +35,7 @@ defmodule Nerves.Bootstrap.Mixfile do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.16", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.19", only: [:dev, :test], runtime: false}
     ]
   end
 
