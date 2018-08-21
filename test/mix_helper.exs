@@ -4,7 +4,7 @@ defmodule MixHelper do
   import ExUnit.Assertions
   # Much <3 to Phoenix for this code
   def tmp_path do
-    Path.expand("test/tmp")
+    Path.expand("../../tmp", __DIR__)
   end
 
   def in_tmp(which, function) do
