@@ -100,15 +100,4 @@ defmodule Nerves.NewTest do
       end)
     end)
   end
-
-  test "new project has configs for each env", context do
-    in_tmp(context.test, fn ->
-      Mix.Tasks.Nerves.New.run([@app_name])
-
-      assert_file("#{@app_name}/config/config.exs")
-      assert_file("#{@app_name}/config/dev.exs")
-      assert_file("#{@app_name}/config/prod.exs")
-      assert_file("#{@app_name}/config/test.exs")
-    end)
-  end
 end
