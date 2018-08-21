@@ -28,7 +28,7 @@ mix local.nerves
 If you need a specific version, run:
 
 ```bash
-mix archive.install hex nerves_bootstrap 0.8.1
+mix archive.install hex nerves_bootstrap 1.0.1
 ```
 
 Finally, if you want to install from source:
@@ -52,7 +52,6 @@ Nerves uses the `aliases` feature in `mix`. Ensure that the following code is in
 your `mix.exs` to pull in the integration:
 
 ```elixir
-
   def project do
     [
       # ...
@@ -66,7 +65,6 @@ your `mix.exs` to pull in the integration:
     Application.start(:nerves_bootstrap)
     Mix.Task.run("loadconfig", args)
   end
-
 ```
 
 ## Mix tasks
@@ -120,5 +118,5 @@ To force compilation to happen, add a `:nerves` option for the desired package
 in your top level project:
 
 ```elixir
-  {:nerves_system_rpi0, "~> 1.0-rc", nerves: [compile: true]}
+  {:nerves_system_rpi0, "~> 1.0", nerves: [compile: true]}
 ```
