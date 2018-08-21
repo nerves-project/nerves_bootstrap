@@ -2,6 +2,9 @@
 
 ## 1.1.0-dev
 
+This release updates the new project generator to create projects that will work
+with Elixir 1.7 and Distillery 2.0.
+
 * Enhancements
   * Update new project generator to support `shoehorn` v0.3.0
 
@@ -19,21 +22,21 @@
 ## v1.0.0-rc.4
 
 * Updates
-  * New project generator no longer conditionally defines `application/0` in 
+  * New project generator no longer conditionally defines `application/0` in
     `mix.exs` depending on target. It is recommended to conditionally choose
     the main supervisors children instead.
-  * New project generator moves the dependency `shoehorn` to be included for 
+  * New project generator moves the dependency `shoehorn` to be included for
     both `host` and `target` environments.
-    
+
 
 ## v1.0.0-rc.3
 
 * Updates
-  * Various new project generator code format updates. Include `:runtime_tools` 
+  * Various new project generator code format updates. Include `:runtime_tools`
     in `:extra_applications`.
 * Bug fixes
-  * Only display Nerves environment helper text when the Nerves environment 
-    is loaded. Fixes issues with running mix commands like `mix format -` that 
+  * Only display Nerves environment helper text when the Nerves environment
+    is loaded. Fixes issues with running mix commands like `mix format -` that
     require the I/O to remain clean.
 
 ## v1.0.0-rc.2
