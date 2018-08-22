@@ -8,6 +8,7 @@ defmodule Mix.Tasks.Nerves.New do
   @shoehorn_vsn "0.4"
   @bootstrap_vsn "1.0"
   @runtime_vsn "0.6"
+  @init_gadget_vsn "0.4"
 
   @requirement Mix.Project.config()[:elixir]
   @shortdoc "Creates a new Nerves application"
@@ -68,6 +69,9 @@ defmodule Mix.Tasks.Nerves.New do
   A `--cookie` options can be given to set the Erlang distribution
   cookie in `vm.args`. This defaults to a randomly generated string.
 
+  Generate a project preloaded with `nerves_init_gadget` support by passing
+  `--init-gadget`. 
+
   ## Examples
 
       mix nerves.new blinky
@@ -76,6 +80,9 @@ defmodule Mix.Tasks.Nerves.New do
 
       mix nerves.new blinky --module Blinky
 
+  Generate a project configured to use `nerves_init_gadget`
+
+      mix nerves.new blinky --init-gadget
 
   Generate a project that only supports Raspberry Pi 3
 
@@ -86,7 +93,13 @@ defmodule Mix.Tasks.Nerves.New do
       mix nerves.new blinky --target rpi3 --target rpi0
   """
 
-  @switches [app: :string, module: :string, target: :keep, cookie: :string]
+  @switches [
+    app: :string,
+    module: :string,
+    target: :keep,
+    cookie: :string,
+    init_gadget: :boolean
+  ]
 
   def run([version]) when version in ~w(-v --version) do
     Mix.shell().info("Nerves v#{@bootstrap_vsn}")
@@ -129,6 +142,7 @@ defmodule Mix.Tasks.Nerves.New do
 
     nerves_path = nerves_path(path, Keyword.get(opts, :dev, false))
     in_umbrella? = in_umbrella?(path)
+    init_gadget? = opts[:init_gadget] || false
 
     targets = Keyword.get_values(opts, :target)
 
@@ -156,6 +170,8 @@ defmodule Mix.Tasks.Nerves.New do
       elixir_req: @requirement,
       nerves_dep: nerves_dep(nerves_path),
       in_umbrella: in_umbrella?,
+      init_gadget?: init_gadget?,
+      init_gadget_vsn: @init_gadget_vsn,
       targets: targets,
       cookie: cookie
     ]
