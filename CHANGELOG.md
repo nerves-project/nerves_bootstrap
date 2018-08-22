@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.0
+
+Add support for generating new projects with `nerves_init_gadget`.
+To generate a new project with `nerves_init_gadget` included, 
+pass `--init-gadget` to `mix nerves.new`
+
+For example:
+
+  mix nerves.new my_app --init-gadget
+
 ## 1.1.0
 
 This release updates the new project generator to create projects that will work
