@@ -51,7 +51,8 @@ defmodule <%= app_module %>.MixProject do
 
   defp deps(target) do
     [
-      {:nerves_runtime, "~> <%= runtime_vsn %>"}
+      {:nerves_runtime, "~> <%= runtime_vsn %>"}<%= if init_gadget? do %>,
+      {:nerves_init_gadget, "~> <%= init_gadget_vsn %>"}<% end %>
     ] ++ system(target)
   end
 
