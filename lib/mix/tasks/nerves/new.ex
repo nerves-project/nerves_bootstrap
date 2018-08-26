@@ -354,6 +354,8 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   defp random_string(length) do
-    :crypto.strong_rand_bytes(length) |> Base.encode64() |> binary_part(0, length)
+    :crypto.strong_rand_bytes(length)
+    |> Base.encode32(case: :lower, padding: false)
+    |> binary_part(0, length)
   end
 end
