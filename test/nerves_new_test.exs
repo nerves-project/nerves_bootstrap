@@ -101,6 +101,20 @@ defmodule Nerves.NewTest do
     end)
   end
 
+  test "new project includes ring_logger", context do
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name])
+
+      assert_file("#{@app_name}/mix.exs", fn file ->
+        assert file =~ ~r":ring_logger"
+      end)
+
+      assert_file("#{@app_name}/config/config.exs", fn file ->
+        assert file =~ ~r"RingLogger"
+      end)
+    end)
+  end
+
   test "new project init gadget", context do
     in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name, "--init-gadget"])
@@ -112,7 +126,6 @@ defmodule Nerves.NewTest do
       assert_file("#{@app_name}/config/config.exs", fn file ->
         assert file =~ ~r"nerves_init_gadget"
         assert file =~ ~r"nerves_firmware_ssh"
-        assert file =~ ~r"RingLogger"
       end)
     end)
   end

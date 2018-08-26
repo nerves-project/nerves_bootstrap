@@ -8,6 +8,7 @@ defmodule Mix.Tasks.Nerves.New do
   @shoehorn_vsn "0.4"
   @bootstrap_vsn "1.0"
   @runtime_vsn "0.6"
+  @ring_logger_vsn "0.4"
   @init_gadget_vsn "0.4"
 
   @requirement Mix.Project.config()[:elixir]
@@ -167,6 +168,7 @@ defmodule Mix.Tasks.Nerves.New do
       bootstrap_vsn: @bootstrap_vsn,
       shoehorn_vsn: @shoehorn_vsn,
       runtime_vsn: @runtime_vsn,
+      ring_logger_vsn: @ring_logger_vsn,
       elixir_req: @requirement,
       nerves_dep: nerves_dep(nerves_path),
       in_umbrella: in_umbrella?,

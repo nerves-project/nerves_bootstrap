@@ -14,7 +14,13 @@ config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 # involved with firmware updates.
 config :shoehorn,
   init: [:nerves_runtime<%= if init_gadget? do %>, :nerves_init_gadget<% end %>],
-  app: Mix.Project.config()[:app]<%= if init_gadget? do %>
+  app: Mix.Project.config()[:app]
+  
+# Use Ringlogger as the logger backend and remove :console.
+# See https://hexdocs.pm/ring_logger/readme.html for more information on
+# configuring ring_logger.
+
+config :logger, backends: [RingLogger]<%= if init_gadget? do %>
 
 # Authorize the device to receive firmware using your public key.
 # See https://hexdocs.pm/nerves_firmware_ssh/readme.html for more information
@@ -28,12 +34,6 @@ config :nerves_firmware_ssh,
   authorized_keys: [
     File.read!(key)
   ]
-
-# Use Ringlogger as the logger backend and remove :console.
-# See https://hexdocs.pm/ring_logger/readme.html for more information on
-# configuring ring_logger.
-
-config :logger, backends: [RingLogger]
 
 # Configure nerves_init_gadget.
 # See https://hexdocs.pm/nerves_init_gadget/readme.html for more information.
