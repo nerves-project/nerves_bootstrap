@@ -70,7 +70,7 @@ defmodule Mix.Tasks.Nerves.New do
   cookie in `vm.args`. This defaults to a randomly generated string.
 
   Generate a project preloaded with `nerves_init_gadget` support by passing
-  `--init-gadget`. 
+  `--init-gadget`.
 
   ## Examples
 
@@ -187,7 +187,7 @@ defmodule Mix.Tasks.Nerves.New do
           cmd("mix nerves.release.init")
           []
         else
-          ["  $ mix deps.get", "  $ mix release.init"]
+          ["  $ mix deps.get", "  $ mix nerves.release.init"]
         end
 
       print_mix_info(path, extra)
