@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1
+
+* Bug fixes
+  * Add RingLogger to all deps in new project generator. 
+    This fixes an issue that causes new projects generated with `--init-gadget`
+    to crash on boot running on the host.
+
 ## 1.2.0
 
 Add support for generating new projects with `nerves_init_gadget`.
