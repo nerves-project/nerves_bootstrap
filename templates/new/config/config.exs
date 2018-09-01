@@ -15,7 +15,7 @@ config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 config :shoehorn,
   init: [:nerves_runtime<%= if init_gadget? do %>, :nerves_init_gadget<% end %>],
   app: Mix.Project.config()[:app]
-  
+
 # Use Ringlogger as the logger backend and remove :console.
 # See https://hexdocs.pm/ring_logger/readme.html for more information on
 # configuring ring_logger.
@@ -27,7 +27,7 @@ config :logger, backends: [RingLogger]<%= if init_gadget? do %>
 # on configuring nerves_firmware_ssh.
 
 key = Path.join(System.user_home!, ".ssh/id_rsa.pub")
-unless File.exists?(key), do: 
+unless File.exists?(key), do:
   Mix.raise("No SSH Keys found. Please generate an ssh key")
 
 config :nerves_firmware_ssh,
