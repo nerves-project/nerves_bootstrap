@@ -18,6 +18,7 @@ defmodule <%= app_module %>.MixProject do
       build_path: "_build/#{@target}",
       lockfile: "mix.lock.#{@target}",<% end %>
       start_permanent: Mix.env() == :prod,
+      build_embedded: @target != "host",
       aliases: [loadconfig: [&bootstrap/1]],
       deps: deps()
     ]
