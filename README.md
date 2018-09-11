@@ -36,9 +36,7 @@ Finally, if you want to install from source:
 ```bash
 git clone https://github.com/nerves-project/nerves_bootstrap.git
 cd nerves_bootstrap
-mix deps.get
-mix archive.build
-mix archive.install
+mix do deps.get, archive.build, archive.install
 ```
 
 ## Mix integration
