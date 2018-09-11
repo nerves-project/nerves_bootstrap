@@ -76,7 +76,7 @@ defmodule Nerves.NewTest do
       Mix.Tasks.Nerves.New.run([@app_name])
 
       assert_file("#{@app_name}/rel/vm.args", fn file ->
-        assert file =~ ~r/.*-setcookie [a-zA-Z0-9+\/]{64}\n|\r|\n\r/s
+        assert file =~ ~r/.*-setcookie [a-zA-Z0-9]{64}\n|\r|\n\r/s
       end)
     end)
   end
