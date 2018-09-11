@@ -91,6 +91,16 @@ defmodule Nerves.NewTest do
     end)
   end
 
+  test "new project enables embedded mode", context do
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name])
+
+      assert_file("#{@app_name}/rel/vm.args", fn file ->
+        assert file =~ "-mode embedded"
+      end)
+    end)
+  end
+
   test "new project adds runtime_tools", context do
     in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name])
