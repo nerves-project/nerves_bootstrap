@@ -1,5 +1,6 @@
 # nerves_bootstrap
 
+[![CircleCI](https://circleci.com/gh/nerves-project/nerves_bootstrap.svg?style=svg)](https://circleci.com/gh/nerves-project/nerves_bootstrap)
 [![Hex.pm](https://img.shields.io/hexpm/v/nerves_bootstrap.svg)](https://hex.pm/packages/nerves_bootstrap)
 
 `nerves_bootstrap` is an Elixir archive that supplies a new project generator
