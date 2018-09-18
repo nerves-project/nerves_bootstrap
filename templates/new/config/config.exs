@@ -7,11 +7,13 @@ use Mix.Config
 
 # Customize non-Elixir parts of the firmware. See
 # https://hexdocs.pm/nerves/advanced-configuration.html for details.
+
 config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 
 # Use shoehorn to start the main application. See the shoehorn
 # docs for separating out critical OTP applications such as those
 # involved with firmware updates.
+
 config :shoehorn,
   init: [:nerves_runtime<%= if init_gadget? do %>, :nerves_init_gadget<% end %>],
   app: Mix.Project.config()[:app]
