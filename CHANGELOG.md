@@ -1,16 +1,29 @@
 # Changelog
 
+## 1.3.0
+
+* New features
+  * Enable `heart` in the new project generator. This engages both a
+    software-based watchdog (Erlang's `heart` feature) and a hardware-based one
+    on systems that support it. If the Erlang VM becomes unresponsive, one of
+    the watchdogs will reboot the processor. See the Erlang `heart`
+    documentation for changing timeouts and adding callbacks to your
+    application.
+  * Enable `build_embedded`. This ensures that C build products are separated
+    based on target and prevents many causes of x86 build products ending up
+    on ARM targets unintentionally.
+
 ## 1.2.1
 
 * Bug fixes
-  * Add RingLogger to all deps in new project generator. 
+  * Add RingLogger to all deps in new project generator.
     This fixes an issue that causes new projects generated with `--init-gadget`
     to crash on boot running on the host.
 
 ## 1.2.0
 
 Add support for generating new projects with `nerves_init_gadget`.
-To generate a new project with `nerves_init_gadget` included, 
+To generate a new project with `nerves_init_gadget` included,
 pass `--init-gadget` to `mix nerves.new`
 
 For example:
