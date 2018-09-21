@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1
+
+* Enhancements
+  * Use `:dhcpd` instead of `:linklocal` for `nerves_init_gadget` defaults.
+
 ## 1.3.0
 
 * New features
