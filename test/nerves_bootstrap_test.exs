@@ -5,11 +5,13 @@ defmodule Nerves.BootstrapTest do
     deps_loadpaths = ["nerves.loadpaths", "deps.loadpaths"]
     deps_get = ["deps.get", "nerves.deps.get"]
     deps_update = [&Nerves.Bootstrap.Aliases.deps_update/1]
+    deps_compile = ["nerves.loadpaths", "deps.compile"]
 
     aliases = Nerves.Bootstrap.add_aliases([])
     assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
     assert Keyword.get(aliases, :"deps.get") == deps_get
     assert Keyword.get(aliases, :"deps.update") == deps_update
+    assert Keyword.get(aliases, :"deps.compile") == deps_compile
   end
 
   test "custom aliases are maintained" do
