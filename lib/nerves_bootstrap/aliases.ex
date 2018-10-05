@@ -43,6 +43,7 @@ defmodule Nerves.Bootstrap.Aliases do
   def add_target_aliases(aliases) do
     aliases
     |> prepend("deps.loadpaths", "nerves.loadpaths")
+    |> prepend("deps.compile", "nerves.loadpaths")
     |> replace("run", &Nerves.Bootstrap.Aliases.run/1)
   end
 
