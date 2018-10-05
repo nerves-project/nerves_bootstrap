@@ -53,7 +53,7 @@ defmodule Nerves.Bootstrap.Aliases do
         Mix.Tasks.Run.run(args)
 
       target ->
-        Mix.raise("""
+        Mix.Nerves.IO.shell_warn("""
         You are trying to run code compiled for #{target}
         on your host. Please unset MIX_TARGET to run in host mode.
         """)
