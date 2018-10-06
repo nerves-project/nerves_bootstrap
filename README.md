@@ -73,19 +73,31 @@ your `mix.exs` to pull in the integration:
 A mix task for creating new Nerves projects.
 
 ```bash
-mix nerves.new my_new_nerves_project
+mix nerves.new my_new_nerves_project [options]
 ```
 
-The new project's `mix.exs` contains logic for building for any of the supported
-hardware systems. Export the `MIX_TARGET` environment variable to select which
-one that you want when you're building the project. If your project only
-supports one target, then edit the generated `mix.exs` or specify the `--target`
-option to `nerves.new` when running the generator. See `mix help nerves.new` for
-all options.
+The new project's `mix.exs` contains logic for building any of the supported
+hardware systems. The customary way of selecting the specific target is to
+export `MIX_TARGET`. Here's a common build script:
 
-NOTE: Currently you need to ensure that the `MIX_TARGET` environment variable is
-set when building Nerves projects. It is used internally to decide whether to
-apply hooks into the `mix` build process.
+```bash
+export MIX_TARGET=rpi3
+mix deps.get
+mix firmware
+mix firmware.burn
+```
+
+If you look at the generated `mix.exs`, you'll see how `MIX_TARGET` is used.
+
+The generated project is minimal and may be difficult to use especially if
+you're getting started with Nerves for the first time. The
+[nerves_init_gadget](https://hex.pm/packages/nerves_init_gadget) project
+simplifies initial configuration. To generate a skeleton project that uses it,
+run:
+
+```bash
+mix nerves.new my_new_nerves_project --init-gadget
+```
 
 ### mix local.nerves
 
