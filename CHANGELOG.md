@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.2
+
+* Enhancements
+  * Updated docs for `mix nerves.new`.
+
+* Bug fixes
+  * Invoke Nerves environment when calling `deps.compile`.
+  * Display warning instead of raising when calling `mix run`.
+
 ## 1.3.1
 
 * Enhancements
