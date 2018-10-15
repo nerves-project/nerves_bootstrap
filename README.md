@@ -99,6 +99,15 @@ run:
 mix nerves.new my_new_nerves_project --init-gadget
 ```
 
+The default configuration for `nerves_init_gadget` is to attach to the `usb0`
+interface. This is useful on boards that expose a USB gadget interface such as
+the Raspberry Pi Zero and BeagleBone boards. You can change the default interface
+by passing `--ifname INTERFACE`.
+
+```bash
+mix nerves.new my_new_nerves_project --init-gadget --ifname eth0
+```
+
 ### mix local.nerves
 
 This task checks [hex.pm](https://hex.pm/packages/nerves_bootstrap) for updates

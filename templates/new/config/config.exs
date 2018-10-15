@@ -45,7 +45,7 @@ config :nerves_firmware_ssh,
 node_name = if Mix.env() != :prod, do: "<%= app_name %>"
 
 config :nerves_init_gadget,
-  ifname: "usb0",
+  ifname: "<%= init_gadget_interface %>",
   address_method: :dhcpd,
   mdns_domain: "nerves.local",
   node_name: node_name,

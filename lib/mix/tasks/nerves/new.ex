@@ -11,6 +11,7 @@ defmodule Mix.Tasks.Nerves.New do
   @ring_logger_vsn "0.6"
   @init_gadget_vsn "0.4"
   @toolshed_vsn "0.2"
+  @init_gadget_interface "usb0"
 
   @requirement Mix.Project.config()[:elixir]
   @shortdoc "Creates a new Nerves application"
@@ -73,6 +74,9 @@ defmodule Mix.Tasks.Nerves.New do
   Generate a project preloaded with `nerves_init_gadget` support by passing
   `--init-gadget`.
 
+  Specify the interface `nerves_init_gadget` should be configured to use by
+  passing `--ifname INTERFACE`. This defaults to `usb0`.
+
   ## Examples
 
       mix nerves.new blinky
@@ -84,6 +88,10 @@ defmodule Mix.Tasks.Nerves.New do
   Generate a project configured to use `nerves_init_gadget`
 
       mix nerves.new blinky --init-gadget
+
+  Generate a project configured to use `nerves_init_gadget` on eth0
+
+      mix nerves.new blinky --init-gadget --ifname eth0
 
   Generate a project that only supports Raspberry Pi 3
 
@@ -99,7 +107,8 @@ defmodule Mix.Tasks.Nerves.New do
     module: :string,
     target: :keep,
     cookie: :string,
-    init_gadget: :boolean
+    init_gadget: :boolean,
+    ifname: :string
   ]
 
   def run([version]) when version in ~w(-v --version) do
@@ -144,7 +153,7 @@ defmodule Mix.Tasks.Nerves.New do
     nerves_path = nerves_path(path, Keyword.get(opts, :dev, false))
     in_umbrella? = in_umbrella?(path)
     init_gadget? = opts[:init_gadget] || false
-
+    init_gadget_interface = init_gadget_interface(opts[:ifname])
     targets = Keyword.get_values(opts, :target)
 
     targets =
@@ -180,6 +189,7 @@ defmodule Mix.Tasks.Nerves.New do
       init_gadget?: init_gadget?,
       init_gadget_vsn: @init_gadget_vsn,
       toolshed_vsn: @toolshed_vsn,
+      init_gadget_interface: init_gadget_interface,
       targets: targets,
       cookie: cookie
     ]
@@ -209,6 +219,10 @@ defmodule Mix.Tasks.Nerves.New do
       regex
     end
   end
+
+  defp init_gadget_interface(nil), do: @init_gadget_interface
+  defp init_gadget_interface(""), do: @init_gadget_interface
+  defp init_gadget_interface(interface), do: interface
 
   defp cmd(cmd) do
     Mix.shell().info([:green, "* running ", :reset, cmd])

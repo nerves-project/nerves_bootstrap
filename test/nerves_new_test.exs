@@ -149,12 +149,28 @@ defmodule Nerves.NewTest do
       Mix.Tasks.Nerves.New.run([@app_name, "--init-gadget"])
 
       assert_file("#{@app_name}/mix.exs", fn file ->
-        assert file =~ ~r"nerves_init_gadget"
+        assert file =~ ~r/nerves_init_gadget/
       end)
 
       assert_file("#{@app_name}/config/config.exs", fn file ->
-        assert file =~ ~r"nerves_init_gadget"
-        assert file =~ ~r"nerves_firmware_ssh"
+        assert file =~ ~r/nerves_init_gadget/
+        assert file =~ ~r/nerves_firmware_ssh/
+        assert file =~ ~r/ifname: "usb0"/
+      end)
+    end)
+  end
+
+  test "new project init gadget on eth0 interface", context do
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name, "--init-gadget", "--ifname", "eth0"])
+
+      assert_file("#{@app_name}/mix.exs", fn file ->
+        assert file =~ ~r/nerves_init_gadget/
+      end)
+
+      assert_file("#{@app_name}/config/config.exs", fn file ->
+        assert file =~ ~r/nerves_init_gadget/
+        assert file =~ ~r/ifname: "eth0"/
       end)
     end)
   end
