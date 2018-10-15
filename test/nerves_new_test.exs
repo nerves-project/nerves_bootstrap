@@ -106,7 +106,7 @@ defmodule Nerves.NewTest do
       Mix.Tasks.Nerves.New.run([@app_name])
 
       assert_file("#{@app_name}/mix.exs", fn file ->
-        assert file =~ ~r"extra_applications:.*runtime_tools"
+        assert file =~ ~r/extra_applications:.*runtime_tools/
       end)
     end)
   end
@@ -116,11 +116,11 @@ defmodule Nerves.NewTest do
       Mix.Tasks.Nerves.New.run([@app_name])
 
       assert_file("#{@app_name}/mix.exs", fn file ->
-        assert file =~ ~r":ring_logger"
+        assert file =~ ~r/:ring_logger/
       end)
 
       assert_file("#{@app_name}/config/config.exs", fn file ->
-        assert file =~ ~r"RingLogger"
+        assert file =~ ~r/RingLogger/
       end)
     end)
   end
@@ -130,7 +130,7 @@ defmodule Nerves.NewTest do
       Mix.Tasks.Nerves.New.run([@app_name])
 
       assert_file("#{@app_name}/mix.exs", fn file ->
-        assert file =~ ~r"build_embedded:"
+        assert file =~ ~r/build_embedded:/
       end)
     end)
   end
