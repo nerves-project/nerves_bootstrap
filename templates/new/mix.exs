@@ -58,8 +58,8 @@ defmodule <%= app_module %>.MixProject do
     ] ++ system(target)
   end
 
-<%= for target <- targets do %>
-  defp system("<%= target %>"), do: [{:<%= "nerves_system_#{target}" %>, "~> 1.0", runtime: false}]
+<%= for {target, vsn} <- targets do %>
+  defp system("<%= target %>"), do: [{:<%= "nerves_system_#{target}" %>, "~> <%= vsn %>", runtime: false}]
 <% end %>
   defp system(target), do: Mix.raise("Unknown MIX_TARGET: #{target}")
 end
