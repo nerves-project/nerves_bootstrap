@@ -129,5 +129,5 @@ To force compilation to happen, add a `:nerves` option for the desired package
 in your top level project:
 
 ```elixir
-  {:nerves_system_rpi0, "~> 1.0", nerves: [compile: true]}
+  {:nerves_system_rpi0, "~> 1.5", nerves: [compile: true]}
 ```
