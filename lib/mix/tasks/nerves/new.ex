@@ -15,13 +15,12 @@ defmodule Mix.Tasks.Nerves.New do
   @shortdoc "Creates a new Nerves application"
 
   @targets [
-    "rpi",
-    "rpi0",
-    "rpi2",
-    "rpi3",
-    "bbb",
-    "ev3",
-    "x86_64"
+    {"rpi", "1.0"},
+    {"rpi0", "1.0"},
+    {"rpi2", "1.0"},
+    {"rpi3", "1.0"},
+    {"bbb", "2.0"},
+    {"x86_64", "1.0"}
   ]
 
   @new [
@@ -147,17 +146,22 @@ defmodule Mix.Tasks.Nerves.New do
 
     targets = Keyword.get_values(opts, :target)
 
-    Enum.each(targets, fn target ->
-      unless target in @targets do
-        targets = Enum.join(@targets, "\n")
+    targets =
+      Enum.map(targets, fn target ->
+        default_targets = Keyword.keys(@targets)
 
-        Mix.raise("""
-        Unknown target #{inspect(target)}
-        Supported targets
-        #{targets}
-        """)
-      end
-    end)
+        unless target in default_targets do
+          targets = Enum.join(@targets, "\n")
+
+          Mix.raise("""
+          Unknown target #{inspect(target)}
+          Supported targets
+          #{targets}
+          """)
+        end
+
+        Enum.find(@targets, &(elem(&1, 0) == target))
+      end)
 
     targets = if targets == [], do: @targets, else: targets
     cookie = opts[:cookie] || random_string(64)
