@@ -8,9 +8,9 @@ if RingLogger in Application.get_env(:logger, :backends, []) do
 
     RingLogger.attach
 
-  or tail the log:
+  or print the next messages in the log:
 
-    RingLogger.tail
+    RingLogger.next
   """
 end
 

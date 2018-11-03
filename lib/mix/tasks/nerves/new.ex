@@ -8,7 +8,7 @@ defmodule Mix.Tasks.Nerves.New do
   @shoehorn_vsn "0.4"
   @bootstrap_vsn "1.0"
   @runtime_vsn "0.6"
-  @ring_logger_vsn "0.4"
+  @ring_logger_vsn "0.6"
   @init_gadget_vsn "0.4"
 
   @requirement Mix.Project.config()[:elixir]
