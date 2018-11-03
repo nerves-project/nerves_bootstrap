@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.3
+
+* New project generator enhancements
+  * Update `ring_logger` to `~> 0.6`.
+  * Add `toolshed` `~> 0.2` and update `rootfs_overlay/etc/iex.exs`
+  * Enable Erlang Distribution when `Mix.env() != :prod`
+  * Remove `ev3` from default supported target list
+  * Update `bbb` system version requirement to `~> 2.0`
+  * Update all other system version requirements to `~> 1.5`
+
 ## 1.3.2
 
 * Enhancements
