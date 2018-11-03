@@ -10,6 +10,7 @@ defmodule Mix.Tasks.Nerves.New do
   @runtime_vsn "0.6"
   @ring_logger_vsn "0.6"
   @init_gadget_vsn "0.4"
+  @toolshed_vsn "0.2"
 
   @requirement Mix.Project.config()[:elixir]
   @shortdoc "Creates a new Nerves application"
@@ -178,6 +179,7 @@ defmodule Mix.Tasks.Nerves.New do
       in_umbrella: in_umbrella?,
       init_gadget?: init_gadget?,
       init_gadget_vsn: @init_gadget_vsn,
+      toolshed_vsn: @toolshed_vsn,
       targets: targets,
       cookie: cookie
     ]
