@@ -44,7 +44,8 @@ defmodule <%= app_module %>.MixProject do
     [
       <%= nerves_dep %>,
       {:shoehorn, "~> <%= shoehorn_vsn %>"},
-      {:ring_logger, "~> <%= ring_logger_vsn %>"}
+      {:ring_logger, "~> <%= ring_logger_vsn %>"},
+      {:toolshed, "~> <%= toolshed_vsn %>"}
     ] ++ deps(@target)
   end
 

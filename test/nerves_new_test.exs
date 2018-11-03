@@ -125,6 +125,16 @@ defmodule Nerves.NewTest do
     end)
   end
 
+  test "new project includes toolshed", context do
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name])
+
+      assert_file("#{@app_name}/mix.exs", fn file ->
+        assert file =~ ~r/:toolshed/
+      end)
+    end)
+  end
+
   test "new project sets build_embedded", context do
     in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name])
