@@ -27,7 +27,7 @@ defmodule Mix.Nerves.IO do
       """
 
       Nerves environment
-        MIX_TARGET:   #{System.get_env("MIX_TARGET") || "unset"}
+        MIX_TARGET:   #{Nerves.Bootstrap.mix_target()}
         MIX_ENV:      #{Mix.env()}
       """,
       :reset

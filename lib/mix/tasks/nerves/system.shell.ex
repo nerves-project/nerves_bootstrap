@@ -62,10 +62,8 @@ defmodule Mix.Tasks.Nerves.System.Shell do
     pkg = Nerves.Env.system()
 
     if is_nil(pkg) do
-      target = System.get_env("MIX_TARGET") || "host"
-
-      case target do
-        "host" -> Mix.raise(@no_mix_target_error)
+      case Nerves.Bootstrap.mix_target() do
+        :host -> Mix.raise(@no_mix_target_error)
         _ -> Mix.raise(@no_system_pkg_error)
       end
     end

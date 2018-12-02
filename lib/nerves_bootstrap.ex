@@ -66,13 +66,13 @@ defmodule Nerves.Bootstrap do
         if pre == [] do
           """
           You can update by running
-            
+
             mix local.nerves
           """
         else
           """
           You can update by running
-            
+
             mix archive.install hex nerves_bootstrap #{latest_version}
           """
         end
@@ -82,6 +82,15 @@ defmodule Nerves.Bootstrap do
       message,
       IO.ANSI.reset()
     ])
+  end
+
+  def mix_target do
+    if function_exported?(Mix, :target, 0) do
+      apply(Mix, :target, [])
+    else
+      (System.get_env("MIX_TARGET") || "host")
+      |> String.to_atom()
+    end
   end
 
   defp filter_pre_release(releases, %{pre: []}) do

@@ -3,12 +3,10 @@ defmodule Nerves.Bootstrap.Aliases do
     with %{} <- Mix.ProjectStack.peek(),
          %{name: name, config: config, file: file} <- Mix.ProjectStack.pop(),
          nil <- Mix.ProjectStack.peek() do
-      target = System.get_env("MIX_TARGET")
-
       config =
         config
         |> host_config()
-        |> target_config(target)
+        |> target_config(Nerves.Bootstrap.mix_target())
 
       Mix.ProjectStack.push(name, config, file)
     else
@@ -22,7 +20,7 @@ defmodule Nerves.Bootstrap.Aliases do
     update_in(config, [:aliases], &add_host_aliases(&1))
   end
 
-  def target_config(config, target) when target in [nil, "host"], do: config
+  def target_config(config, :host), do: config
 
   def target_config(config, _target) do
     update_in(config, [:aliases], &add_target_aliases(&1))
@@ -48,8 +46,8 @@ defmodule Nerves.Bootstrap.Aliases do
   end
 
   def run(args) do
-    case System.get_env("MIX_TARGET") do
-      nil ->
+    case Nerves.Bootstrap.mix_target() do
+      :host ->
         Mix.Tasks.Run.run(args)
 
       target ->

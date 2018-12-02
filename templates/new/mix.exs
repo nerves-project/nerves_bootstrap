@@ -1,24 +1,20 @@
 defmodule <%= app_module %>.MixProject do
   use Mix.Project
 
-  @target System.get_env("MIX_TARGET") || "host"
+  @all_targets <%= inspect(Enum.map(targets, &elem(&1, 0))) %>
 
   def project do
     [
       app: :<%= app_name %>,
       version: "0.1.0",
       elixir: "<%= elixir_req %>",
-      target: @target,
       archives: [nerves_bootstrap: "~> <%= bootstrap_vsn %>"],<%= if in_umbrella do %>
-      deps_path: "../../deps/#{@target}",
-      build_path: "../../_build/#{@target}",
+      deps_path: "../../deps",
+      build_path: "../../_build",
       config_path: "../../config/config.exs",
-      lockfile: "../../mix.lock.#{@target}",<% else %>
-      deps_path: "deps/#{@target}",
-      build_path: "_build/#{@target}",
-      lockfile: "mix.lock.#{@target}",<% end %>
+      lockfile: "../../mix.lock",<% end %>
       start_permanent: Mix.env() == :prod,
-      build_embedded: @target != "host",
+      build_embedded: Mix.target() != :host,
       aliases: [loadconfig: [&bootstrap/1]],
       deps: deps()
     ]
@@ -42,25 +38,20 @@ defmodule <%= app_module %>.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      # Dependencies for all targets
       <%= nerves_dep %>,
       {:shoehorn, "~> <%= shoehorn_vsn %>"},
       {:ring_logger, "~> <%= ring_logger_vsn %>"},
-      {:toolshed, "~> <%= toolshed_vsn %>"}
-    ] ++ deps(@target)
+      {:toolshed, "~> <%= toolshed_vsn %>"},
+
+      # Dependencies for all targets except :host
+      {:nerves_runtime, "~> <%= runtime_vsn %>", targets: @all_targets},<%= if init_gadget? do %>
+      {:nerves_init_gadget, "~> <%= init_gadget_vsn %>", targets: @all_targets},<% end %>
+
+      # Dependencies for specific targets
+      <%= for {target, vsn} <- targets do %>
+      {:<%= "nerves_system_#{target}" %>, "~> <%= vsn %>", runtime: false, targets: :<%= target %>},
+      <% end %>
+    ]
   end
-
-  # Specify target specific dependencies
-  defp deps("host"), do: []
-
-  defp deps(target) do
-    [
-      {:nerves_runtime, "~> <%= runtime_vsn %>"}<%= if init_gadget? do %>,
-      {:nerves_init_gadget, "~> <%= init_gadget_vsn %>"}<% end %>
-    ] ++ system(target)
-  end
-
-<%= for {target, vsn} <- targets do %>
-  defp system("<%= target %>"), do: [{:<%= "nerves_system_#{target}" %>, "~> <%= vsn %>", runtime: false}]
-<% end %>
-  defp system(target), do: Mix.raise("Unknown MIX_TARGET: #{target}")
 end
