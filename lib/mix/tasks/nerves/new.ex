@@ -4,7 +4,8 @@ defmodule Mix.Tasks.Nerves.New do
 
   @nerves Path.expand("../../../..", __DIR__)
 
-  @nerves_vsn "1.3"
+  # @nerves_vsn "1.3"
+  @nerves_dep ~s[{:nerves, github: "nerves-project/nerves", branch: "elixir-18", override: true, runtime: false}]
   @shoehorn_vsn "0.4"
   @bootstrap_vsn "1.0"
   @runtime_vsn "0.6"
@@ -16,12 +17,12 @@ defmodule Mix.Tasks.Nerves.New do
   @shortdoc "Creates a new Nerves application"
 
   @targets [
-    {"rpi", "1.5"},
-    {"rpi0", "1.5"},
-    {"rpi2", "1.5"},
-    {"rpi3", "1.5"},
-    {"bbb", "2.0"},
-    {"x86_64", "1.5"}
+    {:rpi, "1.5"},
+    {:rpi0, "1.5"},
+    {:rpi2, "1.5"},
+    {:rpi3, "1.5"},
+    {:bbb, "2.0"},
+    {:x86_64, "1.5"}
   ]
 
   @new [
@@ -146,13 +147,17 @@ defmodule Mix.Tasks.Nerves.New do
     init_gadget? = opts[:init_gadget] || false
 
     targets = Keyword.get_values(opts, :target)
+    default_targets = Keyword.keys(@targets)
 
     targets =
       Enum.map(targets, fn target ->
-        default_targets = Keyword.keys(@targets)
+        target = String.to_atom(target)
 
         unless target in default_targets do
-          targets = Enum.join(@targets, "\n")
+          targets =
+            @targets
+            |> Enum.map(&elem(&1, 0))
+            |> Enum.join("\n")
 
           Mix.raise("""
           Unknown target #{inspect(target)}
@@ -298,7 +303,7 @@ defmodule Mix.Tasks.Nerves.New do
     end
   end
 
-  defp nerves_dep("deps/nerves"), do: ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
+  defp nerves_dep("deps/nerves"), do: @nerves_dep
   defp nerves_dep(path), do: ~s[{:nerves, path: #{inspect(path)}, runtime: false, override: true}]
 
   defp nerves_path(path, true) do

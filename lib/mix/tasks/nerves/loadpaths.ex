@@ -38,7 +38,7 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
 
   def env_info do
     debug_info("Environment Variable List", """
-      target:     #{Mix.Project.config()[:target] || "unset"}
+      target:     #{Nerves.Bootstrap.mix_target()}
       toolchain:  #{env("NERVES_TOOLCHAIN")}
       system:     #{env("NERVES_SYSTEM")}
       app:        #{env("NERVES_APP")}

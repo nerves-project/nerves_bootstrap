@@ -21,12 +21,12 @@ defmodule Nerves.NewTest do
 
       assert_file("#{@app_name}/mix.exs", fn file ->
         assert file =~ "app: :#{@app_name}"
-        assert file =~ "defp system(\"rpi\"), do: [{:nerves_system_rpi, \"~> 1.5\""
-        assert file =~ "defp system(\"rpi0\"), do: [{:nerves_system_rpi0, \"~> 1.5\""
-        assert file =~ "defp system(\"rpi2\"), do: [{:nerves_system_rpi2, \"~> 1.5\""
-        assert file =~ "defp system(\"rpi3\"), do: [{:nerves_system_rpi3, \"~> 1.5\""
-        assert file =~ "defp system(\"bbb\"), do: [{:nerves_system_bbb, \"~> 2.0\""
-        assert file =~ "defp system(\"x86_64\"), do: [{:nerves_system_x86_64, \"~> 1.5\""
+        assert file =~ "{:nerves_system_rpi, \"~> 1.5\", runtime: false, targets: :rpi"
+        assert file =~ "{:nerves_system_rpi0, \"~> 1.5\", runtime: false, targets: :rpi0"
+        assert file =~ "{:nerves_system_rpi2, \"~> 1.5\", runtime: false, targets: :rpi2"
+        assert file =~ "{:nerves_system_rpi3, \"~> 1.5\", runtime: false, targets: :rpi3"
+        assert file =~ "{:nerves_system_bbb, \"~> 2.0\", runtime: false, targets: :bbb"
+        assert file =~ "{:nerves_system_x86_64, \"~> 1.5\", runtime: false, targets: :x86_64"
       end)
     end)
   end
@@ -39,8 +39,8 @@ defmodule Nerves.NewTest do
 
       assert_file("#{@app_name}/mix.exs", fn file ->
         assert file =~ "app: :#{@app_name}"
-        assert file =~ "defp system(\"rpi\"), do: [{:nerves_system_rpi, \"~> 1.5\""
-        refute file =~ "defp system(\"rpi0\"), do: [{:nerves_system_rpi0, \"~> 1.5\""
+        assert file =~ "{:nerves_system_rpi, \"~> 1.5\", runtime: false, targets: :rpi"
+        refute file =~ "{:nerves_system_rpi0, \"~> 1.5\", runtime: false, targets: :rpi0"
       end)
     end)
   end
@@ -53,9 +53,9 @@ defmodule Nerves.NewTest do
 
       assert_file("#{@app_name}/mix.exs", fn file ->
         assert file =~ "app: :#{@app_name}"
-        assert file =~ "defp system(\"rpi\"), do: [{:nerves_system_rpi, \"~> 1.5\""
-        assert file =~ "defp system(\"rpi3\"), do: [{:nerves_system_rpi3, \"~> 1.5\""
-        refute file =~ "defp system(\"rpi0\"), do: [{:nerves_system_rpi0, \"~> 1.5\""
+        assert file =~ "{:nerves_system_rpi, \"~> 1.5\", runtime: false, targets: :rpi"
+        assert file =~ "{:nerves_system_rpi3, \"~> 1.5\", runtime: false, targets: :rpi3"
+        refute file =~ "{:nerves_system_rpi0, \"~> 1.5\", runtime: false, targets: :rpi0"
       end)
     end)
   end
