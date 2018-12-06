@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.4
+
+* New project generator fixes
+  * Enable `multi_time_warp` mode by default. This fixes an issue where the
+    Erlang system clock wouldn't get updated after the clock was set.
+
 ## 1.3.3
 
 * New project generator enhancements
