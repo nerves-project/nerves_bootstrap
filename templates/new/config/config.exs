@@ -28,14 +28,18 @@ config :logger, backends: [RingLogger]<%= if init_gadget? do %>
 # See https://hexdocs.pm/nerves_firmware_ssh/readme.html for more information
 # on configuring nerves_firmware_ssh.
 
-key = Path.join(System.user_home!, ".ssh/id_rsa.pub")
-unless File.exists?(key), do:
-  Mix.raise("No SSH Keys found. Please generate an ssh key")
+keys =
+  [
+    Path.join([System.user_home!(), ".ssh", "id_rsa.pub"]),
+    Path.join([System.user_home!(), ".ssh", "id_ecdsa.pub"]),
+    Path.join([System.user_home!(), ".ssh", "id_ed25519.pub"])
+  ]
+  |> Enum.filter(&File.exists?/1)
+
+if keys == [], do: Mix.raise("No SSH keys found. Please generate an SSH key.")
 
 config :nerves_firmware_ssh,
-  authorized_keys: [
-    File.read!(key)
-  ]
+  authorized_keys: Enum.map(keys, &File.read!/1)
 
 # Configure nerves_init_gadget.
 # See https://hexdocs.pm/nerves_init_gadget/readme.html for more information.
