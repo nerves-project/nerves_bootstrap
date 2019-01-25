@@ -12,7 +12,7 @@ See the [project update guide](https://hexdocs.pm/nerves/updating-projects.html#
 
 * Enhancements
   * New projects are generated for Elixir 1.8.
-  * Added support non-RSA SSH keys in new project generator.
+  * Support non-RSA SSH keys in new projects.
 
 ## 1.3.4
 
