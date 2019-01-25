@@ -4,8 +4,8 @@ defmodule Mix.Tasks.Nerves.New do
 
   @nerves Path.expand("../../../..", __DIR__)
 
-  # @nerves_vsn "1.3"
-  @nerves_dep ~s[{:nerves, github: "nerves-project/nerves", branch: "elixir-18", override: true, runtime: false}]
+  @nerves_vsn "1.4"
+  @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
   @shoehorn_vsn "0.4"
   @bootstrap_vsn "1.0"
   @runtime_vsn "0.6"
