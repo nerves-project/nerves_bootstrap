@@ -5,7 +5,7 @@ defmodule Nerves.Bootstrap.Mixfile do
     [
       app: :nerves_bootstrap,
       version: "1.4.0",
-      elixir: "~> 1.8",
+      elixir: "~> 1.7",
       aliases: aliases(),
       xref: [exclude: [Nerves.Env, Nerves.Artifact]],
       docs: [extras: ["README.md"], main: "readme"],

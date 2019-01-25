@@ -13,7 +13,7 @@ defmodule Mix.Tasks.Nerves.New do
   @init_gadget_vsn "0.4"
   @toolshed_vsn "0.2"
 
-  @requirement Mix.Project.config()[:elixir]
+  @elixir_vsn "~> 1.8"
   @shortdoc "Creates a new Nerves application"
 
   @targets [
@@ -108,9 +108,9 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   def run(argv) do
-    unless Version.match?(System.version(), @requirement) do
+    unless Version.match?(System.version(), @elixir_vsn) do
       Mix.raise(
-        "Nerves v#{@bootstrap_vsn} requires at least Elixir #{@requirement}.\n " <>
+        "Nerves v#{@bootstrap_vsn} requires at least Elixir #{@elixir_vsn}.\n " <>
           "You have #{System.version()}. Please update accordingly"
       )
     end
@@ -179,7 +179,7 @@ defmodule Mix.Tasks.Nerves.New do
       shoehorn_vsn: @shoehorn_vsn,
       runtime_vsn: @runtime_vsn,
       ring_logger_vsn: @ring_logger_vsn,
-      elixir_req: @requirement,
+      elixir_req: @elixir_vsn,
       nerves_dep: nerves_dep(nerves_path),
       in_umbrella: in_umbrella?,
       init_gadget?: init_gadget?,
