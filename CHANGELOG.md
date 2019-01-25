@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.1
+
+* Bug fixes
+  * Configure nerves_bootstrap to support Elixir ~> 1.7.
+    Use ~> 1.8 for new projects.
+
 ## 1.4.0
 
 Version v1.4.0 adds support for Elixir 1.8's new built-in support for mix
