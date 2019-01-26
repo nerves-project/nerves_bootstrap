@@ -113,10 +113,15 @@ defmodule Mix.Tasks.Nerves.New do
 
   def run(argv) do
     unless Version.match?(System.version(), @elixir_vsn) do
-      Mix.raise(
-        "Nerves Bootstrap v#{@bootstrap_vsn} requires at least Elixir #{@elixir_vsn}.\n " <>
-          "You have #{System.version()}. Please update accordingly"
-      )
+      Mix.raise("""
+      Nerves Bootstrap v#{@bootstrap_vsn} creates projects that require Elixir #{@elixir_vsn}.
+
+      You have Elixir #{System.version()}. Please update your Elixir version or downgrade
+      the version of Nerves Bootstrap that you're using.
+
+      See https://hexdocs.pm/nerves/installation.html for more information on
+      setting up your environment.
+      """)
     end
 
     {opts, argv} =
