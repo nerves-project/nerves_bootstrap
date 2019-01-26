@@ -4,10 +4,14 @@ defmodule Mix.Tasks.Nerves.New do
 
   @nerves Path.expand("../../../..", __DIR__)
 
+  @bootstrap_vsn Mix.Project.config()[:version]
+  @bootstrap_vsn_no_patch (
+                            v = Version.parse!(@bootstrap_vsn)
+                            "#{v.major}.#{v.minor}"
+                          )
   @nerves_vsn "1.4"
   @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
   @shoehorn_vsn "0.4"
-  @bootstrap_vsn "1.0"
   @runtime_vsn "0.6"
   @ring_logger_vsn "0.6"
   @init_gadget_vsn "0.4"
@@ -175,7 +179,7 @@ defmodule Mix.Tasks.Nerves.New do
     binding = [
       app_name: app,
       app_module: mod,
-      bootstrap_vsn: @bootstrap_vsn,
+      bootstrap_vsn: @bootstrap_vsn_no_patch,
       shoehorn_vsn: @shoehorn_vsn,
       runtime_vsn: @runtime_vsn,
       ring_logger_vsn: @ring_logger_vsn,
