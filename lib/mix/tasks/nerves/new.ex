@@ -108,13 +108,13 @@ defmodule Mix.Tasks.Nerves.New do
   ]
 
   def run([version]) when version in ~w(-v --version) do
-    Mix.shell().info("Nerves v#{@bootstrap_vsn}")
+    Mix.shell().info("Nerves Bootstrap v#{@bootstrap_vsn}")
   end
 
   def run(argv) do
     unless Version.match?(System.version(), @elixir_vsn) do
       Mix.raise(
-        "Nerves v#{@bootstrap_vsn} requires at least Elixir #{@elixir_vsn}.\n " <>
+        "Nerves Bootstrap v#{@bootstrap_vsn} requires at least Elixir #{@elixir_vsn}.\n " <>
           "You have #{System.version()}. Please update accordingly"
       )
     end
