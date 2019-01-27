@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.4.2
+
+* Enhancements
+  * Added rpi3a to default supported targets list. See [nerves_system_rpi3a](https://github.com/nerves-project/nerves_system_rpi3a).
+  * Bumped the minimum versions from 1.5 to 1.6.
+  * Improved error message when trying to create new projects that support
+    Elixir ~> 1.8 while running a version that is < 1.8.
+  * Set required bootstrap archive version to ~> major.minor of the version of
+    `nerves_bootstrap` that generated the new project.
+
 ## 1.4.1
 
 * Bug fixes
