@@ -36,7 +36,13 @@ keys =
   ]
   |> Enum.filter(&File.exists?/1)
 
-if keys == [], do: Mix.raise("No SSH keys found. Please generate an SSH key.")
+if keys == [],
+  do:
+    Mix.raise("""
+    No SSH public keys found in ~/.ssh. An ssh authorized key is needed to
+    log into the Nerves device and update firmware on it using ssh.
+    See your project's config.exs for this error message.
+    """)
 
 config :nerves_firmware_ssh,
   authorized_keys: Enum.map(keys, &File.read!/1)
