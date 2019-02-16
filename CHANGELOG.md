@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.3
+
+* Enhancements
+  * Create mix.exs files with `build_embedded: true` so that build products
+    aren't stored in the source tree. This helps fix a source of confusion when
+    switching targets and C/C++ build products don't get rebuilt.
+  * Improve the missing ssh key error message in config.exs
+
 ## 1.4.2
 
 * Enhancements
