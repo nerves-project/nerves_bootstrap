@@ -76,8 +76,8 @@ defmodule Mix.Tasks.Nerves.New do
   A `--cookie` options can be given to set the Erlang distribution
   cookie in `vm.args`. This defaults to a randomly generated string.
 
-  Generate a project preloaded with `nerves_init_gadget` support by passing
-  `--init-gadget`.
+  Generate a project without `nerves_init_gadget` support by passing
+  `--no-init-gadget`.
 
   ## Examples
 
@@ -87,10 +87,6 @@ defmodule Mix.Tasks.Nerves.New do
 
       mix nerves.new blinky --module Blinky
 
-  Generate a project configured to use `nerves_init_gadget`
-
-      mix nerves.new blinky --init-gadget
-
   Generate a project that only supports Raspberry Pi 3
 
       mix nerves.new blinky --target rpi3
@@ -98,6 +94,10 @@ defmodule Mix.Tasks.Nerves.New do
   Generate a project that supports Raspberry Pi 3 and Raspberry Pi Zero
 
       mix nerves.new blinky --target rpi3 --target rpi0
+
+  Generate a project without `nerves_init_gadget`
+
+      mix nerves.new blinky --no-init-gadget
   """
 
   @switches [
@@ -154,7 +154,7 @@ defmodule Mix.Tasks.Nerves.New do
 
     nerves_path = nerves_path(path, Keyword.get(opts, :dev, false))
     in_umbrella? = in_umbrella?(path)
-    init_gadget? = opts[:init_gadget] || false
+    init_gadget? = Keyword.get(opts, :init_gadget, true)
 
     targets = Keyword.get_values(opts, :target)
     default_targets = Keyword.keys(@targets)
