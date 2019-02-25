@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.0
+
+* Enhancements
+  * New projects include [nerves_init_gadget](https://hex.pm/packages/nerves_init_gadget) by default.
+    If you want a minimal project that does not include `nerves_init_gadget`,
+    pass `--no-init-gadget`.
+
 ## 1.4.3
 
 * Enhancements
