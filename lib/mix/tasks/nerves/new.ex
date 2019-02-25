@@ -56,12 +56,12 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   @moduledoc """
-  Creates a new Nerves project. It expects the path of the project as argument.
+  Creates a new Nerves project
 
       mix nerves.new PATH [--module MODULE] [--app APP] [--target TARGET] [--cookie STRING]
 
-  A project at the given PATH will be created. The application name and module
-  name will be retrieved from the path, unless `--module` or `--app` is given.
+  The project will be created at PATH. The application name and module name
+  will be inferred from PATH unless `--module` or `--app` is given.
 
   An `--app` option can be given in order to name the OTP application for the
   project.
