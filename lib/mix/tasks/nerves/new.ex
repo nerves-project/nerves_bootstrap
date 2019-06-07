@@ -9,16 +9,15 @@ defmodule Mix.Tasks.Nerves.New do
                             v = Version.parse!(@bootstrap_vsn)
                             "#{v.major}.#{v.minor}"
                           )
-  @nerves_vsn "1.4.5"
+  @nerves_vsn "1.5.0"
   @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
-  @distillery_vsn "2.0"
-  @shoehorn_vsn "0.4"
+  @shoehorn_vsn "0.6"
   @runtime_vsn "0.6"
   @ring_logger_vsn "0.6"
   @init_gadget_vsn "0.4"
   @toolshed_vsn "0.2"
 
-  @elixir_vsn "~> 1.8"
+  @elixir_vsn "~> 1.9"
   @shortdoc "Creates a new Nerves application"
 
   @targets [
@@ -33,11 +32,12 @@ defmodule Mix.Tasks.Nerves.New do
 
   @new [
     {:eex, "new/config/config.exs", "config/config.exs"},
+    {:eex, "new/config/target.exs", "config/target.exs"},
     {:eex, "new/lib/app_name.ex", "lib/app_name.ex"},
     {:eex, "new/lib/app_name/application.ex", "lib/app_name/application.ex"},
     {:eex, "new/test/test_helper.exs", "test/test_helper.exs"},
     {:eex, "new/test/app_name_test.exs", "test/app_name_test.exs"},
-    {:eex, "new/rel/vm.args", "rel/vm.args"},
+    {:text, "new/rel/vm.args.eex", "rel/vm.args.eex"},
     {:eex, "new/rootfs_overlay/etc/iex.exs", "rootfs_overlay/etc/iex.exs"},
     {:text, "new/.gitignore", ".gitignore"},
     {:text, "new/.formatter.exs", ".formatter.exs"},
@@ -187,7 +187,6 @@ defmodule Mix.Tasks.Nerves.New do
       app_name: app,
       app_module: mod,
       bootstrap_vsn: @bootstrap_vsn_no_patch,
-      distillery_vsn: @distillery_vsn,
       shoehorn_vsn: @shoehorn_vsn,
       runtime_vsn: @runtime_vsn,
       ring_logger_vsn: @ring_logger_vsn,
@@ -209,10 +208,9 @@ defmodule Mix.Tasks.Nerves.New do
       extra =
         if install? && Code.ensure_loaded?(Hex) do
           cmd("mix deps.get")
-          cmd("mix nerves.release.init")
           []
         else
-          ["  $ mix deps.get", "  $ mix nerves.release.init"]
+          ["  $ mix deps.get"]
         end
 
       print_mix_info(path, extra)
