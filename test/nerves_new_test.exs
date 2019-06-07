@@ -20,7 +20,7 @@ defmodule Nerves.NewTest do
       assert_file("#{@app_name}/README.md")
 
       assert_file("#{@app_name}/mix.exs", fn file ->
-        assert file =~ "app: :#{@app_name}"
+        assert file =~ "@app :#{@app_name}"
         assert file =~ "{:nerves_system_rpi, \"~> 1.6\", runtime: false, targets: :rpi"
         assert file =~ "{:nerves_system_rpi0, \"~> 1.6\", runtime: false, targets: :rpi0"
         assert file =~ "{:nerves_system_rpi2, \"~> 1.6\", runtime: false, targets: :rpi2"
@@ -39,7 +39,7 @@ defmodule Nerves.NewTest do
       assert_file("#{@app_name}/README.md")
 
       assert_file("#{@app_name}/mix.exs", fn file ->
-        assert file =~ "app: :#{@app_name}"
+        assert file =~ "@app :#{@app_name}"
         assert file =~ "{:nerves_system_rpi, \"~> 1.6\", runtime: false, targets: :rpi"
         refute file =~ "{:nerves_system_rpi0, \"~> 1.6\", runtime: false, targets: :rpi0"
       end)
@@ -53,7 +53,7 @@ defmodule Nerves.NewTest do
       assert_file("#{@app_name}/README.md")
 
       assert_file("#{@app_name}/mix.exs", fn file ->
-        assert file =~ "app: :#{@app_name}"
+        assert file =~ "@app :#{@app_name}"
         assert file =~ "{:nerves_system_rpi, \"~> 1.6\", runtime: false, targets: :rpi"
         assert file =~ "{:nerves_system_rpi3, \"~> 1.6\", runtime: false, targets: :rpi3"
         refute file =~ "{:nerves_system_rpi0, \"~> 1.6\", runtime: false, targets: :rpi0"
@@ -61,22 +61,12 @@ defmodule Nerves.NewTest do
     end)
   end
 
-  test "new project defined cookie set", context do
-    in_tmp(context.test, fn ->
-      Mix.Tasks.Nerves.New.run([@app_name, "--cookie", "12345"])
-
-      assert_file("#{@app_name}/rel/vm.args", fn file ->
-        assert file =~ "-setcookie 12345"
-      end)
-    end)
-  end
-
-  test "new project default cookie set", context do
+  test "new project cookie set", context do
     in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name])
 
-      assert_file("#{@app_name}/rel/vm.args", fn file ->
-        assert file =~ ~r/.*-setcookie [a-zA-Z0-9]{64}\n|\r|\n\r/s
+      assert_file("#{@app_name}/mix.exs", fn file ->
+        assert file =~ "cookie: \"\#{@app}_cookie\""
       end)
     end)
   end
@@ -85,7 +75,7 @@ defmodule Nerves.NewTest do
     in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name])
 
-      assert_file("#{@app_name}/rel/vm.args", fn file ->
+      assert_file("#{@app_name}/rel/vm.args.eex", fn file ->
         assert file =~ "-heart -env HEART_BEAT_TIMEOUT"
       end)
     end)
@@ -95,7 +85,7 @@ defmodule Nerves.NewTest do
     in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name])
 
-      assert_file("#{@app_name}/rel/vm.args", fn file ->
+      assert_file("#{@app_name}/rel/vm.args.eex", fn file ->
         assert file =~ "-mode embedded"
       end)
     end)
@@ -153,7 +143,7 @@ defmodule Nerves.NewTest do
         assert file =~ ~r/:nerves_init_gadget/
       end)
 
-      assert_file("#{@app_name}/config/config.exs", fn file ->
+      assert_file("#{@app_name}/config/target.exs", fn file ->
         assert file =~ ~r"nerves_init_gadget"
         assert file =~ ~r"nerves_firmware_ssh"
       end)
@@ -171,16 +161,6 @@ defmodule Nerves.NewTest do
       assert_file("#{@app_name}/config/config.exs", fn file ->
         refute file =~ ~r"nerves_init_gadget"
         refute file =~ ~r"nerves_firmware_ssh"
-      end)
-    end)
-  end
-
-  test "new project includes distillery", context do
-    in_tmp(context.test, fn ->
-      Mix.Tasks.Nerves.New.run([@app_name])
-
-      assert_file("#{@app_name}/mix.exs", fn file ->
-        assert file =~ ~r/:distillery/
       end)
     end)
   end
