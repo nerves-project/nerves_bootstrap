@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.1
+
+* Bug fixes
+  * Compile distillery before nerves when included as an optional dependency.
+
 ## 1.5.0
 
 * Enhancements
