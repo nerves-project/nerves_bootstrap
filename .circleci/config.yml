@@ -10,9 +10,9 @@ version: 2
 jobs:
   build:
     docker:
-      - image: erlang:21.2.2
+      - image: erlang:21.3.8
         environment:
-          ELIXIR_VERSION: 1.8.0-otp-21
+          ELIXIR_VERSION: 1.8.2-otp-21
           LC_ALL: C.UTF-8
     working_directory: ~/repo
     environment:
