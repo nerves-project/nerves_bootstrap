@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.0
+
+* Enhancements
+  * Updated new project generator to use Elixir ~> 1.9
+
 ## 1.5.3
 
 * Bug fixes
