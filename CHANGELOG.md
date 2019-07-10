@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.2
+
+* Bug fixes
+  * Add distillery ~> 2.1 to the new project generator.
+  * Lock down the `nerves` dependency to ~> 1.4.5 in new projects.
+
 ## 1.5.1
 
 * Bug fixes
