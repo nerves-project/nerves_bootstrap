@@ -11,6 +11,7 @@ defmodule Mix.Tasks.Nerves.New do
                           )
   @nerves_vsn "1.4.5"
   @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
+  @distillery_vsn "2.1"
   @shoehorn_vsn "0.4"
   @runtime_vsn "0.6"
   @ring_logger_vsn "0.6"
@@ -186,6 +187,7 @@ defmodule Mix.Tasks.Nerves.New do
       app_name: app,
       app_module: mod,
       bootstrap_vsn: @bootstrap_vsn_no_patch,
+      distillery_vsn: @distillery_vsn,
       shoehorn_vsn: @shoehorn_vsn,
       runtime_vsn: @runtime_vsn,
       ring_logger_vsn: @ring_logger_vsn,
