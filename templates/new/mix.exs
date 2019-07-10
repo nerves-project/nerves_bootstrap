@@ -40,6 +40,7 @@ defmodule <%= app_module %>.MixProject do
     [
       # Dependencies for all targets
       <%= nerves_dep %>,
+      {:distillery, "~> <%= distillery_vsn %>"},
       {:shoehorn, "~> <%= shoehorn_vsn %>"},
       {:ring_logger, "~> <%= ring_logger_vsn %>"},
       {:toolshed, "~> <%= toolshed_vsn %>"},

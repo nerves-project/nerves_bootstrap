@@ -174,4 +174,14 @@ defmodule Nerves.NewTest do
       end)
     end)
   end
+
+  test "new project includes distillery", context do
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name])
+
+      assert_file("#{@app_name}/mix.exs", fn file ->
+        assert file =~ ~r/:distillery/
+      end)
+    end)
+  end
 end
