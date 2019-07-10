@@ -11,7 +11,7 @@ defmodule Mix.Tasks.Nerves.New do
                           )
   @nerves_vsn "1.4.5"
   @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
-  @distillery_vsn "2.1"
+  @distillery_vsn "2.0"
   @shoehorn_vsn "0.4"
   @runtime_vsn "0.6"
   @ring_logger_vsn "0.6"
