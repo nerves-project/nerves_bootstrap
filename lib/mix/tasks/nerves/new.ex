@@ -9,7 +9,7 @@ defmodule Mix.Tasks.Nerves.New do
                             v = Version.parse!(@bootstrap_vsn)
                             "#{v.major}.#{v.minor}"
                           )
-  @nerves_vsn "1.4"
+  @nerves_vsn "1.4.5"
   @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
   @shoehorn_vsn "0.4"
   @runtime_vsn "0.6"
