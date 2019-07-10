@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.5.3
+
+* Bug fixes
+  * Change distillery to ~> 2.0 in the new project generator.
+
 ## 1.5.2
 
 * Bug fixes
