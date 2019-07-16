@@ -182,7 +182,7 @@ defmodule Mix.Tasks.Nerves.New do
       end)
 
     targets = if targets == [], do: @targets, else: targets
-    cookie = opts[:cookie] || random_string(64)
+    cookie = opts[:cookie]
 
     binding = [
       app_name: app,
@@ -375,11 +375,5 @@ defmodule Mix.Tasks.Nerves.New do
     catch
       _, _ -> false
     end
-  end
-
-  defp random_string(length) do
-    :crypto.strong_rand_bytes(length)
-    |> Base.encode32(case: :lower, padding: false)
-    |> binary_part(0, length)
   end
 end
