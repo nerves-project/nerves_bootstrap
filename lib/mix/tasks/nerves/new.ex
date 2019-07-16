@@ -109,6 +109,7 @@ defmodule Mix.Tasks.Nerves.New do
     init_gadget: :boolean
   ]
 
+  @impl Mix.Task
   def run([version]) when version in ~w(-v --version) do
     Mix.shell().info("Nerves Bootstrap v#{@bootstrap_vsn}")
   end

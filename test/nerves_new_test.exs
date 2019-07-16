@@ -63,10 +63,21 @@ defmodule Nerves.NewTest do
 
   test "new project cookie set", context do
     in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name, "--cookie", "foo"])
+
+      assert_file("#{@app_name}/mix.exs", fn file ->
+        assert file =~ ~s{cookie: "foo"}
+      end)
+    end)
+  end
+
+  test "cookie by default is a random string of 64 chars", context do
+    in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name])
 
       assert_file("#{@app_name}/mix.exs", fn file ->
-        assert file =~ "cookie: \"\#{@app}_cookie\""
+        [_, capture] = Regex.run(~r/cookie: "([^"]+)/, file)
+        assert String.length(capture) == 64
       end)
     end)
   end

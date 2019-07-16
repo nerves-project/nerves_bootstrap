@@ -62,7 +62,7 @@ defmodule <%= app_module %>.MixProject do
   def release do
     [
       overwrite: true,
-      cookie: "#{@app}_cookie",
+      cookie: "<%= cookie %>",
       include_erts: &Nerves.Release.erts/0,
       steps: [&Nerves.Release.init/1, :assemble]
     ]
