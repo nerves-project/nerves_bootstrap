@@ -26,6 +26,7 @@ defmodule Mix.Tasks.Nerves.New do
     {:rpi2, "1.8"},
     {:rpi3, "1.8"},
     {:rpi3a, "1.8"},
+    {:rpi4, "1.8"},
     {:bbb, "2.3"},
     {:x86_64, "1.8"}
   ]

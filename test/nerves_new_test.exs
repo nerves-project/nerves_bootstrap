@@ -26,6 +26,7 @@ defmodule Nerves.NewTest do
         assert file =~ "{:nerves_system_rpi2, \"~> 1.8\", runtime: false, targets: :rpi2"
         assert file =~ "{:nerves_system_rpi3, \"~> 1.8\", runtime: false, targets: :rpi3"
         assert file =~ "{:nerves_system_rpi3a, \"~> 1.8\", runtime: false, targets: :rpi3a"
+        assert file =~ "{:nerves_system_rpi4, \"~> 1.8\", runtime: false, targets: :rpi4"
         assert file =~ "{:nerves_system_bbb, \"~> 2.3\", runtime: false, targets: :bbb"
         assert file =~ "{:nerves_system_x86_64, \"~> 1.8\", runtime: false, targets: :x86_64"
       end)
