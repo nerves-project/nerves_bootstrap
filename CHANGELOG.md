@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.6.1
+
+* Enhancements
+  * Added `rpi4` to default targets in new project generator.
+    See [nerves_system_rpi4](https://github.com/nerves-project/nerves_system_rpi4) for system information.
+  * Update release config to only strip beams for `:prod` firmware.
+
+* Bug fixes
+  * Fix `--cookie` in new project generator for overriding the cookie.
+
 ## 1.6.0
 
 * Enhancements
