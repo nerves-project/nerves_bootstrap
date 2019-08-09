@@ -1,14 +1,17 @@
 defmodule Nerves.Bootstrap.Mixfile do
   use Mix.Project
 
+  @version "1.6.1"
+  @source_url "https://github.com/nerves-project/nerves_bootstrap"
+
   def project do
     [
       app: :nerves_bootstrap,
-      version: "1.6.1",
+      version: @version,
       elixir: "~> 1.7",
       aliases: aliases(),
       xref: [exclude: [Nerves.Env, Nerves.Artifact]],
-      docs: [extras: ["README.md"], main: "readme"],
+      docs: docs(),
       description: description(),
       package: package(),
       deps: deps()
@@ -48,7 +51,16 @@ defmodule Nerves.Bootstrap.Mixfile do
       maintainers: ["Justin Schneck", "Frank Hunleth", "Greg Mefford"],
       files: ["lib", "LICENSE", "mix.exs", "README.md", "test", "templates"],
       licenses: ["Apache 2.0"],
-      links: %{"Github" => "https://github.com/nerves-project/nerves_bootstrap"}
+      links: %{"GitHub" => @source_url}
+    ]
+  end
+
+  defp docs do
+    [
+      extras: ["README.md"],
+      main: "readme",
+      source_ref: "v#{@version}",
+      source_url: @source_url
     ]
   end
 
