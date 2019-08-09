@@ -12,6 +12,7 @@ defmodule Mix.Tasks.Local.Nerves do
 
   This accepts the same command line options as `archive.install`.
   """
+  @impl Mix.Task
   def run(_args) do
     Mix.Task.run("archive.install", ["hex", "nerves_bootstrap", "~> 1.0"])
   end
