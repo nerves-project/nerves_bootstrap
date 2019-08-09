@@ -31,7 +31,7 @@ defmodule Mix.Tasks.Nerves.Clean do
             Nerves.Env.packages()
           else
             Mix.raise("""
-            You must specify the Nerves dependencies to clean, seperated by spaces
+            You must specify the Nerves dependencies to clean, separated by spaces
 
             Example:
               mix nerves.clean nerves_system_rpi3
