@@ -53,7 +53,7 @@ defmodule Mix.Tasks.Nerves.New do
   for {format, source, _} <- @new do
     unless format == :keep do
       @external_resource Path.join(root, source)
-      def render(unquote(source)), do: unquote(File.read!(Path.join(root, source)))
+      defp render(unquote(source)), do: unquote(File.read!(Path.join(root, source)))
     end
   end
 
@@ -152,7 +152,7 @@ defmodule Mix.Tasks.Nerves.New do
     end
   end
 
-  def run(app, mod, path, opts) do
+  defp run(app, mod, path, opts) do
     System.delete_env("MIX_TARGET")
 
     nerves_path = nerves_path(path, Keyword.get(opts, :dev, false))
@@ -219,7 +219,7 @@ defmodule Mix.Tasks.Nerves.New do
     end)
   end
 
-  def recompile(regex) do
+  defp recompile(regex) do
     if Code.ensure_loaded?(Regex) and function_exported?(Regex, :recompile!, 1) do
       apply(Regex, :recompile!, [regex])
     else

@@ -16,6 +16,7 @@ defmodule Mix.Tasks.Nerves.Clean do
 
   @switches [all: :boolean]
 
+  @impl Mix.Task
   def run(argv) do
     debug_info("Clean Start")
     {opts, packages, _} = OptionParser.parse(argv, switches: @switches)
