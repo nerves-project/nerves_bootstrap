@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.2
+
+* Enhancements
+  * Synchronize new project files to better match the versions from `mix new`
+
 ## 1.6.1
 
 * Enhancements
