@@ -47,6 +47,8 @@ defmodule Mix.Tasks.Nerves.New do
     {:keep, "new/rel", "rel"}
   ]
 
+  @reserved_names ~w[nerves]
+
   # Embed all defined templates
   root = Path.expand("../../../../templates", __DIR__)
 
@@ -151,6 +153,9 @@ defmodule Mix.Tasks.Nerves.New do
         run(app, mod, path, opts)
     end
   end
+
+  defp run(app, _mod, _path, _opts) when app in @reserved_names,
+    do: Mix.raise("New projects cannot be named '#{app}'")
 
   defp run(app, mod, path, opts) do
     System.delete_env("MIX_TARGET")

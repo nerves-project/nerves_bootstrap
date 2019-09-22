@@ -175,4 +175,12 @@ defmodule Nerves.NewTest do
       end)
     end)
   end
+
+  test "new projects cannot use reserved names", context do
+    in_tmp(context.test, fn ->
+      assert_raise(Mix.Error, "New projects cannot be named 'nerves'", fn ->
+        Mix.Tasks.Nerves.New.run(["nerves"])
+      end)
+    end)
+  end
 end
