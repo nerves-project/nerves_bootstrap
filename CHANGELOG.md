@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.3
+
+* Enhancements
+  * Don't allow projects to be named `nerves`. Those won't work anyway.
+
 ## 1.6.2
 
 * Enhancements
