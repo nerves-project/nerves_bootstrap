@@ -1,4 +1,4 @@
-use Mix.Config<%= if init_gadget? do %>
+import Config<%= if init_gadget? do %>
 
 # Authorize the device to receive firmware using your public key.
 # See https://hexdocs.pm/nerves_firmware_ssh/readme.html for more information
