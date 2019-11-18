@@ -183,4 +183,24 @@ defmodule Nerves.NewTest do
       end)
     end)
   end
+
+  test "new project sets source_date_epoch time", context do
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name, "--source-date-epoch", "1234"])
+
+      assert_file("#{@app_name}/config/config.exs", fn file ->
+        assert file =~ ~r/source_date_epoch: "1234"/
+      end)
+    end)
+  end
+
+  test "new project generates source_date_epoch time", context do
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name])
+
+      assert_file("#{@app_name}/config/config.exs", fn file ->
+        assert file =~ ~r/source_date_epoch: /
+      end)
+    end)
+  end
 end
