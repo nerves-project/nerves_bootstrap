@@ -109,7 +109,8 @@ defmodule Mix.Tasks.Nerves.New do
     module: :string,
     target: :keep,
     cookie: :string,
-    init_gadget: :boolean
+    init_gadget: :boolean,
+    source_date_epoch: :integer
   ]
 
   @impl Mix.Task
@@ -189,6 +190,7 @@ defmodule Mix.Tasks.Nerves.New do
 
     targets = if targets == [], do: @targets, else: targets
     cookie = opts[:cookie]
+    source_date_epoch = Keyword.get(opts, :source_date_epoch, generate_source_date_epoch())
 
     binding = [
       app_name: app,
@@ -204,7 +206,8 @@ defmodule Mix.Tasks.Nerves.New do
       init_gadget_vsn: @init_gadget_vsn,
       toolshed_vsn: @toolshed_vsn,
       targets: targets,
-      cookie: cookie
+      cookie: cookie,
+      source_date_epoch: source_date_epoch
     ]
 
     copy_from(path, binding, @new)
@@ -381,5 +384,9 @@ defmodule Mix.Tasks.Nerves.New do
     catch
       _, _ -> false
     end
+  end
+
+  defp generate_source_date_epoch() do
+    DateTime.utc_now() |> DateTime.to_unix()
   end
 end
