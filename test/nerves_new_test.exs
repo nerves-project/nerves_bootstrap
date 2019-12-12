@@ -146,16 +146,17 @@ defmodule Nerves.NewTest do
     end)
   end
 
-  test "new project sets includes nerves_init_gadget", context do
+  test "new project sets includes nerves_pack", context do
     in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name])
 
       assert_file("#{@app_name}/mix.exs", fn file ->
-        assert file =~ ~r/:nerves_init_gadget/
+        assert file =~ ~r/:nerves_pack/
       end)
 
       assert_file("#{@app_name}/config/target.exs", fn file ->
-        assert file =~ ~r"nerves_init_gadget"
+        assert file =~ ~r"vintage_net"
+        assert file =~ ~r"mdns_lite"
         assert file =~ ~r"nerves_firmware_ssh"
       end)
     end)
@@ -163,14 +164,14 @@ defmodule Nerves.NewTest do
 
   test "new project without init gadget", context do
     in_tmp(context.test, fn ->
-      Mix.Tasks.Nerves.New.run([@app_name, "--no-init-gadget"])
+      Mix.Tasks.Nerves.New.run([@app_name, "--no-nerves-pack"])
 
       assert_file("#{@app_name}/mix.exs", fn file ->
-        refute file =~ ~r"nerves_init_gadget"
+        refute file =~ ~r"nerves_pack"
       end)
 
       assert_file("#{@app_name}/config/config.exs", fn file ->
-        refute file =~ ~r"nerves_init_gadget"
+        refute file =~ ~r"nerves_pack"
         refute file =~ ~r"nerves_firmware_ssh"
       end)
     end)

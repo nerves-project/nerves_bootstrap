@@ -17,7 +17,7 @@ config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 # involved with firmware updates.
 
 config :shoehorn,
-  init: [:nerves_runtime<%= if init_gadget? do %>, :nerves_init_gadget<% end %>],
+  init: [:nerves_runtime<%= if nerves_pack? do %>, :nerves_pack<% end %>],
   app: Mix.Project.config()[:app]
 
 # Use Ringlogger as the logger backend and remove :console.

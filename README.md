@@ -89,13 +89,13 @@ mix firmware.burn
 
 If you look at the generated `mix.exs`, you'll see how `MIX_TARGET` is used.
 
-The generated project includes [nerves_init_gadget](https://hex.pm/packages/nerves_init_gadget).
+The generated project includes [nerves_pack](https://hex.pm/packages/nerves_pack).
 This simplifies the initial configuration for many target platforms by including
 support for networking, firmware updates, and helpful utilities. If you want a
-minimal project that does not include `nerves_init_gadget`, pass `--no-init-gadget`:
+minimal project that does not include `nerves_pack`, pass `--no-nerves-pack`:
 
 ```bash
-mix nerves.new my_new_nerves_project --no-init-gadget
+mix nerves.new my_new_nerves_project --no-nerves-pack
 ```
 
 ### mix local.nerves
