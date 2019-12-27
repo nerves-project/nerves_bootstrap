@@ -98,6 +98,13 @@ minimal project that does not include `nerves_init_gadget`, pass `--no-init-gadg
 mix nerves.new my_new_nerves_project --no-init-gadget
 ```
 
+To use `nerves_pack` instead of `nerves_init_gadget` you can pass `--nerves-pack`.
+See [nerves_pack](https://hex.pm/packages/nerves_pack) for more information.
+
+```bash
+mix nerves.new my_new_nerves_project --nerves-pack
+```
+
 ### mix local.nerves
 
 This task checks [hex.pm](https://hex.pm/packages/nerves_bootstrap) for updates

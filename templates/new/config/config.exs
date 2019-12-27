@@ -22,7 +22,7 @@ config :nerves, source_date_epoch: "<%= source_date_epoch %>"
 # involved with firmware updates.
 
 config :shoehorn,
-  init: [:nerves_runtime<%= if init_gadget? do %>, :nerves_init_gadget<% end %>],
+  init: [:nerves_runtime<%= if init_gadget? do %>, :nerves_init_gadget<% end %><%= if nerves_pack? do %>, :nerves_pack<% end %>],
   app: Mix.Project.config()[:app]
 
 # Use Ringlogger as the logger backend and remove :console.

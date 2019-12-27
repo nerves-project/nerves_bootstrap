@@ -14,6 +14,7 @@ defmodule Mix.Tasks.Nerves.New do
   @shoehorn_vsn "0.6"
   @runtime_vsn "0.6"
   @ring_logger_vsn "0.6"
+  @nerves_pack_vsn "0.2"
   @init_gadget_vsn "0.4"
   @toolshed_vsn "0.2"
 
@@ -83,6 +84,9 @@ defmodule Mix.Tasks.Nerves.New do
   Generate a project without `nerves_init_gadget` support by passing
   `--no-init-gadget`.
 
+  Generate a project with `nerves_pack` instead of `nerves_init_gadget` by passing
+  `--nerves-pack`.
+
   ## Examples
 
       mix nerves.new blinky
@@ -102,6 +106,10 @@ defmodule Mix.Tasks.Nerves.New do
   Generate a project without `nerves_init_gadget`
 
       mix nerves.new blinky --no-init-gadget
+
+  Generate a project with `nerves_pack`
+
+      mix nerves.new blinky --nerves-pack
   """
 
   @switches [
@@ -110,6 +118,7 @@ defmodule Mix.Tasks.Nerves.New do
     target: :keep,
     cookie: :string,
     init_gadget: :boolean,
+    nerves_pack: :boolean,
     source_date_epoch: :integer
   ]
 
@@ -163,7 +172,13 @@ defmodule Mix.Tasks.Nerves.New do
 
     nerves_path = nerves_path(path, Keyword.get(opts, :dev, false))
     in_umbrella? = in_umbrella?(path)
-    init_gadget? = Keyword.get(opts, :init_gadget, true)
+
+    {nerves_pack?, init_gadget?} =
+      if Keyword.get(opts, :nerves_pack) do
+        {true, false}
+      else
+        {false, Keyword.get(opts, :init_gadget, true)}
+      end
 
     targets = Keyword.get_values(opts, :target)
     default_targets = Keyword.keys(@targets)
@@ -202,6 +217,8 @@ defmodule Mix.Tasks.Nerves.New do
       elixir_req: @elixir_vsn,
       nerves_dep: nerves_dep(nerves_path),
       in_umbrella: in_umbrella?,
+      nerves_pack?: nerves_pack?,
+      nerves_pack_vsn: @nerves_pack_vsn,
       init_gadget?: init_gadget?,
       init_gadget_vsn: @init_gadget_vsn,
       toolshed_vsn: @toolshed_vsn,
