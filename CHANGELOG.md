@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.7.0
+
+* Enhancements
+  * Improved support for reproducible builds in new projects by setting 
+    `source_date_epoch`. Existing projects can add this to the `:nerves` config.
+    
+    For example:
+
+    ```elixir
+    config :nerves, source_date_epoch: "1577467691"
+    ```
+
+  * Added support for generating new projects using `nerves_pack` instead
+    of `nerves_init_gadget`. See [nerves_pack](https://github.com/nerves-project/nerves_pack) for more information.
+    
+    For example:
+
+    ```bash
+    mix nerves.new my_app --nerves-pack
+    ```
+
 ## 1.6.3
 
 * Enhancements
