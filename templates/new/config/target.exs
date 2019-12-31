@@ -83,6 +83,14 @@ config :mdns_lite,
     }
   ]<% end %>
 
+# Use shoehorn to start the main application. See the shoehorn
+# docs for separating out critical OTP applications such as those
+# involved with firmware updates.
+
+config :shoehorn,
+  init: [:nerves_runtime<%= if init_gadget? do %>, :nerves_init_gadget<% end %><%= if nerves_pack? do %>, :nerves_pack<% end %>],
+  app: Mix.Project.config()[:app]
+
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 # Uncomment to use target specific configurations

@@ -17,14 +17,6 @@ config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 
 config :nerves, source_date_epoch: "<%= source_date_epoch %>"
 
-# Use shoehorn to start the main application. See the shoehorn
-# docs for separating out critical OTP applications such as those
-# involved with firmware updates.
-
-config :shoehorn,
-  init: [:nerves_runtime<%= if init_gadget? do %>, :nerves_init_gadget<% end %><%= if nerves_pack? do %>, :nerves_pack<% end %>],
-  app: Mix.Project.config()[:app]
-
 # Use Ringlogger as the logger backend and remove :console.
 # See https://hexdocs.pm/ring_logger/readme.html for more information on
 # configuring ring_logger.
