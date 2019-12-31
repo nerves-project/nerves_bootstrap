@@ -83,6 +83,12 @@ config :mdns_lite,
     }
   ]<% end %>
 
+# Nerves Runtime can enumerate hardware devices and send notifications via
+# SystemRegistry. This slows down startup and not many programs make use of
+# this feature.
+
+config :nerves_runtime, :kernel, use_system_registry: false
+
 # Use shoehorn to start the main application. See the shoehorn
 # docs for separating out critical OTP applications such as those
 # involved with firmware updates.
