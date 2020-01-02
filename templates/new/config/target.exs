@@ -1,4 +1,18 @@
-import Config<%= if init_gadget? or nerves_pack? do %>
+import Config
+
+# Use shoehorn to start the main application. See the shoehorn
+# docs for separating out critical OTP applications such as those
+# involved with firmware updates.
+
+config :shoehorn,
+  init: [:nerves_runtime<%= if init_gadget? do %>, :nerves_init_gadget<% end %><%= if nerves_pack? do %>, :nerves_pack<% end %>],
+  app: Mix.Project.config()[:app]
+
+# Nerves Runtime can enumerate hardware devices and send notifications via
+# SystemRegistry. This slows down startup and not many programs make use of
+# this feature.
+
+config :nerves_runtime, :kernel, use_system_registry: false<%= if init_gadget? or nerves_pack? do %>
 
 # Authorize the device to receive firmware using your public key.
 # See https://hexdocs.pm/nerves_firmware_ssh/readme.html for more information
@@ -82,20 +96,6 @@ config :mdns_lite,
       port: 4369
     }
   ]<% end %>
-
-# Nerves Runtime can enumerate hardware devices and send notifications via
-# SystemRegistry. This slows down startup and not many programs make use of
-# this feature.
-
-config :nerves_runtime, :kernel, use_system_registry: false
-
-# Use shoehorn to start the main application. See the shoehorn
-# docs for separating out critical OTP applications such as those
-# involved with firmware updates.
-
-config :shoehorn,
-  init: [:nerves_runtime<%= if init_gadget? do %>, :nerves_init_gadget<% end %><%= if nerves_pack? do %>, :nerves_pack<% end %>],
-  app: Mix.Project.config()[:app]
 
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
