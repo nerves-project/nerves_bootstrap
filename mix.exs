@@ -92,9 +92,11 @@ defmodule Nerves.Bootstrap.Mixfile do
   end
 
   defp archives_path do
-    if function_exported?(Mix.Local, :path_for, 1),
-      do: Mix.Local.path_for(:archive),
-      else: Mix.Local.archives_path()
+    cond do
+      function_exported?(Mix, :path_for, 1) -> apply(Mix, :path_for, [:archives])
+      function_exported?(Mix.Local, :path_for, 1) -> apply(Mix.Local, :path_for, [:archive])
+      true -> Mix.Local.archives_path()
+    end
   end
 
   defp archive_ebin(archive) do
