@@ -72,12 +72,17 @@ defmodule Nerves.NewTest do
     end)
   end
 
-  test "new project provides a default cookie", context do
+  test "new project provides a default random cookie", context do
     in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name])
 
       assert_file("#{@app_name}/mix.exs", fn file ->
-        assert file =~ "cookie: \"\#{@app}_cookie\""
+        [_, capture] =
+          Regex.run(~r/cookie: System\.get_env\(\"RELEASE_COOKIE\"\)\ \|\|\ \"([^"]+)/, file)
+
+        assert {:ok, data} = Base.decode32(capture)
+
+        assert 32 == byte_size(data)
       end)
     end)
   end

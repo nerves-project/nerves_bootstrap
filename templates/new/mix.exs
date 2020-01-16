@@ -63,7 +63,7 @@ defmodule <%= app_module %>.MixProject do
   def release do
     [
       overwrite: true,
-      cookie: <%= if cookie do %>"<%= cookie %>"<% else %>"#{@app}_cookie"<% end %>,
+      cookie: <%= if cookie do %>"<%= cookie %>"<% else %>System.get_env("RELEASE_COOKIE") || "<%= Base.encode32(:crypto.strong_rand_bytes(32)) %>"<% end %>,
       include_erts: &Nerves.Release.erts/0,
       steps: [&Nerves.Release.init/1, :assemble],
       strip_beams: Mix.env() == :prod
