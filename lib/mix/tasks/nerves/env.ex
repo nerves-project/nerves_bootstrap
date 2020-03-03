@@ -22,7 +22,7 @@ defmodule Mix.Tasks.Nerves.Env do
       System.delete_env("NERVES_ENV_DISABLED")
     end
 
-    unless Code.ensure_compiled?(Nerves.Env) do
+    unless Code.ensure_loaded?(Nerves.Env) do
       Mix.Tasks.Deps.Loadpaths.run(["--no-compile"])
 
       if distillery?() do
