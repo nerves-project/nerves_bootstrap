@@ -1,11 +1,16 @@
 # Changelog
 
+## 1.7.1
+
+* Enhancements
+  * Updated Elixir 1.10 deprecated function calls.
+
 ## 1.7.0
 
 * Enhancements
-  * Improved support for reproducible builds in new projects by setting 
+  * Improved support for reproducible builds in new projects by setting
     `source_date_epoch`. Existing projects can add this to the `:nerves` config.
-    
+
     For example:
 
     ```elixir
@@ -14,7 +19,7 @@
 
   * Added support for generating new projects using `nerves_pack` instead
     of `nerves_init_gadget`. See [nerves_pack](https://github.com/nerves-project/nerves_pack) for more information.
-    
+
     For example:
 
     ```bash
