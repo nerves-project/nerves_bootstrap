@@ -49,8 +49,7 @@ defmodule <%= app_module %>.MixProject do
       {:toolshed, "~> <%= toolshed_vsn %>"},
 
       # Dependencies for all targets except :host
-      {:nerves_runtime, "~> <%= runtime_vsn %>", targets: @all_targets},<%= if init_gadget? do %>
-      {:nerves_init_gadget, "~> <%= init_gadget_vsn %>", targets: @all_targets},<% end %><%= if nerves_pack? do %>
+      {:nerves_runtime, "~> <%= runtime_vsn %>", targets: @all_targets},<%= if nerves_pack? do %>
       {:nerves_pack, "~> <%= nerves_pack_vsn %>", targets: @all_targets},<% end %>
 
       # Dependencies for specific targets

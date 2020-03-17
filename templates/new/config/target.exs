@@ -5,14 +5,14 @@ import Config
 # involved with firmware updates.
 
 config :shoehorn,
-  init: [:nerves_runtime<%= if init_gadget? do %>, :nerves_init_gadget<% end %><%= if nerves_pack? do %>, :nerves_pack<% end %>],
+  init: [:nerves_runtime<%= if nerves_pack? do %>, :nerves_pack<% end %>],
   app: Mix.Project.config()[:app]
 
 # Nerves Runtime can enumerate hardware devices and send notifications via
 # SystemRegistry. This slows down startup and not many programs make use of
 # this feature.
 
-config :nerves_runtime, :kernel, use_system_registry: false<%= if init_gadget? or nerves_pack? do %>
+config :nerves_runtime, :kernel, use_system_registry: false<%= if nerves_pack? do %>
 
 # Authorize the device to receive firmware using your public key.
 # See https://hexdocs.pm/nerves_firmware_ssh/readme.html for more information
@@ -35,21 +35,7 @@ if keys == [],
     """)
 
 config :nerves_firmware_ssh,
-  authorized_keys: Enum.map(keys, &File.read!/1)<% end %><%= if init_gadget? do %>
-
-# Configure nerves_init_gadget.
-# See https://hexdocs.pm/nerves_init_gadget/readme.html for more information.
-
-# Setting the node_name will enable Erlang Distribution.
-# Only enable this for prod if you understand the risks.
-node_name = if Mix.env() != :prod, do: "<%= app_name %>"
-
-config :nerves_init_gadget,
-  ifname: "usb0",
-  address_method: :dhcpd,
-  mdns_domain: "nerves.local",
-  node_name: node_name,
-  node_host: :mdns_domain<% end %><%= if nerves_pack? do %>
+  authorized_keys: Enum.map(keys, &File.read!/1)
 
 # Configure the network using vintage_net
 # See https://github.com/nerves-networking/vintage_net for more information
