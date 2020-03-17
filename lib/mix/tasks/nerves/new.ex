@@ -15,7 +15,6 @@ defmodule Mix.Tasks.Nerves.New do
   @runtime_vsn "0.6"
   @ring_logger_vsn "0.6"
   @nerves_pack_vsn "0.2"
-  @init_gadget_vsn "0.4"
   @toolshed_vsn "0.2"
 
   @elixir_vsn "~> 1.9"
@@ -81,11 +80,8 @@ defmodule Mix.Tasks.Nerves.New do
   A `--cookie` options can be given to set the Erlang distribution
   cookie in `vm.args`. This defaults to a randomly generated string.
 
-  Generate a project without `nerves_init_gadget` support by passing
-  `--no-init-gadget`.
-
-  Generate a project with `nerves_pack` instead of `nerves_init_gadget` by passing
-  `--nerves-pack`.
+  Generate a project without `nerves_pack` support by passing
+  `--no-nerves-pack`.
 
   ## Examples
 
@@ -103,13 +99,9 @@ defmodule Mix.Tasks.Nerves.New do
 
       mix nerves.new blinky --target rpi3 --target rpi0
 
-  Generate a project without `nerves_init_gadget`
+  Generate a project without `nerves_pack`
 
-      mix nerves.new blinky --no-init-gadget
-
-  Generate a project with `nerves_pack`
-
-      mix nerves.new blinky --nerves-pack
+      mix nerves.new blinky --no-nerves-pack
   """
 
   @switches [
@@ -117,7 +109,6 @@ defmodule Mix.Tasks.Nerves.New do
     module: :string,
     target: :keep,
     cookie: :string,
-    init_gadget: :boolean,
     nerves_pack: :boolean,
     source_date_epoch: :integer
   ]
@@ -172,13 +163,7 @@ defmodule Mix.Tasks.Nerves.New do
 
     nerves_path = nerves_path(path, Keyword.get(opts, :dev, false))
     in_umbrella? = in_umbrella?(path)
-
-    {nerves_pack?, init_gadget?} =
-      if Keyword.get(opts, :nerves_pack) do
-        {true, false}
-      else
-        {false, Keyword.get(opts, :init_gadget, true)}
-      end
+    nerves_pack? = Keyword.get(opts, :nerves_pack, true)
 
     targets = Keyword.get_values(opts, :target)
     default_targets = Keyword.keys(@targets)
@@ -219,8 +204,6 @@ defmodule Mix.Tasks.Nerves.New do
       in_umbrella: in_umbrella?,
       nerves_pack?: nerves_pack?,
       nerves_pack_vsn: @nerves_pack_vsn,
-      init_gadget?: init_gadget?,
-      init_gadget_vsn: @init_gadget_vsn,
       toolshed_vsn: @toolshed_vsn,
       targets: targets,
       cookie: cookie,
