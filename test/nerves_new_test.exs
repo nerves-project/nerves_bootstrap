@@ -162,6 +162,22 @@ defmodule Nerves.NewTest do
     end)
   end
 
+  test "new project with implicit nerves_pack", context do
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name])
+
+      assert_file("#{@app_name}/mix.exs", fn file ->
+        assert file =~ ~r/:nerves_pack/
+      end)
+
+      assert_file("#{@app_name}/config/target.exs", fn file ->
+        assert file =~ ~r"nerves_firmware_ssh"
+        assert file =~ ~r"vintage_net"
+        assert file =~ ~r"mdns_lite"
+      end)
+    end)
+  end
+
   test "new project without nerves pack", context do
     in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name, "--no-nerves-pack"])
