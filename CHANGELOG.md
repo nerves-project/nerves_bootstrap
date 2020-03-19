@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.8.0
+
+* New project generator updates
+  * Bump Nerves to 1.6 and update systems.
+  * Default to use `--nerves-pack`.
+  * Remove options for `--init-gadget`.
+
 ## 1.7.1
 
 * Enhancements
