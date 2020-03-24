@@ -1,4 +1,6 @@
 defmodule Nerves.Bootstrap.Aliases do
+  @moduledoc false
+
   def init() do
     with %{} <- Mix.ProjectStack.peek(),
          %{name: name, config: config, file: file} <- Mix.ProjectStack.pop(),
