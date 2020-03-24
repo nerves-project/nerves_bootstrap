@@ -1,3 +1,6 @@
+otp_22_image: &otp_22_image
+  image: erlang:22.3
+
 install_elixir: &install_elixir
   run:
     name: Install Elixir
@@ -6,21 +9,29 @@ install_elixir: &install_elixir
       unzip -d /usr/local/elixir v$ELIXIR_VERSION.zip
       echo 'export PATH=/usr/local/elixir/bin:$PATH' >> $BASH_ENV
 
+install_hex_rebar: &install_hex_rebar
+  run:
+    name: Install hex and rebar
+    command: |
+      mix local.hex --force
+      mix local.rebar --force
+
+defaults: &defaults
+  working_directory: ~/repo
+
 version: 2
 jobs:
-  build:
+  build_elixir_1_10_otp_22:
     docker:
-      - image: erlang:22.0.2
-        environment:
-          ELIXIR_VERSION: 1.9.0-otp-22
-          LC_ALL: C.UTF-8
-    working_directory: ~/repo
+      - <<: *otp_22_image
     environment:
-      MIX_ENV: test
+      ELIXIR_VERSION: 1.10.2-otp-22
+      LC_ALL: C.UTF-8
+    <<: *defaults
     steps:
       - checkout
       - <<: *install_elixir
-      - run: mix local.hex --force && mix local.rebar --force
+      - <<: *install_hex_rebar
       - run: mix deps.get --only test
       - run: mix test
       - run: mix archive.build
@@ -29,3 +40,27 @@ jobs:
       - run: mix docs
       - run: mix hex.build
 
+  build_elixir_1_9_otp_22:
+    docker:
+      - <<: *otp_22_image
+    environment:
+      ELIXIR_VERSION: 1.9.4-otp-22
+      LC_ALL: C.UTF-8
+    <<: *defaults
+    steps:
+      - checkout
+      - <<: *install_elixir
+      - <<: *install_hex_rebar
+      - run: mix deps.get --only test
+      - run: mix test
+      - run: mix archive.build
+      - run: mix archive.install
+
+workflows:
+  version: 2
+  build_test:
+    jobs:
+      - build_elixir_1_10_otp_22:
+          context: org-global
+      - build_elixir_1_9_otp_22:
+          context: org-global
