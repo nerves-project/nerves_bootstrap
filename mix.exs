@@ -1,4 +1,4 @@
-defmodule Nerves.Bootstrap.Mixfile do
+defmodule Nerves.Bootstrap.MixProject do
   use Mix.Project
 
   @version "1.8.0"
