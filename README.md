@@ -127,7 +127,7 @@ documentation for usage.
 ## Building systems and toolchains
 
 Nerves expects systems and toolchains to include a URL to a precompiled build
-artifact. Building these dependences can take hours in some cases, so Nerves
+artifact. Building these dependencies can take hours in some cases, so Nerves
 will not automatically compile them. It can do this, though, and depending on
 your computer, it may even start up Docker to do the builds.
 

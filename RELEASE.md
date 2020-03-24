@@ -7,7 +7,7 @@
     `nerves_runtime`, and `nerves_bootstrap`
 1. Review commits since previous release and make sure `CHANGELOG.md` is
     accurate
-1. Obtain review approval from at least one other Nerves team menber
+1. Obtain review approval from at least one other Nerves team member
 1. Merge the release PR into `master` (with `--no-ff`) and tag the merge commit
    as `vX.Y.Z`
 1. Run `mix archive.build` to build the archive.
