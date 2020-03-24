@@ -208,7 +208,6 @@ with Elixir 1.7 and Distillery 2.0.
   * New project generator moves the dependency `shoehorn` to be included for
     both `host` and `target` environments.
 
-
 ## v1.0.0-rc.3
 
 * Updates
@@ -242,7 +241,7 @@ with Elixir 1.7 and Distillery 2.0.
 
 Nerves no longer automatically compiles any `nerves_package` that is missing
 it's pre-compiled artifact. This turned out to rarely be desired and caused
-unexpectantly long compilation times when things like the Linux kernel or gcc
+unexpectedly long compilation times when things like the Linux kernel or gcc
 got compiled.
 
 When a pre-compiled artifact is missing, Nerves will now tell you what your
@@ -264,7 +263,7 @@ the desired package in your top level project:
 
 The v0.7.x and earlier releases only required two aliases in your `mix.exs` to
 pull in the Nerves enhancements to `mix.exs`. This releases adds more aliases.
-Rather than requiring your `mix.exs` file to be updated if the Nerves aliase
+Rather than requiring your `mix.exs` file to be updated if the Nerves alias
 hooks change in the future, we recommend updating your `mix.exs` as follows:
 
 ```elixir
