@@ -4,7 +4,9 @@ defmodule Mix.Tasks.Nerves.Precompile do
 
   @moduledoc false
 
-  def run(_args) do
+  @switches [loadpaths: :boolean]
+
+  def run(args) do
     debug_info("Precompile Start")
 
     # Note: We have to directly use the environment variable here instead of
@@ -14,6 +16,8 @@ defmodule Mix.Tasks.Nerves.Precompile do
     # nerves_bootstrap.
     unless System.get_env("NERVES_ENV_DISABLED") do
       System.put_env("NERVES_PRECOMPILE", "1")
+
+      {opts, _, _} = OptionParser.parse(args, switches: @switches)
 
       Mix.Tasks.Nerves.Env.run([])
 
@@ -30,7 +34,7 @@ defmodule Mix.Tasks.Nerves.Precompile do
 
       System.put_env("NERVES_PRECOMPILE", "0")
 
-      Mix.Task.rerun("nerves.loadpaths")
+      if opts[:loadpaths] != false, do: Mix.Task.rerun("nerves.loadpaths")
     end
 
     debug_info("Precompile End")
@@ -84,7 +88,7 @@ defmodule Mix.Tasks.Nerves.Precompile do
         `$NERVES_DL_DIR`.
 
         If you are making modifications to one of the packages or want to force
-        local compilation, add `nerves_compile: true` to the dependency. For
+        local compilation, add `nerves: [compile: true]` to the dependency. For
         example:
 
           {:#{example.app}, "~> #{example.version}", nerves: [compile: true]}
