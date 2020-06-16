@@ -220,4 +220,14 @@ defmodule Nerves.NewTest do
       end)
     end)
   end
+
+  test "new project generates sample erlinit config", context do
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name])
+
+      assert_file("#{@app_name}/config/target.exs", fn file ->
+        assert file =~ ~r"erlinit"
+      end)
+    end)
+  end
 end

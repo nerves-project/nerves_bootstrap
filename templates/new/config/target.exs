@@ -14,6 +14,15 @@ config :shoehorn,
 
 config :nerves_runtime, :kernel, use_system_registry: false<%= if nerves_pack? do %>
 
+# Erlinit can be configured without a rootfs_overlay. See
+# https://github.com/nerves-project/erlinit/ for more information on
+# configuring erlinit.
+
+config :nerves,
+  erlinit: [
+    hostname_pattern: "nerves-%s"
+  ]
+
 # Authorize the device to receive firmware using your public key.
 # See https://hexdocs.pm/nerves_firmware_ssh/readme.html for more information
 # on configuring nerves_firmware_ssh.
