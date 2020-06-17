@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.8.1
+
+* New project generator updates
+  * Update systems to latest versions.
+  * Add an example for overriding erlinit options using Mix config.
+
 ## 1.8.0
 
 * New project generator updates
