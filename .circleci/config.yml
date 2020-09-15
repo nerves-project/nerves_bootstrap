@@ -32,7 +32,7 @@ jobs:
       - checkout
       - <<: *install_elixir
       - <<: *install_hex_rebar
-      - run: mix deps.get --only test
+      - run: mix deps.get
       - run: mix test
       - run: mix archive.build
       - run: mix archive.install
@@ -51,7 +51,7 @@ jobs:
       - checkout
       - <<: *install_elixir
       - <<: *install_hex_rebar
-      - run: mix deps.get --only test
+      - run: mix deps.get
       - run: mix test
       - run: mix archive.build
       - run: mix archive.install

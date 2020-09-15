@@ -14,7 +14,12 @@ defmodule Nerves.Bootstrap.MixProject do
       docs: docs(),
       description: description(),
       package: package(),
-      deps: deps()
+      deps: deps(),
+      preferred_cli_env: %{
+        docs: :docs,
+        "hex.publish": :docs,
+        "hex.build": :docs
+      }
     ]
   end
 
@@ -38,7 +43,7 @@ defmodule Nerves.Bootstrap.MixProject do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.19", only: [:dev, :test], runtime: false}
+      {:ex_doc, "~> 0.22", only: :docs, runtime: false}
     ]
   end
 
