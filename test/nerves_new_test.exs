@@ -155,7 +155,7 @@ defmodule Nerves.NewTest do
       end)
 
       assert_file("#{@app_name}/config/target.exs", fn file ->
-        assert file =~ ~r"nerves_firmware_ssh"
+        assert file =~ ~r"nerves_ssh"
         assert file =~ ~r"vintage_net"
         assert file =~ ~r"mdns_lite"
       end)
@@ -171,7 +171,7 @@ defmodule Nerves.NewTest do
       end)
 
       assert_file("#{@app_name}/config/target.exs", fn file ->
-        assert file =~ ~r"nerves_firmware_ssh"
+        assert file =~ ~r"nerves_ssh"
         assert file =~ ~r"vintage_net"
         assert file =~ ~r"mdns_lite"
       end)
@@ -188,7 +188,7 @@ defmodule Nerves.NewTest do
 
       assert_file("#{@app_name}/config/config.exs", fn file ->
         refute file =~ ~r"nerves_pack"
-        refute file =~ ~r"nerves_firmware_ssh"
+        refute file =~ ~r"nerves_ssh"
       end)
     end)
   end
