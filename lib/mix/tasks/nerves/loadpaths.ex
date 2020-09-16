@@ -18,7 +18,7 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
             env_info()
           rescue
             e ->
-              reraise e, System.stacktrace()
+              reraise e, __STACKTRACE__
           end
 
         false ->

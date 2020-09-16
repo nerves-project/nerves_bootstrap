@@ -55,7 +55,7 @@ defmodule Mix.Tasks.Nerves.System.Shell do
             Mix.raise(@no_nerves_dep_error)
 
           _ ->
-            reraise(e, System.stacktrace())
+            reraise(e, __STACKTRACE__)
         end
     end
 
