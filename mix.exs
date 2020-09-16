@@ -48,7 +48,6 @@ defmodule Nerves.Bootstrap.MixProject do
 
   defp package do
     [
-      maintainers: ["Justin Schneck", "Frank Hunleth", "Greg Mefford"],
       files: ["lib", "LICENSE", "mix.exs", "README.md", "test", "templates"],
       licenses: ["Apache 2.0"],
       links: %{"GitHub" => @source_url}
