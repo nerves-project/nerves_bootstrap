@@ -25,7 +25,7 @@ defmodule Nerves.Bootstrap.MixProject do
 
   def application do
     [
-      extra_applications: [:hex, :eex],
+      extra_applications: [],
       mod: {Nerves.Bootstrap, []}
     ]
   end
