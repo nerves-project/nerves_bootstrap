@@ -11,11 +11,11 @@ defmodule Mix.Tasks.Nerves.New do
                           )
   @nerves_vsn "1.6.3"
   @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
-  @shoehorn_vsn "0.6"
-  @runtime_vsn "0.11"
-  @ring_logger_vsn "0.8"
-  @nerves_pack_vsn "0.2"
-  @toolshed_vsn "0.2"
+  @shoehorn_vsn "0.6.0"
+  @runtime_vsn "0.11.3"
+  @ring_logger_vsn "0.8.1"
+  @nerves_pack_vsn "0.3.3"
+  @toolshed_vsn "0.2.13"
 
   @elixir_vsn "~> 1.9"
   @shortdoc "Creates a new Nerves application"
