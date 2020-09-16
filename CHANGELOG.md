@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.9.0
+
+* New project generator updates
+  * Bump [NervesPack to 0.4](https://hexdocs.pm/nerves_pack/changelog.html#v0-4-0) which drops `:nerves_firwmare_ssh` in
+    favor of `:nerves_ssh` and `:ssh_subsystem_fwup` for access and updates.
+  * bump Nerves to 1.6.3
+  * bump NervesRuntime to 0.11
+  * bump RingLogger to 0.8
+
 ## 1.8.1
 
 * New project generator updates
