@@ -48,7 +48,7 @@ defmodule Nerves.Bootstrap.MixProject do
 
   defp package do
     [
-      files: ["lib", "LICENSE", "mix.exs", "README.md", "test", "templates"],
+      files: ["CHANGELOG.md", "lib", "LICENSE", "mix.exs", "README.md", "test", "templates"],
       licenses: ["Apache 2.0"],
       links: %{"GitHub" => @source_url}
     ]
@@ -56,7 +56,7 @@ defmodule Nerves.Bootstrap.MixProject do
 
   defp docs do
     [
-      extras: ["README.md"],
+      extras: ["README.md", "CHANGELOG.md"],
       main: "readme",
       source_ref: "v#{@version}",
       source_url: @source_url
