@@ -17,18 +17,10 @@ defmodule <%= app_module %>.MixProject do
       lockfile: "../../mix.lock",<% end %>
       start_permanent: Mix.env() == :prod,
       build_embedded: true,
-      aliases: [loadconfig: [&bootstrap/1]],
       deps: deps(),
       releases: [{@app, release()}],
       preferred_cli_target: [run: :host, test: :host]
     ]
-  end
-
-  # Starting nerves_bootstrap adds the required aliases to Mix.Project.config()
-  # Aliases are only added if MIX_TARGET is set.
-  def bootstrap(args) do
-    Application.start(:nerves_bootstrap)
-    Mix.Task.run("loadconfig", args)
   end
 
   # Run "mix help compile.app" to learn about applications.
