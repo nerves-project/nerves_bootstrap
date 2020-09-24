@@ -53,9 +53,7 @@ defmodule <%= app_module %>.MixProject do
       {:nerves_pack, "~> <%= nerves_pack_vsn %>", targets: @all_targets},<% end %>
 
       # Dependencies for specific targets
-      <%= for {target, vsn} <- targets do %>
-      {:<%= "nerves_system_#{target}" %>, "~> <%= vsn %>", runtime: false, targets: :<%= target %>},
-      <% end %>
+<%= Enum.map_join(targets, ",\n", &~s|      {:nerves_system_#{elem(&1, 0)}, "~> #{elem(&1, 1)}", runtime: false, targets: :#{elem(&1, 0)}}|) %>
     ]
   end
 
