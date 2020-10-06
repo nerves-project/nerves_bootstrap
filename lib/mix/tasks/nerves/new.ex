@@ -215,15 +215,11 @@ defmodule Mix.Tasks.Nerves.New do
     install? = Mix.shell().yes?("\nFetch and install dependencies?")
 
     File.cd!(path, fn ->
-      extra =
-        if install? && Code.ensure_loaded?(Hex) do
-          cmd("mix deps.get")
-          []
-        else
-          ["  $ mix deps.get"]
-        end
+      if install? && Code.ensure_loaded?(Hex) do
+        cmd("mix deps.get")
+      end
 
-      print_mix_info(path, extra)
+      print_mix_info(path)
     end)
   end
 
@@ -255,8 +251,8 @@ defmodule Mix.Tasks.Nerves.New do
     end
   end
 
-  defp print_mix_info(path, extra) do
-    command = ["$ cd #{path}"] ++ extra
+  defp print_mix_info(path) do
+    command = ["$ cd #{path}"]
 
     Mix.shell().info("""
     Your Nerves project was created successfully.
