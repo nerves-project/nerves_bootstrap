@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.10.0
+
+* New project generator updates
+  * Added `osd32mp1` to default targets in new project generator.
+    See [nerves_system_osd32mp1](https://github.com/nerves-project/nerves_system_osd32mp1) for system information.
+  * Update formatting to more closely match Elixir 1.11's new project generator
+  * Simplify the Nerves/Mix integration (now only an update to `config.exs`)
+  * Bump Nerves to `~> 1.7.0`
+  * Bump Shoehorn to `~> 0.7.0`
+  * Disable busy waiting in the BEAM by default.
+
 ## 1.9.0
 
 * New project generator updates
