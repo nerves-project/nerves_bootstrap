@@ -1,10 +1,9 @@
 IO.puts("""
-
-\e[0m\e[1;34m.NNNa.    \e[36mjAA,\e[0m
-\e[1;34m.M|\e[0m \e[1;34m.TMa.\e[0m  \e[1;36m.p:\e[0m
-\e[1;34m.M|\e[36m W+.\e[34m.TM`\e[36m.p:\e[0m   N  E  R  V  E  S
-\e[1;34m,M|\e[0m  \e[1;36m.7Wa,\e[0m \e[1;36m.p:
-\e[34m,MME\e[0m     \e[1;36m7TTY'\e[0m
+\e[34m████▄▖    \e[36m▐███
+\e[34m█▌  ▀▜█▙▄▖  \e[36m▐█
+\e[34m█▌ \e[36m▐█▄▖\e[34m▝▀█▌ \e[36m▐█   \e[39mN  E  R  V  E  S
+\e[34m█▌   \e[36m▝▀█▙▄▖ ▐█
+\e[34m███▌    \e[36m▀▜████\e[0m
 """)
 
 # Add Toolshed helpers to the IEx session
