@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.10.1
+
+* New project generator updates
+  * Add `config/host.exs` so that there's a more obvious location for host-only
+    configuration
+  * Add `rootfs_overlay/etc/iex.exs` to the list of files to format with `mix
+    format`
+
 ## 1.10.0
 
 * New project generator updates
