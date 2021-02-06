@@ -57,7 +57,7 @@ defmodule <%= app_module %>.MixProject do
 <% end %>      cookie: <%= if cookie do %>"<%= cookie %>"<% else %>"#{@app}_cookie"<% end %>,
       include_erts: &Nerves.Release.erts/0,
       steps: [&Nerves.Release.init/1, :assemble],
-      strip_beams: Mix.env() == :prod
+      strip_beams: Mix.env() == :prod or [keep: ["Docs"]]
     ]
   end
 end
