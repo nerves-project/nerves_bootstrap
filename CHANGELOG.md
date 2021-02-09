@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.10.2
+
+* New project generator updates
+  * Strip everything but docs with `MIX_ENV=dev`
+
+    Since most users don't use debug symbols, strip them out of the beams
+    even for dev builds. This keeps docs, though. Here's are some firmware
+    sizes to see the effect:
+
+    circuits_quickstart_unstripped.fw 43597619
+    circuits_quickstart_docs.fw 33595640
+    circuits_quickstart_stripped.fw 33016963
+
+    As you can see, this saves ~10 MB and retains docs.
+
 ## 1.10.1
 
 * New project generator updates
