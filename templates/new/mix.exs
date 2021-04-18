@@ -45,6 +45,10 @@ defmodule <%= app_module %>.MixProject do
       {:nerves_pack, "~> <%= nerves_pack_vsn %>", targets: @all_targets},<% end %>
 
       # Dependencies for specific targets
+      # NOTE: It's generally low risk and recommended to follow minor version
+      # bumps to Nerves systems. Since these include Linux kernel and Erlang
+      # version updates, please review their release notes in case
+      # changes to your application are needed.
 <%= Enum.map_join(targets, ",\n", &~s|      {:nerves_system_#{elem(&1, 0)}, "~> #{elem(&1, 1)}", runtime: false, targets: :#{elem(&1, 0)}}|) %>
     ]
   end
