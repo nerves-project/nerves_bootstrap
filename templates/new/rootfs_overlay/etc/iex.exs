@@ -22,5 +22,7 @@ if RingLogger in Application.get_env(:logger, :backends, []) do
   """)
 end
 
-# Print information about the running system
-IO.puts("") && uname()
+if Application.ensure_all_started(:nerves_runtime) do
+  # Print information about the running system
+  IO.puts(nil) && uname()
+end
