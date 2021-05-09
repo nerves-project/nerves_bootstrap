@@ -21,3 +21,6 @@ if RingLogger in Application.get_env(:logger, :backends, []) do
     RingLogger.next
   """)
 end
+
+# Print information about the running system
+IO.puts("") && uname()
