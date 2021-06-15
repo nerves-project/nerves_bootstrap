@@ -11,9 +11,9 @@ install_hex_rebar: &install_hex_rebar
       mix local.rebar --force
 
 jobs:
-  build_elixir_1_11_otp_23:
+  build_elixir_1_12_otp_24:
     docker:
-      - image: hexpm/elixir:1.11.2-erlang-23.1.2-alpine-3.12.1
+      - image: hexpm/elixir:1.12.1-erlang-24.0.2-alpine-3.13.3
     <<: *defaults
     steps:
       - checkout
@@ -25,6 +25,18 @@ jobs:
       - run: mix format --check-formatted
       - run: mix docs
       - run: mix hex.build
+
+  build_elixir_1_11_otp_23:
+    docker:
+      - image: hexpm/elixir:1.11.2-erlang-23.1.2-alpine-3.12.1
+    <<: *defaults
+    steps:
+      - checkout
+      - <<: *install_hex_rebar
+      - run: mix deps.get
+      - run: mix test
+      - run: mix archive.build
+      - run: mix archive.install
 
   build_elixir_1_10_otp_23:
     docker:
@@ -54,9 +66,7 @@ workflows:
   version: 2
   build_test:
     jobs:
-      - build_elixir_1_11_otp_23:
-          context: org-global
-      - build_elixir_1_10_otp_23:
-          context: org-global
-      - build_elixir_1_9_otp_22:
-          context: org-global
+      - build_elixir_1_12_otp_24
+      - build_elixir_1_11_otp_23
+      - build_elixir_1_10_otp_23
+      - build_elixir_1_9_otp_22
