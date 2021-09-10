@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.10.3
+
+* New project generator updates
+  * Update dependency versions to latest
+  * Add NervesMOTD to the `iex.exs`
+  * Add more comments to commonly edited locations in the `mix.exs`
+
 ## 1.10.2
 
 * New project generator updates
