@@ -21,15 +21,15 @@ defmodule Mix.Tasks.Nerves.New do
   @shortdoc "Creates a new Nerves application"
 
   @targets [
-    {:rpi, "1.15.0"},
-    {:rpi0, "1.15.0"},
-    {:rpi2, "1.15.0"},
-    {:rpi3, "1.15.0"},
-    {:rpi3a, "1.15.0"},
-    {:rpi4, "1.15.0"},
-    {:bbb, "2.10.0"},
-    {:osd32mp1, "0.6.0"},
-    {:x86_64, "1.15.0"}
+    {:rpi, "1.16.0"},
+    {:rpi0, "1.16.0"},
+    {:rpi2, "1.16.0"},
+    {:rpi3, "1.16.0"},
+    {:rpi3a, "1.16.0"},
+    {:rpi4, "1.16.0"},
+    {:bbb, "2.11.0"},
+    {:osd32mp1, "0.7.0"},
+    {:x86_64, "1.16.0"}
   ]
 
   @new [
