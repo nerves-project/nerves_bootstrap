@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.4
+
+* New project generator updates
+  * Update dependency versions to latest
+
 ## 1.10.3
 
 * New project generator updates
