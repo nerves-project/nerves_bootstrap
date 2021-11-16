@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.5
+
+* New project generator updates
+  * Remove old reference to Mix.Config.
+
 ## 1.10.4
 
 * New project generator updates
