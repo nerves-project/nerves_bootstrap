@@ -278,7 +278,7 @@ defmodule Mix.Tasks.Nerves.New do
 
     If your target boots up using an SDCard (like the Raspberry Pi 3),
     then insert an SDCard into a reader on your computer and run:
-      $ mix firmware.burn
+      $ mix burn
 
     Plug the SDCard into the target and power it up. See target documentation
     above for more information and other targets.

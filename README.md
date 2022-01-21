@@ -84,7 +84,7 @@ export `MIX_TARGET`. Here's a common build script:
 export MIX_TARGET=rpi3
 mix deps.get
 mix firmware
-mix firmware.burn
+mix burn
 ```
 
 If you look at the generated `mix.exs`, you'll see how `MIX_TARGET` is used.
