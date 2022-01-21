@@ -21,7 +21,7 @@ To start your Nerves app:
     `MIX_TARGET=my_target`. For example, `MIX_TARGET=rpi3`
   * Install dependencies with `mix deps.get`
   * Create firmware with `mix firmware`
-  * Burn to an SD card with `mix firmware.burn`
+  * Burn to an SD card with `mix burn`
 
 ## Learn more
 
