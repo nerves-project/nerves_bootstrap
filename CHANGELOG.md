@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.10.6 - 2022-02-23
+
+* New project generator updates
+  * Update deprecated config option to MDNSLite
+  * Update references to `mix burn` in new project comments
+  * Update dependency versions to latest
+
 ## 1.10.5
 
 * New project generator updates
