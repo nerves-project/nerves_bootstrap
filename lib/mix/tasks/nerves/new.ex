@@ -9,11 +9,11 @@ defmodule Mix.Tasks.Nerves.New do
                             v = Version.parse!(@bootstrap_vsn)
                             "#{v.major}.#{v.minor}"
                           )
-  @nerves_vsn "1.7.4"
+  @nerves_vsn "1.7.15"
   @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
-  @shoehorn_vsn "0.7.0"
-  @runtime_vsn "0.11.3"
-  @ring_logger_vsn "0.8.1"
+  @shoehorn_vsn "0.8.0"
+  @runtime_vsn "0.11.6"
+  @ring_logger_vsn "0.8.3"
   @nerves_pack_vsn "0.6.0"
   @toolshed_vsn "0.2.13"
 
@@ -21,15 +21,15 @@ defmodule Mix.Tasks.Nerves.New do
   @shortdoc "Creates a new Nerves application"
 
   @targets [
-    {:rpi, "1.17"},
-    {:rpi0, "1.17"},
-    {:rpi2, "1.17"},
-    {:rpi3, "1.17"},
-    {:rpi3a, "1.17"},
-    {:rpi4, "1.17"},
-    {:bbb, "2.12"},
-    {:osd32mp1, "0.8"},
-    {:x86_64, "1.17"}
+    {:rpi, "1.18"},
+    {:rpi0, "1.18"},
+    {:rpi2, "1.18"},
+    {:rpi3, "1.18"},
+    {:rpi3a, "1.18"},
+    {:rpi4, "1.18"},
+    {:bbb, "2.13"},
+    {:osd32mp1, "0.9"},
+    {:x86_64, "1.18"}
   ]
 
   @new [
