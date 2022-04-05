@@ -1,12 +1,10 @@
 import Config
 
 # Use shoehorn to start the main application. See the shoehorn
-# docs for separating out critical OTP applications such as those
-# involved with firmware updates.
+# library documentation for more control in ordering how OTP
+# applications are started and handling failures.
 
-config :shoehorn,
-  init: [:nerves_runtime<%= if nerves_pack? do %>, :nerves_pack<% end %>],
-  app: Mix.Project.config()[:app]
+config :shoehorn, init: [:nerves_runtime<%= if nerves_pack? do %>, :nerves_pack<% end %>]
 
 # Nerves Runtime can enumerate hardware devices and send notifications via
 # SystemRegistry. This slows down startup and not many programs make use of
