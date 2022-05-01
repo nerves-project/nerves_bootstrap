@@ -1,66 +1,5 @@
 defmodule Mix.Tasks.Nerves.New do
-  use Mix.Task
-  import Mix.Generator
-
-  @nerves Path.expand("../../../..", __DIR__)
-
-  @bootstrap_vsn Mix.Project.config()[:version]
-  @bootstrap_vsn_no_patch (
-                            v = Version.parse!(@bootstrap_vsn)
-                            "#{v.major}.#{v.minor}"
-                          )
-  @nerves_vsn "1.7.15"
-  @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
-  @shoehorn_vsn "0.9.0"
-  @runtime_vsn "0.11.6"
-  @ring_logger_vsn "0.8.3"
-  @nerves_pack_vsn "0.7.0"
-  @toolshed_vsn "0.2.13"
-
-  @elixir_vsn "~> 1.11"
   @shortdoc "Creates a new Nerves application"
-
-  @targets [
-    {:rpi, "1.18"},
-    {:rpi0, "1.18"},
-    {:rpi2, "1.18"},
-    {:rpi3, "1.18"},
-    {:rpi3a, "1.18"},
-    {:rpi4, "1.18"},
-    {:bbb, "2.13"},
-    {:osd32mp1, "0.9"},
-    {:x86_64, "1.18"}
-  ]
-
-  @new [
-    {:eex, "new/config/config.exs", "config/config.exs"},
-    {:eex, "new/config/host.exs", "config/host.exs"},
-    {:eex, "new/config/target.exs", "config/target.exs"},
-    {:eex, "new/lib/app_name.ex", "lib/app_name.ex"},
-    {:eex, "new/lib/app_name/application.ex", "lib/app_name/application.ex"},
-    {:eex, "new/test/test_helper.exs", "test/test_helper.exs"},
-    {:eex, "new/test/app_name_test.exs", "test/app_name_test.exs"},
-    {:text, "new/rel/vm.args.eex", "rel/vm.args.eex"},
-    {:eex, "new/rootfs_overlay/etc/iex.exs", "rootfs_overlay/etc/iex.exs"},
-    {:text, "new/.gitignore", ".gitignore"},
-    {:text, "new/.formatter.exs", ".formatter.exs"},
-    {:eex, "new/mix.exs", "mix.exs"},
-    {:eex, "new/README.md", "README.md"},
-    {:keep, "new/rel", "rel"}
-  ]
-
-  @reserved_names ~w[nerves]
-
-  # Embed all defined templates
-  root = Path.expand("../../../../templates", __DIR__)
-
-  for {format, source, _} <- @new do
-    unless format == :keep do
-      @external_resource Path.join(root, source)
-      defp render(unquote(source)), do: unquote(File.read!(Path.join(root, source)))
-    end
-  end
-
   @moduledoc """
   Creates a new Nerves project
 
@@ -105,6 +44,67 @@ defmodule Mix.Tasks.Nerves.New do
 
       mix nerves.new blinky --no-nerves-pack
   """
+
+  use Mix.Task
+  import Mix.Generator
+
+  @nerves Path.expand("../../../..", __DIR__)
+
+  @bootstrap_vsn Mix.Project.config()[:version]
+  @bootstrap_vsn_no_patch (
+                            v = Version.parse!(@bootstrap_vsn)
+                            "#{v.major}.#{v.minor}"
+                          )
+  @nerves_vsn "1.7.15"
+  @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
+  @shoehorn_vsn "0.9.0"
+  @runtime_vsn "0.11.6"
+  @ring_logger_vsn "0.8.3"
+  @nerves_pack_vsn "0.7.0"
+  @toolshed_vsn "0.2.13"
+
+  @elixir_vsn "~> 1.11"
+
+  @targets [
+    {:rpi, "1.18"},
+    {:rpi0, "1.18"},
+    {:rpi2, "1.18"},
+    {:rpi3, "1.18"},
+    {:rpi3a, "1.18"},
+    {:rpi4, "1.18"},
+    {:bbb, "2.13"},
+    {:osd32mp1, "0.9"},
+    {:x86_64, "1.18"}
+  ]
+
+  @new [
+    {:eex, "new/config/config.exs", "config/config.exs"},
+    {:eex, "new/config/host.exs", "config/host.exs"},
+    {:eex, "new/config/target.exs", "config/target.exs"},
+    {:eex, "new/lib/app_name.ex", "lib/app_name.ex"},
+    {:eex, "new/lib/app_name/application.ex", "lib/app_name/application.ex"},
+    {:eex, "new/test/test_helper.exs", "test/test_helper.exs"},
+    {:eex, "new/test/app_name_test.exs", "test/app_name_test.exs"},
+    {:text, "new/rel/vm.args.eex", "rel/vm.args.eex"},
+    {:eex, "new/rootfs_overlay/etc/iex.exs", "rootfs_overlay/etc/iex.exs"},
+    {:text, "new/.gitignore", ".gitignore"},
+    {:text, "new/.formatter.exs", ".formatter.exs"},
+    {:eex, "new/mix.exs", "mix.exs"},
+    {:eex, "new/README.md", "README.md"},
+    {:keep, "new/rel", "rel"}
+  ]
+
+  @reserved_names ~w[nerves]
+
+  # Embed all defined templates
+  root = Path.expand("../../../../templates", __DIR__)
+
+  for {format, source, _} <- @new do
+    unless format == :keep do
+      @external_resource Path.join(root, source)
+      defp render(unquote(source)), do: unquote(File.read!(Path.join(root, source)))
+    end
+  end
 
   @switches [
     app: :string,
@@ -371,17 +371,15 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   defp in_umbrella?(app_path) do
-    try do
-      umbrella = Path.expand(Path.join([app_path, "..", ".."]))
+    umbrella = Path.expand(Path.join([app_path, "..", ".."]))
 
-      File.exists?(Path.join(umbrella, "mix.exs")) &&
-        Mix.Project.in_project(:umbrella_check, umbrella, fn _ ->
-          path = Mix.Project.config()[:apps_path]
-          path && Path.expand(path) == Path.join(umbrella, "apps")
-        end)
-    catch
-      _, _ -> false
-    end
+    File.exists?(Path.join(umbrella, "mix.exs")) &&
+      Mix.Project.in_project(:umbrella_check, umbrella, fn _ ->
+        path = Mix.Project.config()[:apps_path]
+        path && Path.expand(path) == Path.join(umbrella, "apps")
+      end)
+  catch
+    _, _ -> false
   end
 
   defp generate_source_date_epoch() do

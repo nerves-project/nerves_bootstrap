@@ -1,6 +1,4 @@
 defmodule Mix.Tasks.Nerves.System.Shell do
-  use Mix.Task
-
   @shortdoc "Enter a shell to configure a custom system"
 
   @moduledoc """
@@ -16,6 +14,7 @@ defmodule Mix.Tasks.Nerves.System.Shell do
       mix nerves.system.shell
 
   """
+  use Mix.Task
 
   @standard_error_message """
   Make sure you run this task from a Nerves-based project or the source directory of a custom Nerves system.
@@ -38,6 +37,7 @@ defmodule Mix.Tasks.Nerves.System.Shell do
   """
 
   @doc false
+  @spec run([String.t()]) :: :ok
   def run(_argv) do
     # We unregister :user so that the process currently holding fd 0 (stdin)
     # can't send an error message to the console when we steal it.
@@ -74,5 +74,7 @@ defmodule Mix.Tasks.Nerves.System.Shell do
 
     # Set :user back to the real one
     Process.register(user, :user)
+
+    :ok
   end
 end

@@ -1,9 +1,9 @@
 defmodule Mix.Tasks.Nerves.Loadpaths do
+  @moduledoc false
   use Mix.Task
   import Mix.Nerves.IO
 
-  @moduledoc false
-
+  @impl Mix.Task
   def run(_args) do
     unless System.get_env("NERVES_PRECOMPILE") == "1" do
       debug_info("Loadpaths Start")
@@ -29,14 +29,15 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
     end
   end
 
-  def env(k) do
+  defp env(k) do
     case System.get_env(k) do
       unset when unset == nil or unset == "" -> "unset"
       set -> Path.relative_to_cwd(set)
     end
   end
 
-  def env_info do
+  @spec env_info() :: :ok
+  def env_info() do
     debug_info("Environment Variable List", """
       target:     #{Nerves.Bootstrap.mix_target()}
       toolchain:  #{env("NERVES_TOOLCHAIN")}

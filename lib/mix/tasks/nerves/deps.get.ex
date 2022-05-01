@@ -1,10 +1,10 @@
 defmodule Mix.Tasks.Nerves.Deps.Get do
+  @moduledoc false
   use Mix.Task
 
   import Mix.Nerves.IO
 
-  @moduledoc false
-
+  @impl Mix.Task
   def run(_argv) do
     debug_info("Nerves.Deps.Get Start")
     nerves_env_info()

@@ -1,11 +1,11 @@
 defmodule Mix.Tasks.Nerves.Precompile do
+  @moduledoc false
   use Mix.Task
   import Mix.Nerves.IO
 
-  @moduledoc false
-
   @switches [loadpaths: :boolean]
 
+  @impl Mix.Task
   def run(args) do
     debug_info("Precompile Start")
 
@@ -41,12 +41,10 @@ defmodule Mix.Tasks.Nerves.Precompile do
   end
 
   defp compile(%{app: app}) do
-    cond do
-      Mix.Project.config()[:app] == app ->
-        Mix.Tasks.Compile.run([app, "--include-children"])
-
-      true ->
-        Mix.Tasks.Deps.Compile.run([app, "--no-deps-check", "--include-children"])
+    if Mix.Project.config()[:app] == app do
+      Mix.Tasks.Compile.run([app, "--include-children"])
+    else
+      Mix.Tasks.Deps.Compile.run([app, "--no-deps-check", "--include-children"])
     end
   end
 

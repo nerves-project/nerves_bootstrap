@@ -1,6 +1,7 @@
 defmodule Nerves.Bootstrap.Aliases do
   @moduledoc false
 
+  @spec init() :: :ok
   def init() do
     with %{} <- Mix.ProjectStack.peek(),
          %{name: name, config: config, file: file} <- Mix.ProjectStack.pop(),
@@ -14,7 +15,7 @@ defmodule Nerves.Bootstrap.Aliases do
     else
       # We are not at the top of the stack. Do nothing.
       _ ->
-        :noop
+        :ok
     end
   end
 
@@ -28,18 +29,21 @@ defmodule Nerves.Bootstrap.Aliases do
     update_in(config, [:aliases], &add_target_aliases(&1))
   end
 
+  @spec add_aliases(keyword()) :: keyword()
   def add_aliases(aliases) do
     aliases
     |> add_host_aliases()
     |> add_target_aliases()
   end
 
+  @spec add_host_aliases(keyword()) :: keyword()
   def add_host_aliases(aliases) do
     aliases
     |> append("deps.get", "nerves.deps.get")
     |> replace("deps.update", &Nerves.Bootstrap.Aliases.deps_update/1)
   end
 
+  @spec add_target_aliases(keyword()) :: keyword()
   def add_target_aliases(aliases) do
     aliases
     |> prepend("deps.loadpaths", "nerves.loadpaths")
@@ -47,6 +51,7 @@ defmodule Nerves.Bootstrap.Aliases do
     |> replace("run", &Nerves.Bootstrap.Aliases.run/1)
   end
 
+  @spec run([String.t()]) :: :ok
   def run(args) do
     case Nerves.Bootstrap.mix_target() do
       :host ->
@@ -60,6 +65,7 @@ defmodule Nerves.Bootstrap.Aliases do
     end
   end
 
+  @spec deps_update([String.t()]) :: :ok
   def deps_update(args) do
     Mix.Tasks.Deps.Update.run(args)
     Mix.Tasks.Nerves.Deps.Get.run([])

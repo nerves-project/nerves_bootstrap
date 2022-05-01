@@ -1,7 +1,4 @@
 defmodule Mix.Tasks.Nerves.Clean do
-  use Mix.Task
-  import Mix.Nerves.IO
-
   @shortdoc "Cleans dependencies and build artifacts"
 
   @moduledoc """
@@ -13,6 +10,9 @@ defmodule Mix.Tasks.Nerves.Clean do
     * `dep1 dep2` - the names of Nerves dependencies to be cleaned, separated by spaces
     * `--all` - cleans all Nerves dependencies
   """
+
+  use Mix.Task
+  import Mix.Nerves.IO
 
   @switches [all: :boolean]
 
