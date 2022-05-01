@@ -17,7 +17,7 @@ defmodule Mix.Tasks.Nerves.New do
   @nerves_pack_vsn "0.6.0"
   @toolshed_vsn "0.2.13"
 
-  @elixir_vsn "~> 1.9"
+  @elixir_vsn "~> 1.11"
   @shortdoc "Creates a new Nerves application"
 
   @targets [

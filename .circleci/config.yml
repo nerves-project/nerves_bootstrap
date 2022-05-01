@@ -2,6 +2,8 @@ version: 2
 
 defaults: &defaults
   working_directory: ~/repo
+  environment:
+    LC_ALL: C.UTF-8
 
 install_hex_rebar: &install_hex_rebar
   run:
@@ -13,7 +15,7 @@ install_hex_rebar: &install_hex_rebar
 jobs:
   build_elixir_1_13_otp_24:
     docker:
-      - image: hexpm/elixir:1.13.3-erlang-24.3.3-alpine-3.15.3
+      - image: hexpm/elixir:1.13.4-erlang-24.3.3-alpine-3.15.3
     <<: *defaults
     steps:
       - checkout
@@ -40,31 +42,7 @@ jobs:
 
   build_elixir_1_11_otp_23:
     docker:
-      - image: hexpm/elixir:1.11.2-erlang-23.1.2-alpine-3.12.1
-    <<: *defaults
-    steps:
-      - checkout
-      - <<: *install_hex_rebar
-      - run: mix deps.get
-      - run: mix test
-      - run: mix archive.build
-      - run: mix archive.install
-
-  build_elixir_1_10_otp_23:
-    docker:
-      - image: hexpm/elixir:1.10.4-erlang-23.1.2-alpine-3.12.1
-    <<: *defaults
-    steps:
-      - checkout
-      - <<: *install_hex_rebar
-      - run: mix deps.get
-      - run: mix test
-      - run: mix archive.build
-      - run: mix archive.install
-
-  build_elixir_1_9_otp_22:
-    docker:
-      - image: hexpm/elixir:1.9.4-erlang-22.3.4.9-alpine-3.12.0
+      - image: hexpm/elixir:1.11.4-erlang-23.3.4-alpine-3.13.3
     <<: *defaults
     steps:
       - checkout
@@ -81,5 +59,3 @@ workflows:
       - build_elixir_1_13_otp_24
       - build_elixir_1_12_otp_24
       - build_elixir_1_11_otp_23
-      - build_elixir_1_10_otp_23
-      - build_elixir_1_9_otp_22
