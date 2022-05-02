@@ -48,33 +48,30 @@ defmodule Mix.Tasks.Nerves.Precompile do
     end
   end
 
-  defp compile_check(packages) do
-    stale =
-      packages
-      |> Enum.reject(&(Mix.Project.config()[:app] == &1.app))
-      |> Enum.filter(&(:nerves_package in Map.get(&1, :compilers, Mix.compilers())))
-      |> Enum.filter(&(Nerves.Artifact.expand_sites(&1) != []))
-      |> Enum.filter(&Nerves.Artifact.stale?/1)
-      |> Enum.reject(&Keyword.get(Map.get(&1, :dep_opts, []), :compile, false))
+  defp error_on_stale_nerves_package?(package) do
+    # Detect packages that need to be rebuilt by the Nerves package compiler
+    # and that the user hasn't explicitly marked as `compile: true`.  These
+    # universally take long to build so force the user to acknowledge it.
+    Mix.Project.config()[:app] != package.app and
+      :nerves_package in Map.get(package, :compilers, Mix.compilers()) and
+      Nerves.Artifact.expand_sites(package) != [] and
+      Nerves.Artifact.stale?(package) and
+      package.dep_opts[:compile] != true
+  end
 
-    case stale do
+  defp compile_check(packages) do
+    case Enum.filter(packages, &error_on_stale_nerves_package?/1) do
       [] ->
         packages
 
-      packages ->
-        stale_packages =
-          packages
-          |> Enum.map(&Map.get(&1, :app))
-          |> Enum.map(&Atom.to_string/1)
-          |> Enum.join("\n  ")
-
-        example = List.first(packages)
+      stale_packages ->
+        stale_package_text = for package <- stale_packages, into: "", do: "\n  #{package.app}"
+        example = List.first(stale_packages)
 
         Mix.raise("""
 
         The following Nerves packages need to be built:
-
-          #{stale_packages}
+        #{stale_package_text}
 
         The build process for each of these can take a significant amount of
         time so the maintainers have listed URLs for downloading pre-built packages.

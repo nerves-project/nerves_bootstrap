@@ -292,11 +292,11 @@ defmodule Mix.Tasks.Nerves.New do
   defp check_application_name!(name, from_app_flag) do
     unless name =~ recompile(~r/^[a-z][\w_]*$/) do
       extra =
-        if !from_app_flag do
+        if from_app_flag do
+          ""
+        else
           ". The application name is inferred from the path, if you'd like to " <>
             "explicitly name the application then use the `--app APP` option."
-        else
-          ""
         end
 
       Mix.raise(

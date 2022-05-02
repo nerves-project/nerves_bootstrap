@@ -6,12 +6,12 @@ defmodule Nerves.Bootstrap.Aliases do
     with %{} <- Mix.ProjectStack.peek(),
          %{name: name, config: config, file: file} <- Mix.ProjectStack.pop(),
          nil <- Mix.ProjectStack.peek() do
-      config =
+      adjusted_config =
         config
-        |> host_config()
-        |> target_config(Nerves.Bootstrap.mix_target())
+        |> update_host_config()
+        |> update_target_config(Nerves.Bootstrap.mix_target())
 
-      Mix.ProjectStack.push(name, config, file)
+      :ok = Mix.ProjectStack.push(name, adjusted_config, file)
     else
       # We are not at the top of the stack. Do nothing.
       _ ->
@@ -19,13 +19,13 @@ defmodule Nerves.Bootstrap.Aliases do
     end
   end
 
-  def host_config(config) do
+  defp update_host_config(config) do
     update_in(config, [:aliases], &add_host_aliases(&1))
   end
 
-  def target_config(config, :host), do: config
+  defp update_target_config(config, :host), do: config
 
-  def target_config(config, _target) do
+  defp update_target_config(config, _target) do
     update_in(config, [:aliases], &add_target_aliases(&1))
   end
 
