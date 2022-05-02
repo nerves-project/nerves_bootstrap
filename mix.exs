@@ -16,6 +16,7 @@ defmodule Nerves.Bootstrap.MixProject do
       package: package(),
       deps: deps(),
       preferred_cli_env: %{
+        credo: :test,
         docs: :docs,
         "hex.publish": :docs,
         "hex.build": :docs
@@ -43,6 +44,7 @@ defmodule Nerves.Bootstrap.MixProject do
 
   defp deps do
     [
+      {:credo, "~> 1.6", only: :test, runtime: false},
       {:ex_doc, "~> 0.22", only: :docs, runtime: false}
     ]
   end

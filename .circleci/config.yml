@@ -24,6 +24,7 @@ jobs:
       - run: mix test
       - run: mix archive.build
       - run: mix archive.install
+      - run: mix credo -a
 
   build_elixir_1_12_otp_24:
     docker:
