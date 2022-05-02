@@ -175,15 +175,16 @@ defmodule Mix.Tasks.Nerves.New do
         target = String.to_atom(target)
 
         unless target in default_targets do
-          targets =
-            @targets
-            |> Enum.map(&elem(&1, 0))
-            |> Enum.join("\n")
+          targets = Enum.map_join(@targets, "\n  ", &elem(&1, 0))
 
           Mix.raise("""
           Unknown target #{inspect(target)}
-          Supported targets
-          #{targets}
+
+          Officially supported targets:
+            #{targets}
+
+          If you don't want any of these targets, one option is to pick one
+          and change the references to it in the resulting mix.exs.
           """)
         end
 
