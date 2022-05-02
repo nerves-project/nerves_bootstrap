@@ -25,10 +25,6 @@ defmodule Mix.Tasks.Nerves.Env do
     unless Code.ensure_loaded?(Nerves.Env) do
       _ = Mix.Tasks.Deps.Loadpaths.run(["--no-compile"])
 
-      if distillery?() do
-        Mix.Tasks.Deps.Compile.run(["distillery", "--include-children"])
-      end
-
       Mix.Tasks.Deps.Compile.run(["nerves", "--include-children"])
     end
 
@@ -57,11 +53,5 @@ defmodule Mix.Tasks.Nerves.Env do
       Type:        #{pkg.type}
       BuildRunner: #{inspect(pkg.build_runner)}
     """)
-  end
-
-  defp distillery?() do
-    Mix.Project.deps_paths()
-    |> Enum.map(&elem(&1, 0))
-    |> Enum.member?(:distillery)
   end
 end
