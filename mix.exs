@@ -15,6 +15,7 @@ defmodule Nerves.Bootstrap.MixProject do
       description: description(),
       package: package(),
       deps: deps(),
+      dialyzer: dialyzer(),
       preferred_cli_env: %{
         credo: :test,
         docs: :docs,
@@ -45,6 +46,7 @@ defmodule Nerves.Bootstrap.MixProject do
   defp deps do
     [
       {:credo, "~> 1.6", only: :test, runtime: false},
+      {:dialyxir, "~> 1.1", only: :dev, runtime: false},
       {:ex_doc, "~> 0.22", only: :docs, runtime: false}
     ]
   end
@@ -67,6 +69,13 @@ defmodule Nerves.Bootstrap.MixProject do
       main: "readme",
       source_ref: "v#{@version}",
       source_url: @source_url
+    ]
+  end
+
+  defp dialyzer() do
+    [
+      flags: [:race_conditions, :unmatched_returns, :error_handling, :underspecs],
+      plt_add_apps: [:mix, :eex]
     ]
   end
 
