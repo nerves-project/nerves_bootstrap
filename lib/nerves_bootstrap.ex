@@ -77,11 +77,7 @@ defmodule Nerves.Bootstrap do
           """
         end
 
-    Mix.shell().info([
-      IO.ANSI.yellow(),
-      message,
-      IO.ANSI.reset()
-    ])
+    Mix.shell().info([:yellow, message, :reset])
   end
 
   @spec mix_target() :: atom()
