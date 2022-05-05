@@ -4,7 +4,7 @@
   {"lib/mix/tasks/nerves/clean.ex:48:unknown_function Function Nerves.Env.package/1 does not exist."},
   {"lib/mix/tasks/nerves/clean.ex:52:unknown_function Function Nerves.Env.clean/1 does not exist."},
   {"lib/mix/tasks/nerves/env.ex:31:unknown_function Function Nerves.Env.start/0 does not exist."},
-  {"lib/mix/tasks/nerves/env.ex:41:unknown_function Function Nerves.Env.packages/0 does not exist."},
+  {"lib/mix/tasks/nerves/env.ex:40:unknown_function Function Nerves.Env.packages/0 does not exist."},
   {"lib/mix/tasks/nerves/loadpaths.ex:16:unknown_function Function Nerves.Env.bootstrap/0 does not exist."},
   {"lib/mix/tasks/nerves/precompile.ex:25:unknown_function Function Nerves.Env.packages/0 does not exist."},
   {"lib/mix/tasks/nerves/precompile.ex:57:unknown_function Function Nerves.Artifact.expand_sites/1 does not exist."},
