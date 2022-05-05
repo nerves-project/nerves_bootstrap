@@ -1,98 +1,77 @@
-# nerves_bootstrap
+# Nerves.Bootstrap
 
 [![CircleCI](https://circleci.com/gh/nerves-project/nerves_bootstrap.svg?style=svg)](https://circleci.com/gh/nerves-project/nerves_bootstrap)
 [![Hex.pm](https://img.shields.io/hexpm/v/nerves_bootstrap.svg)](https://hex.pm/packages/nerves_bootstrap)
 
-`nerves_bootstrap` is an Elixir archive that supplies a new project generator
-and enhances `mix` to support downloading or building all of the non-Elixir
-things needed for Nerves-based projects. This includes crosscompilers, Linux
-kernels, C libraries and more.
+Nerves.Bootstrap is an Elixir archive that brings Nerves support to Elixir's Mix
+build tool. It also provides a new project generator, `mix nerves.new`.
 
-Most users should read the [Nerves Installation Guide](https://hexdocs.pm/nerves/installation.html)
-for installing and using Nerves. Read on for details specific to
-`nerves_bootstrap`.
+We recommend reading the [Nerves Installation
+Guide](https://hexdocs.pm/nerves/installation.html) for installing and using
+Nerves. Read on for details specific to Nerves.Bootstrap.
 
 ## Installation
 
-To install for the first time:
+The first time you use Nerves and whenever you update your Elixir installation,
+run the follow to install the official archive:
 
 ```bash
 mix archive.install hex nerves_bootstrap
 ```
 
-To update your `nerves_bootstrap`, you may either run the installation line above or:
+From then on, Nerves.Bootstrap checks for new versions and will let you know. To
+manually upgrade either run the above line or the following:
 
 ```bash
 mix local.nerves
 ```
 
-If you need a specific version, run:
+If you need to force a specific version, run:
 
 ```bash
 mix archive.install hex nerves_bootstrap 1.0.1
 ```
 
-Finally, if you want to install from source:
-
-```bash
-git clone https://github.com/nerves-project/nerves_bootstrap.git
-cd nerves_bootstrap
-mix do deps.get, archive.build, archive.install
-```
-
-## Mix integration
-
-By default, Nerves enhancements to `mix` are not included. This means that your
-non-Nerves projects will continue to build like they did before. Projects that
-use Nerves require additions to their `mix.exs` files. If you used `mix
-nerves.new` to create your project, you'll already have those additions.
-
-Nerves uses the `aliases` feature in `mix`. Ensure that the following code is in
-your `mix.exs` to pull in the integration:
-
-```elixir
-  def project do
-    [
-      # ...
-      aliases: [loadconfig: [&bootstrap/1]],
-    ]
-  end
-
-  # Starting nerves_bootstrap pulls in the Nerves hooks to mix, but only
-  # if the MIX_TARGET environment variable is set.
-  defp bootstrap(args) do
-    Application.start(:nerves_bootstrap)
-    Mix.Task.run("loadconfig", args)
-  end
-```
-
 ## Mix tasks
+
+This section provides a high level overview of Mix tasks provided by
+Nerves.Bootstrap. For additional details, run `mix help task`.
 
 ### mix nerves.new
 
 A mix task for creating new Nerves projects.
 
 ```bash
-mix nerves.new my_new_nerves_project [options]
+mix nerves.new my_project
 ```
 
-The new project's `mix.exs` contains logic for building any of the supported
-hardware systems. The customary way of selecting the specific target is to
-export `MIX_TARGET`. Here's a common build script:
+The generated project will support compilation for all of the officially
+supported Nerves devices. Just like the Elixir new project generator,
+`nerves.new` supports many options to tweak the output.
+
+Generated projects will boot and provide an IEx prompt over the default console
+for the device. Here's a script for creating a new project and building it for a
+Raspberry Pi 3:
 
 ```bash
+mix nerves.new my_project
+cd my_project
+
+# Set MIX_TARGET to select Raspberry Pi 3-specific dependencies in the mix.exs
 export MIX_TARGET=rpi3
+
+# Download dependencies, build firmware and write it to a MicroSD card
 mix deps.get
 mix firmware
 mix burn
 ```
 
-If you look at the generated `mix.exs`, you'll see how `MIX_TARGET` is used.
-
-The generated project includes [nerves_pack](https://hex.pm/packages/nerves_pack).
-This simplifies the initial configuration for many target platforms by including
-support for networking, firmware updates, and helpful utilities. If you want a
-minimal project that does not include `nerves_pack`, pass `--no-nerves-pack`:
+Generated projects include [NervesPack](https://hex.pm/packages/nerves_pack) in
+their dependency list. NervesPack depends on most of the Nerves-specific
+libraries that you'll need at the beginning of your project. This includes those
+needed for networking, firmware updates, and various helpful utilities.  If you
+want a minimal project that does not include NervesPack, pass
+`--no-nerves-pack`:
 
 ```bash
 mix nerves.new my_new_nerves_project --no-nerves-pack
@@ -129,6 +108,17 @@ in your top level project:
 
 ```elixir
   {:nerves_system_rpi0, "~> 1.5", nerves: [compile: true]}
+```
+
+## Local development
+
+If you need to modify Nerves.Bootstrap, here's what you should do to get
+the source code, build it and install your changes locally:
+
+```bash
+git clone https://github.com/nerves-project/nerves_bootstrap.git
+cd nerves_bootstrap
+mix do deps.get, archive.build, archive.install
 ```
 
 ## License
