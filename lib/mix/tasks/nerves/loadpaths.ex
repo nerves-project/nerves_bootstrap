@@ -36,8 +36,7 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
     end
   end
 
-  @spec env_info() :: :ok
-  def env_info() do
+  defp env_info() do
     debug_info("Environment Variable List", """
       target:     #{Nerves.Bootstrap.mix_target()}
       toolchain:  #{env("NERVES_TOOLCHAIN")}

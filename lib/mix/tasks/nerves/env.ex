@@ -33,8 +33,7 @@ defmodule Mix.Tasks.Nerves.Env do
     if opts[:info], do: print_env()
   end
 
-  @spec print_env() :: :ok
-  def print_env() do
+  defp print_env() do
     System.put_env("NERVES_DEBUG", "1")
     debug_info("Environment Package List")
 
