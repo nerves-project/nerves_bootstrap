@@ -346,7 +346,7 @@ defmodule Mix.Tasks.Nerves.New do
   defp copy_from(target_dir, binding, mapping) when is_list(mapping) do
     app_name = Keyword.fetch!(binding, :app_name)
 
-    for {format, source, target_path} <- mapping do
+    Enum.each(mapping, fn {format, source, target_path} ->
       target = Path.join(target_dir, String.replace(target_path, "app_name", app_name))
 
       case format do
@@ -363,7 +363,7 @@ defmodule Mix.Tasks.Nerves.New do
           contents = EEx.eval_string(render(source), binding, file: source, trim: false)
           create_file(target, contents)
       end
-    end
+    end)
   end
 
   defp append_to(path, file, contents) do
