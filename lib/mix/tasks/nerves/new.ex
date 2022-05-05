@@ -3,7 +3,7 @@ defmodule Mix.Tasks.Nerves.New do
   @moduledoc """
   Creates a new Nerves project
 
-      mix nerves.new PATH [--module MODULE] [--app APP] [--target TARGET] [--cookie STRING]
+      mix nerves.new PATH [--module MODULE] [--app APP] [--target TARGET] [--cookie STRING] [--no-nerves-pack]
 
   The project will be created at PATH. The application name and module name
   will be inferred from PATH unless `--module` or `--app` is given.
