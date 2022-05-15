@@ -39,6 +39,7 @@ defmodule Nerves.Bootstrap.Aliases do
   @spec add_host_aliases(keyword()) :: keyword()
   def add_host_aliases(aliases) do
     aliases
+    |> append("deps.get", "nerves.bootstrap")
     |> append("deps.get", "nerves.deps.get")
     |> replace("deps.update", &Nerves.Bootstrap.Aliases.deps_update/1)
   end
@@ -47,7 +48,9 @@ defmodule Nerves.Bootstrap.Aliases do
   def add_target_aliases(aliases) do
     aliases
     |> prepend("deps.loadpaths", "nerves.loadpaths")
+    |> prepend("deps.loadpaths", "nerves.bootstrap")
     |> prepend("deps.compile", "nerves.loadpaths")
+    |> prepend("deps.compile", "nerves.bootstrap")
     |> replace("run", &Nerves.Bootstrap.Aliases.run/1)
   end
 
@@ -58,17 +61,20 @@ defmodule Nerves.Bootstrap.Aliases do
         Mix.Tasks.Run.run(args)
 
       target ->
-        Mix.Nerves.IO.shell_warn("""
+        msg = """
         You are trying to run code compiled for #{target}
         on your host. Please unset MIX_TARGET to run in host mode.
-        """)
+        """
+
+        Mix.shell().error([:inverse, :red, "|nerves_bootstrap| #{msg}", :reset])
     end
   end
 
   @spec deps_update([String.t()]) :: :ok
   def deps_update(args) do
     Mix.Tasks.Deps.Update.run(args)
-    Mix.Tasks.Nerves.Deps.Get.run([])
+    Mix.Task.run("nerves.bootstrap", [])
+    Mix.Task.run("nerves.deps.get", [])
   end
 
   defp append(aliases, a, na) do

@@ -39,7 +39,8 @@ defmodule Nerves.Bootstrap.MixProject do
       install: [
         "archive.build -o nerves_bootstrap.ez",
         "archive.install nerves_bootstrap.ez --force"
-      ]
+      ],
+      wat: ["cmd 'echo HEYEYEYEYEYE'"]
     ]
   end
 
