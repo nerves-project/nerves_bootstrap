@@ -1,5 +1,5 @@
 defmodule Mix.Tasks.Nerves.Env do
-  @moduledoc false
+  @moduledoc deprecated: "Tasks from :nerves should be used instead"
   use Mix.Task
   import Mix.Nerves.IO
 
@@ -22,11 +22,9 @@ defmodule Mix.Tasks.Nerves.Env do
       System.delete_env("NERVES_ENV_DISABLED")
     end
 
-    unless Code.ensure_loaded?(Nerves.Env) do
-      _ = Mix.Tasks.Deps.Loadpaths.run(["--no-compile"])
-
-      Mix.Tasks.Deps.Compile.run(["nerves", "--include-children"])
-    end
+    # Ensure Nerves is compiled and bootstrapped in
+    # If it was already run, this is a noop
+    Mix.Task.run("nerves.bootstrap")
 
     Nerves.Env.start()
     debug_info("Env End")

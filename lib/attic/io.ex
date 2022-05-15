@@ -1,5 +1,5 @@
 defmodule Mix.Nerves.IO do
-  @moduledoc false
+  @moduledoc deprecated: "IO from :nerves should be used instead"
   @app Mix.Project.config()[:app]
 
   @spec debug_info(String.t(), String.t(), atom()) :: :ok

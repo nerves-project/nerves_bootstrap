@@ -17,6 +17,16 @@ defmodule Nerves.Bootstrap do
   def version(), do: @version
 
   @doc """
+  Read the Nerves dependency version of the bootstrapped project
+  """
+  @spec nerves_version() :: String.t() | nil
+  def nerves_version() do
+    if path = Mix.Project.deps_paths()[:nerves] do
+      Mix.Project.in_project(:nerves, path, fn _ -> Mix.Project.config()[:version] end)
+    end
+  end
+
+  @doc """
   Add the required Nerves bootstrap aliases to the existing ones
   """
   defdelegate add_aliases(aliases), to: Nerves.Bootstrap.Aliases
@@ -44,7 +54,7 @@ defmodule Nerves.Bootstrap do
         :ok
 
       latest_version ->
-        render_update_message(current_version, latest_version)
+        render_update_message(current_version, latest_version, nerves_version())
     end
   rescue
     _e -> :ok
@@ -59,8 +69,8 @@ defmodule Nerves.Bootstrap do
     |> List.first()
   end
 
-  @spec render_update_message(any, %{:pre => any, optional(any) => any}) :: :ok
-  def render_update_message(current_version, %{pre: pre} = latest_version) do
+  @spec render_update_message(any, %{:pre => any, optional(any) => any}, String.t() | nil) :: :ok
+  def render_update_message(current_version, %{pre: pre} = latest_version, nerves_ver \\ nil) do
     message =
       "A new version of Nerves bootstrap is available(#{current_version} < #{latest_version}), " <>
         if pre == [] do
@@ -76,6 +86,22 @@ defmodule Nerves.Bootstrap do
             mix archive.install hex nerves_bootstrap #{latest_version}
           """
         end
+
+    message =
+      if nerves_ver && Version.match?(nerves_ver, "< 1.8.0"),
+        do:
+          message <>
+            """
+
+            It is recommended to update your `:nerves` version also as this update
+            utilizes updates and improvements from `:nerves >= 1.8.0`.
+            (You currently have #{nerves_ver})
+
+              mix deps.update nerves
+
+            However, this is backwards compatible if you cannot update `:nerves` at this time.
+            """,
+        else: message
 
     Mix.shell().info([:yellow, message, :reset])
   end

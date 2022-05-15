@@ -1,5 +1,6 @@
 defmodule Mix.Tasks.Nerves.Clean do
   @shortdoc "Cleans dependencies and build artifacts"
+  @moduledoc deprecated: "Tasks from :nerves should be used instead"
 
   @moduledoc """
   Cleans dependencies and build artifacts

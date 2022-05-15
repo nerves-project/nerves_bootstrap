@@ -1,5 +1,5 @@
 defmodule Mix.Tasks.Nerves.Precompile do
-  @moduledoc false
+  @moduledoc deprecated: "Tasks from :nerves should be used instead"
   use Mix.Task
   import Mix.Nerves.IO
 
