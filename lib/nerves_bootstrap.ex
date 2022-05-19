@@ -93,7 +93,7 @@ defmodule Nerves.Bootstrap do
           message <>
             """
 
-            This will also require your :nerves dependecy to be updated as well.
+            This will also require your :nerves dependency to be updated as well.
             (You currently have #{nerves_ver})
 
               mix deps.update nerves
