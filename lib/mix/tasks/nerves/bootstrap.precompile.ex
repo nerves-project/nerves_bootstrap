@@ -1,7 +1,7 @@
-defmodule Mix.Tasks.Nerves.Precompile do
-  @moduledoc false
+defmodule Mix.Tasks.Nerves.Bootstrap.Precompile do
+  @moduledoc deprecated: "Tasks from :nerves should be used instead"
   use Mix.Task
-  import Mix.Nerves.IO
+  import Mix.Nerves.Bootstrap.IO
 
   @switches [loadpaths: :boolean]
 
@@ -19,7 +19,7 @@ defmodule Mix.Tasks.Nerves.Precompile do
 
       {opts, _, _} = OptionParser.parse(args, switches: @switches)
 
-      Mix.Tasks.Nerves.Env.run([])
+      Mix.Tasks.Nerves.Bootstrap.Env.run([])
 
       {app, deps} =
         Nerves.Env.packages()
@@ -34,7 +34,7 @@ defmodule Mix.Tasks.Nerves.Precompile do
 
       System.put_env("NERVES_PRECOMPILE", "0")
 
-      if opts[:loadpaths] != false, do: Mix.Task.rerun("nerves.loadpaths")
+      if opts[:loadpaths] != false, do: Mix.Task.rerun("nerves.bootstrap.loadpaths")
     end
 
     debug_info("Precompile End")

@@ -1,7 +1,7 @@
-defmodule Mix.Tasks.Nerves.Env do
-  @moduledoc false
+defmodule Mix.Tasks.Nerves.Bootstrap.Env do
+  @moduledoc deprecated: "Tasks from :nerves should be used instead"
   use Mix.Task
-  import Mix.Nerves.IO
+  import Mix.Nerves.Bootstrap.IO
 
   @switches [info: :boolean, disable: :boolean]
 
@@ -42,7 +42,7 @@ defmodule Mix.Tasks.Nerves.Env do
       packages -> Enum.each(packages, &print_pkg/1)
     end
 
-    Mix.Tasks.Nerves.Loadpaths.run([])
+    Mix.Tasks.Nerves.Bootstrap.Loadpaths.run([])
   end
 
   defp print_pkg(pkg) do

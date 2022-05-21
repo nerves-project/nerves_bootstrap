@@ -1,5 +1,6 @@
-defmodule Mix.Tasks.Nerves.System.Shell do
+defmodule Mix.Tasks.Nerves.Bootstrap.System.Shell do
   @shortdoc "Enter a shell to configure a custom system"
+  @moduledoc deprecated: "Tasks from :nerves should be used instead"
 
   @moduledoc """
   Open a shell in a system's build directory.

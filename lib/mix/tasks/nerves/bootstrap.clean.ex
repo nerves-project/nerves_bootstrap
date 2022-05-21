@@ -1,5 +1,6 @@
-defmodule Mix.Tasks.Nerves.Clean do
+defmodule Mix.Tasks.Nerves.Bootstrap.Clean do
   @shortdoc "Cleans dependencies and build artifacts"
+  @moduledoc deprecated: "Tasks from :nerves should be used instead"
 
   @moduledoc """
   Cleans dependencies and build artifacts
@@ -12,7 +13,7 @@ defmodule Mix.Tasks.Nerves.Clean do
   """
 
   use Mix.Task
-  import Mix.Nerves.IO
+  import Mix.Nerves.Bootstrap.IO
 
   @switches [all: :boolean]
 
@@ -23,7 +24,7 @@ defmodule Mix.Tasks.Nerves.Clean do
 
     # Start the Nerves env with the precompiler disabled
     #  so we can clean the package without building it.
-    Mix.Tasks.Nerves.Env.run(["--disable"])
+    Mix.Tasks.Nerves.Bootstrap.Env.run(["--disable"])
 
     packages =
       case packages do

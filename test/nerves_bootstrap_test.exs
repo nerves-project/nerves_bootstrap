@@ -1,11 +1,75 @@
 defmodule Nerves.BootstrapTest do
   use ExUnit.Case
 
+  @old_nerves_version "1.7.16"
+
+  describe "backwards compatible" do
+    test "aliases are injected properly" do
+      deps_loadpaths = ["nerves.bootstrap.loadpaths", "deps.loadpaths"]
+      deps_get = ["deps.get", "nerves.bootstrap.deps.get"]
+      deps_update = [&Nerves.Bootstrap.Aliases.old_deps_update/1]
+      deps_compile = ["nerves.bootstrap.loadpaths", "deps.compile"]
+
+      aliases = Nerves.Bootstrap.add_aliases([], @old_nerves_version)
+      assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
+      assert Keyword.get(aliases, :"deps.get") == deps_get
+      assert Keyword.get(aliases, :"deps.update") == deps_update
+      assert Keyword.get(aliases, :"deps.compile") == deps_compile
+      assert Keyword.get(aliases, :"nerves.clean") == ["nerves.bootstrap.clean"]
+      assert Keyword.get(aliases, :"nerves.system.shell") == ["nerves.bootstrap.system.shell"]
+    end
+
+    test "custom aliases are maintained" do
+      custom_aliases = [
+        "deps.loadpaths": ["custom", "deps.loadpaths"],
+        "deps.get": ["deps.get", "custom"],
+        "deps.update": ["custom"],
+        custom: ["custom"]
+      ]
+
+      aliases = Nerves.Bootstrap.add_aliases(custom_aliases, @old_nerves_version)
+
+      assert Keyword.get(aliases, :"deps.loadpaths") == [
+               "nerves.bootstrap.loadpaths",
+               "custom",
+               "deps.loadpaths"
+             ]
+
+      assert Keyword.get(aliases, :"deps.get") == [
+               "deps.get",
+               "custom",
+               "nerves.bootstrap.deps.get"
+             ]
+
+      assert Keyword.get(aliases, :"deps.update") == [
+               "custom",
+               &Nerves.Bootstrap.Aliases.old_deps_update/1
+             ]
+
+      assert Keyword.get(aliases, :custom) == ["custom"]
+    end
+
+    test "aliases are dropped if they already exist" do
+      deps_loadpaths = ["nerves.bootstrap.loadpaths", "deps.loadpaths"]
+      deps_get = ["deps.get", "nerves.bootstrap.deps.get"]
+      deps_update = [&Nerves.Bootstrap.Aliases.old_deps_update/1]
+
+      nerves_aliases = [
+        "deps.loadpaths": deps_loadpaths
+      ]
+
+      aliases = Nerves.Bootstrap.add_aliases(nerves_aliases, @old_nerves_version)
+      assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
+      assert Keyword.get(aliases, :"deps.get") == deps_get
+      assert Keyword.get(aliases, :"deps.update") == deps_update
+    end
+  end
+
   test "aliases are injected properly" do
-    deps_loadpaths = ["nerves.loadpaths", "deps.loadpaths"]
-    deps_get = ["deps.get", "nerves.deps.get"]
+    deps_loadpaths = ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"]
+    deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
     deps_update = [&Nerves.Bootstrap.Aliases.deps_update/1]
-    deps_compile = ["nerves.loadpaths", "deps.compile"]
+    deps_compile = ["nerves.bootstrap", "nerves.loadpaths", "deps.compile"]
 
     aliases = Nerves.Bootstrap.add_aliases([])
     assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
@@ -16,8 +80,8 @@ defmodule Nerves.BootstrapTest do
 
   test "custom aliases are maintained" do
     custom_aliases = [
-      "deps.loadpaths": ["custom", "deps.loadpaths"],
-      "deps.get": ["deps.get", "custom"],
+      "deps.loadpaths": ["custom", "nerves.bootstrap", "deps.loadpaths"],
+      "deps.get": ["deps.get", "nerves.bootstrap", "custom"],
       "deps.update": ["custom"],
       custom: ["custom"]
     ]
@@ -25,12 +89,18 @@ defmodule Nerves.BootstrapTest do
     aliases = Nerves.Bootstrap.add_aliases(custom_aliases)
 
     assert Keyword.get(aliases, :"deps.loadpaths") == [
+             "nerves.bootstrap",
              "nerves.loadpaths",
              "custom",
              "deps.loadpaths"
            ]
 
-    assert Keyword.get(aliases, :"deps.get") == ["deps.get", "custom", "nerves.deps.get"]
+    assert Keyword.get(aliases, :"deps.get") == [
+             "deps.get",
+             "custom",
+             "nerves.bootstrap",
+             "nerves.deps.get"
+           ]
 
     assert Keyword.get(aliases, :"deps.update") == [
              "custom",
@@ -41,8 +111,8 @@ defmodule Nerves.BootstrapTest do
   end
 
   test "aliases are dropped if they already exist" do
-    deps_loadpaths = ["nerves.loadpaths", "deps.loadpaths"]
-    deps_get = ["deps.get", "nerves.deps.get"]
+    deps_loadpaths = ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"]
+    deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
     deps_update = [&Nerves.Bootstrap.Aliases.deps_update/1]
 
     nerves_aliases = [
@@ -124,5 +194,25 @@ defmodule Nerves.BootstrapTest do
     Nerves.Bootstrap.render_update_message(current_version, latest_version)
     assert_receive {:mix_shell, :info, [message]}
     assert message =~ "mix local.nerves"
+  end
+
+  test "adds message when old nerves version is used" do
+    current_version = Version.parse!("0.8.0")
+    latest_version = Version.parse!("0.8.1")
+    nerves_ver = "1.7.16"
+    Nerves.Bootstrap.render_update_message(current_version, latest_version, nerves_ver)
+
+    assert_receive {:mix_shell, :info, [message]}
+    assert message =~ "It is recommended to update your `:nerves`"
+  end
+
+  test "Does not include nerves message when acceptable version in deps" do
+    current_version = Version.parse!("0.8.0")
+    latest_version = Version.parse!("0.8.1")
+    nerves_ver = "1.8.0"
+    Nerves.Bootstrap.render_update_message(current_version, latest_version, nerves_ver)
+
+    assert_receive {:mix_shell, :info, [message]}
+    refute message =~ "It is recommended to update your `:nerves`"
   end
 end

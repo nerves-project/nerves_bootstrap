@@ -1,4 +1,4 @@
-defmodule Mix.Nerves.IO do
+defmodule Mix.Nerves.Bootstrap.IO do
   @moduledoc false
   @app Mix.Project.config()[:app]
 

@@ -1,7 +1,7 @@
-defmodule Mix.Tasks.Nerves.Loadpaths do
-  @moduledoc false
+defmodule Mix.Tasks.Nerves.Bootstrap.Loadpaths do
+  @moduledoc deprecated: "Tasks from :nerves should be used instead"
   use Mix.Task
-  import Mix.Nerves.IO
+  import Mix.Nerves.Bootstrap.IO
 
   @impl Mix.Task
   def run(_args) do
@@ -12,7 +12,7 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
         true ->
           try do
             nerves_env_info()
-            Mix.Task.run("nerves.env", [])
+            Mix.Task.run("nerves.bootstrap.env", [])
             Nerves.Env.bootstrap()
             clear_deps_cache()
             env_info()
@@ -22,7 +22,7 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
           end
 
         false ->
-          Mix.Task.run("nerves.precompile")
+          Mix.Task.run("nerves.bootstrap.precompile")
       end
 
       debug_info("Loadpaths End")

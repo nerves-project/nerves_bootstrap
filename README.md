@@ -4,7 +4,7 @@
 [![Hex.pm](https://img.shields.io/hexpm/v/nerves_bootstrap.svg)](https://hex.pm/packages/nerves_bootstrap)
 
 Nerves.Bootstrap is an Elixir archive that brings Nerves support to Elixir's Mix
-build tool. It also provides a new project generator, `mix nerves.new`.
+build tool and provides a new project generator, `mix nerves.new`.
 
 We recommend reading the [Nerves Installation
 Guide](https://hexdocs.pm/nerves/installation.html) for installing and using
@@ -82,33 +82,51 @@ mix nerves.new my_new_nerves_project --no-nerves-pack
 This task checks [hex.pm](https://hex.pm/packages/nerves_bootstrap) for updates
 to the `nerves_bootstrap` archive. If one exists, you'll be prompted to update.
 
-### mix nerves.clean
+## Integration with your project
 
-This task cleans dependencies in a similar way to `mix deps.clean`, but it
-additionally erases downloaded artifacts and build products from Nerves
-packages.
+ Nerves.Bootstrap injects Nerves-specific build tasks into the `mix` build process via
+ an `Application.start/1` call in your project's `config.exs`. If you use `mix
+ nerves.new`, your project will be created with these lines and no additional
+ work is needed.
 
-### mix nerves.system.shell
+ ```elixir
+ # config/config.exs
+ import Config
 
-This task starts up a shell in an environment suitable for modifying Nerves
-systems. This allows you to interact with `make menuconfig` in Buildroot,
-manually enable and build C libraries, the Linux kernel, bootloaders, and more.
-Depending on your system, it may also start up Docker. See the Nerves
-documentation for usage.
+ Application.start(:nerves_bootstrap)
+ ```
 
-## Building systems and toolchains
+ ## Internals
 
-Nerves expects systems and toolchains to include a URL to a precompiled build
-artifact. Building these dependencies can take hours in some cases, so Nerves
-will not automatically compile them. It can do this, though, and depending on
-your computer, it may even start up Docker to do the builds.
+ Nerves.Bootstrap uses Mix aliases to hook into Mix build steps.
 
-To force compilation to happen, add a `:nerves` option for the desired package
-in your top level project:
+ Aliases vary based on whether you are compiling for your host or your target
+ device. For host builds, Nerves.Bootstrap injects the following tasks to add
+ support for downloading pre-compiled archives.
 
-```elixir
-  {:nerves_system_rpi0, "~> 1.5", nerves: [compile: true]}
-```
+ ```elixir
+ [
+   "deps.get": ["deps.get", "nerves.bootstrap", "nerves.deps.get"],
+   "deps.update": ["deps.update", "nerves.bootstrap", "nerves.deps.get"]
+ ]
+ ```
+
+ When `MIX_TARGET` is set, Nerves.Bootstrap injects the following additional
+ tasks to support cross-compilation and firmware creation:
+
+ ```elixir
+ [
+   "deps.loadpaths": ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"],
+   "deps.compile": ["nerves.bootstrap", "nerves.loadpaths", "deps.compile"],
+   # This is just helper to prevent trying to run tasks on host that were
+   # compiled for a target
+   run: [Nerves.Bootstrap.Aliases.run/1]
+ ]
+ ```
+
+ Nerves.Bootstrap provides only minimal code to inject the Nerves tooling. The
+ main Nerves tooling is the [`Nerves`](https://github.com/nerves-project/nerves)
+ library.
 
 ## Local development
 
