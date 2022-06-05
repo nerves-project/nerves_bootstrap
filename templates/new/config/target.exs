@@ -5,13 +5,7 @@ import Config
 # applications are started and handling failures.
 
 config :shoehorn, init: [:nerves_runtime<%= if nerves_pack? do %>, :nerves_pack<% end %>]
-
-# Nerves Runtime can enumerate hardware devices and send notifications via
-# SystemRegistry. This slows down startup and not many programs make use of
-# this feature.
-
-config :nerves_runtime, :kernel, use_system_registry: false<%= if nerves_pack? do %>
-
+<%= if nerves_pack? do %>
 # Erlinit can be configured without a rootfs_overlay. See
 # https://github.com/nerves-project/erlinit/ for more information on
 # configuring erlinit.
