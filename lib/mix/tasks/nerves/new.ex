@@ -55,13 +55,13 @@ defmodule Mix.Tasks.Nerves.New do
                             v = Version.parse!(@bootstrap_vsn)
                             "#{v.major}.#{v.minor}"
                           )
-  @nerves_vsn "1.7.15"
+  @nerves_vsn "1.7.16"
   @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
-  @shoehorn_vsn "0.9.0"
-  @runtime_vsn "0.11.6"
-  @ring_logger_vsn "0.8.3"
+  @shoehorn_vsn "0.9.1"
+  @runtime_vsn "0.12.0"
+  @ring_logger_vsn "0.8.5"
   @nerves_pack_vsn "0.7.0"
-  @toolshed_vsn "0.2.13"
+  @toolshed_vsn "0.2.26"
 
   @elixir_vsn "~> 1.11"
 
