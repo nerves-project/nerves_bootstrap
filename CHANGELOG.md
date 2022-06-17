@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.11.0 - 2022-06-17
+
+* Potentially breaking changes
+  * Elixir 1.11 or later is now required
+  * Move the core `mix` tooling to `:nerves`
+    * This is part of a bigger reorganization and adjustment to the bootstrap
+      tooling in order to reduce it's footprint. However, these changes have
+      been tested and are considered backwards compatible and most should not
+      see any impact from it. If you were using `Nerves.Bootstrap.Aliases`
+      module directly, you may notice adjusted aliases listed.
+
+* Enhancements
+  * Add GRiSP2 to officially supported Nerves devices
+  * Improve message when unknown target is selected
+  * Add `--no-nerves-pack` to nerves.new options doc
+
+* New project generator updates
+  * Remove `system_registry` option from generator
+  * toolshed 0.2.26
+  * shoehorn 0.9.1
+  * nerves_runtime 0.13.0
+  * ring_logger 0.8.5
+
 ## 1.10.6 - 2022-02-23
 
 * New project generator updates
