@@ -74,7 +74,8 @@ defmodule Mix.Tasks.Nerves.New do
     {:rpi4, "1.19"},
     {:bbb, "2.14"},
     {:osd32mp1, "0.10"},
-    {:x86_64, "1.19"}
+    {:x86_64, "1.19"},
+    {:grisp2, "0.3"}
   ]
 
   @new [
