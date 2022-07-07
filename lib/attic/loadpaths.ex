@@ -8,21 +8,17 @@ defmodule Mix.Tasks.Nerves.Loadpaths do
     unless System.get_env("NERVES_PRECOMPILE") == "1" do
       debug_info("Loadpaths Start")
 
-      case Code.ensure_loaded?(Nerves.Env) do
-        true ->
-          try do
-            nerves_env_info()
-            Mix.Task.run("nerves.env", [])
-            Nerves.Env.bootstrap()
-            clear_deps_cache()
-            env_info()
-          rescue
-            e ->
-              reraise e, __STACKTRACE__
-          end
+      Mix.Task.run("nerves.precompile", ["--no-loadpaths"])
 
-        false ->
-          Mix.Task.run("nerves.precompile")
+      try do
+        nerves_env_info()
+        Mix.Task.run("nerves.env", [])
+        Nerves.Env.bootstrap()
+        clear_deps_cache()
+        env_info()
+      rescue
+        e ->
+          reraise e, __STACKTRACE__
       end
 
       debug_info("Loadpaths End")
