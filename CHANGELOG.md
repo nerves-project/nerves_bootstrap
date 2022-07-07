@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.11.0 - 2022-06-17
+## 1.11.1 - 2022-07-07
+
+* Fixes
+  * Fixed backwards compatibility issue with building Nerves systems with Nerves
+    1.7.x.
+
+## 1.11.0 - 2022-07-06
 
 * Potentially breaking changes
   * Elixir 1.11 or later is now required
