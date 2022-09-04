@@ -16,7 +16,6 @@ defmodule <%= app_module %>.MixProject do
       config_path: "../../config/config.exs",
       lockfile: "../../mix.lock",<% end %>
       start_permanent: Mix.env() == :prod,
-      build_embedded: true,
       deps: deps(),
       releases: [{@app, release()}],
       preferred_cli_target: [run: :host, test: :host]
