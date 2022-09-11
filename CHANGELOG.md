@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.11.2 - 2022-09-11
+
+* Updates
+  * Remove references to `:build_embedded` since that option is planned for
+    removal in Elixir 1.15 and it wasn't needed.
+
 ## 1.11.1 - 2022-07-07
 
 * Fixes
