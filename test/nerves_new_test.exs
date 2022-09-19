@@ -125,7 +125,7 @@ defmodule Nerves.NewTest do
         assert file =~ ~r/:ring_logger/
       end)
 
-      assert_file("#{@app_name}/config/config.exs", fn file ->
+      assert_file("#{@app_name}/config/target.exs", fn file ->
         assert file =~ ~r/RingLogger/
       end)
     end)
