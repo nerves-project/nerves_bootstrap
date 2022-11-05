@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.11.3 - 2022-11-05
+
+* Updates
+  * Allow Nerves v1.9.0 to be used in new projects
+  * Use console logger by default in host mode. This is more like the default
+    Elixir configuration.
+
 ## 1.11.2 - 2022-09-11
 
 * Updates
