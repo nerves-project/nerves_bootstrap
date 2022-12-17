@@ -16,10 +16,8 @@ config :shoehorn, init: [:nerves_runtime<%= if nerves_pack? do %>, :nerves_pack<
 # https://github.com/nerves-project/erlinit/ for more information on
 # configuring erlinit.
 
-config :nerves,
-  erlinit: [
-    hostname_pattern: "nerves-%s"
-  ]
+# Advance the system clock on devices without real-time clocks.
+config :nerves, :erlinit, update_clock: true
 
 # Configure the device for SSH IEx prompt access and firmware updates
 #
