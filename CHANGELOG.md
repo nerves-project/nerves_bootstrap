@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.11.4 - 2023-03-03
+
+* Updates
+  * Use Nerves v1.10.0 in new projects
+  * Default to adding `-code_path_choice strict` to new projects to skip a few
+    unnecessary path searches for archives
+  * Default to moving the clock forward in erlinit. This reduces the time jump
+    on boot for RTC-less devices.
+
 ## 1.11.3 - 2022-11-05
 
 * Updates
