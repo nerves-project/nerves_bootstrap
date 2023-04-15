@@ -79,9 +79,18 @@ defmodule Mix.Tasks.Nerves.New do
   ]
 
   @new [
-    {:eex, "new/config/config.exs", "config/config.exs"},
     {:eex, "new/config/host.exs", "config/host.exs"},
     {:eex, "new/config/target.exs", "config/target.exs"},
+    {:eex, "new/config/config.exs", "config/config.exs"}
+  ]
+
+  @new_umbrella [
+    {:eex, "new/config/host.exs", "../../config/host.exs"},
+    {:eex, "new/config/target.exs", "../../config/target.exs"},
+    {:append, "new/config/config_umbrella.exs", "../../config/config.exs"}
+  ]
+
+  @new_common [
     {:eex, "new/lib/app_name.ex", "lib/app_name.ex"},
     {:eex, "new/lib/app_name/application.ex", "lib/app_name/application.ex"},
     {:eex, "new/test/test_helper.exs", "test/test_helper.exs"},
@@ -100,7 +109,7 @@ defmodule Mix.Tasks.Nerves.New do
   # Embed all defined templates
   root = Path.expand("../../../../templates", __DIR__)
 
-  for {format, source, _} <- @new do
+  for {format, source, _} <- @new ++ @new_common ++ @new_umbrella do
     unless format == :keep do
       @external_resource Path.join(root, source)
       defp render(unquote(source)), do: unquote(File.read!(Path.join(root, source)))
@@ -214,7 +223,7 @@ defmodule Mix.Tasks.Nerves.New do
       source_date_epoch: source_date_epoch
     ]
 
-    copy_from(path, binding, @new)
+    copy_from(path, binding, get_mappings(in_umbrella?))
     # Parallel installs
     install? = Mix.shell().yes?("\nFetch and install dependencies?")
 
@@ -387,4 +396,7 @@ defmodule Mix.Tasks.Nerves.New do
   defp generate_source_date_epoch() do
     DateTime.utc_now() |> DateTime.to_unix()
   end
+
+  defp get_mappings(true), do: @new_common ++ @new_umbrella
+  defp get_mappings(false), do: @new_common ++ @new
 end
