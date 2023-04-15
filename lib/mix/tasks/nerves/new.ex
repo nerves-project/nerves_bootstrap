@@ -87,7 +87,7 @@ defmodule Mix.Tasks.Nerves.New do
   @new_umbrella [
     {:eex, "new/config/host.exs", "../../config/host.exs"},
     {:eex, "new/config/target.exs", "../../config/target.exs"},
-    {:append, "new/config/config_umbrella.exs", "../../config/config.exs"}
+    {:append_render, "new/config/config_umbrella.exs", "../../config/config.exs"}
   ]
 
   @new_common [
@@ -368,6 +368,10 @@ defmodule Mix.Tasks.Nerves.New do
 
         :append ->
           append_to(Path.dirname(target), Path.basename(target), render(source))
+
+        :append_render ->
+          contents = EEx.eval_string(render(source), binding, file: source, trim: false)
+          append_to(Path.dirname(target), Path.basename(target), contents)
 
         :eex ->
           contents = EEx.eval_string(render(source), binding, file: source, trim: false)
