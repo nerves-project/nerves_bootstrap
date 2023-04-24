@@ -39,8 +39,11 @@ defmodule <%= app_module %>.MixProject do
       {:ring_logger, "~> <%= ring_logger_vsn %>"},
       {:toolshed, "~> <%= toolshed_vsn %>"},
 
+      # Allow Nerves.Runtime on host to support development, testing and CI.
+      # See config/host.exs for usage.
+      {:nerves_runtime, "~> <%= runtime_vsn %>"},<%= if nerves_pack? do %>
+
       # Dependencies for all targets except :host
-      {:nerves_runtime, "~> <%= runtime_vsn %>", targets: @all_targets},<%= if nerves_pack? do %>
       {:nerves_pack, "~> <%= nerves_pack_vsn %>", targets: @all_targets},<% end %>
 
       # Dependencies for specific targets
