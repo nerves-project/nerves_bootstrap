@@ -34,6 +34,9 @@ defmodule Nerves.NewTest do
 
         assert file =~ "{:nerves_system_x86_64, \"~> 1.19\", runtime: false, targets: :x86_64"
         assert file =~ "{:nerves_system_grisp2, \"~> 0.3\", runtime: false, targets: :grisp2"
+
+        assert file =~
+                 "{:nerves_system_mangopi_mq_pro, \"~> 0.4\", runtime: false, targets: :mangopi_mq_pro"
       end)
     end)
   end
