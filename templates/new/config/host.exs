@@ -14,7 +14,7 @@ config :nerves_runtime,
        # https://hexdocs.pm/nerves_runtime/readme.html#nerves-system-and-firmware-metadata
 
        "nerves_fw_active" => "a",
-       "a.nerves_fw_architecture" => "generic"
+       "a.nerves_fw_architecture" => "generic",
        "a.nerves_fw_description" => "N/A",
        "a.nerves_fw_platform" => "host",
        "a.nerves_fw_version" => "0.0.0"
