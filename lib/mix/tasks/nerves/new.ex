@@ -224,6 +224,8 @@ defmodule Mix.Tasks.Nerves.New do
         cmd("mix deps.get")
       end
 
+      cmd("mix format")
+
       print_mix_info(path)
     end)
   end
