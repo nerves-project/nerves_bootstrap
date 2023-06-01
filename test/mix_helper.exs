@@ -11,7 +11,7 @@ defmodule MixHelper do
     Path.expand("../../tmp", __DIR__)
   end
 
-  @spec in_tmp(atom(), (() -> any())) :: any()
+  @spec in_tmp(atom(), (-> any())) :: any()
   def in_tmp(which, function) do
     path = Path.join(tmp_path(), to_string(which))
     File.rm_rf!(path)
