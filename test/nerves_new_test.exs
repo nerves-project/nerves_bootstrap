@@ -110,6 +110,23 @@ defmodule Nerves.NewTest do
     end)
   end
 
+  test "new project has correct shell settings", context do
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name])
+
+      expected =
+        if Version.match?(System.version(), ">= 1.15.0") do
+          ~r/-user elixir\n-run elixir start_iex/
+        else
+          ~r/-user Elixir.IEx.CLI/
+        end
+
+      assert_file("#{@app_name}/rel/vm.args.eex", fn file ->
+        assert file =~ expected
+      end)
+    end)
+  end
+
   test "new project adds runtime_tools", context do
     in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name])

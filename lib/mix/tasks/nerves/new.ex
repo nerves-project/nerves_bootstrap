@@ -87,7 +87,7 @@ defmodule Mix.Tasks.Nerves.New do
     {:eex, "new/lib/app_name/application.ex", "lib/app_name/application.ex"},
     {:eex, "new/test/test_helper.exs", "test/test_helper.exs"},
     {:eex, "new/test/app_name_test.exs", "test/app_name_test.exs"},
-    {:text, "new/rel/vm.args.eex", "rel/vm.args.eex"},
+    {:eex, "new/rel/vm.args.eex", "rel/vm.args.eex"},
     {:eex, "new/rootfs_overlay/etc/iex.exs", "rootfs_overlay/etc/iex.exs"},
     {:text, "new/.gitignore", ".gitignore"},
     {:text, "new/.formatter.exs", ".formatter.exs"},
