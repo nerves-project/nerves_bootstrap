@@ -43,8 +43,12 @@
 
 ## Start the Elixir shell
 
--noshell
+-noshell<%= if Version.match?(System.version(), ">= 1.15.0") do %>
+-user elixir
+-run elixir start_iex
+<% else %>
 -user Elixir.IEx.CLI
+<% end %>
 
 ## Enable colors in the shell
 -elixir ansi_enabled true
@@ -56,4 +60,3 @@
 -extra --no-halt
 --
 --dot-iex /etc/iex.exs
-
