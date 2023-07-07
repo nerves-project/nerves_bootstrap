@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.11.5 - 2023-07-07
+
+* Updates
+  * Support Elixir 1.15/OTP 26
+
+* New project generator updates
+  * Adjust `vm.args.eex` based on Elixir version
+  * Fix typo in templates/new/config/host.exs
+  * Run formatting as part of `mix nerves.new`
+  * Adjust `:nerves_runtime` to be available on host
+  * Add `nerves_system_mangopi_mq_pro` system
+  * `:ring_logger` 0.10.0
+
 ## 1.11.4 - 2023-03-03
 
 * Updates
