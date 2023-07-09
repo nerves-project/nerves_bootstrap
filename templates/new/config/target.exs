@@ -44,9 +44,12 @@ config :nerves_ssh,
   authorized_keys: Enum.map(keys, &File.read!/1)
 
 # Configure the network using vintage_net
+#
+# Update regulatory_domain to your 2-letter country code E.g., "US"
+#
 # See https://github.com/nerves-networking/vintage_net for more information
 config :vintage_net,
-  regulatory_domain: "US",
+  regulatory_domain: "00",
   config: [
     {"usb0", %{type: VintageNetDirect}},
     {"eth0",
