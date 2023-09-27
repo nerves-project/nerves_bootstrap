@@ -17,7 +17,8 @@ defmodule Nerves.Bootstrap.MixProject do
       deps: deps(),
       dialyzer: dialyzer(),
       preferred_cli_env: %{
-        credo: :test,
+        credo: :lint,
+        dialyzer: :lint,
         docs: :docs,
         "hex.publish": :docs,
         "hex.build": :docs
@@ -45,8 +46,8 @@ defmodule Nerves.Bootstrap.MixProject do
 
   defp deps do
     [
-      {:credo, "~> 1.6", only: :test, runtime: false},
-      {:dialyxir, "~> 1.1", only: :dev, runtime: false},
+      {:credo, "~> 1.6", only: :lint, runtime: false},
+      {:dialyxir, "~> 1.1", only: :lint, runtime: false},
       {:ex_doc, "~> 0.22", only: :docs, runtime: false}
     ]
   end
