@@ -10,7 +10,7 @@ defmodule Nerves.Bootstrap.MixProject do
       version: @version,
       elixir: "~> 1.11",
       aliases: aliases(),
-      xref: [exclude: [Nerves.Env, Nerves.Artifact, Hex, Hex.API.Package, EEx]],
+      xref: [exclude: [Nerves.Env, Hex, Hex.API.Package, EEx]],
       docs: docs(),
       description: description(),
       package: package(),
