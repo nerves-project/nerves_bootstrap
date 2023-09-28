@@ -139,7 +139,7 @@ defmodule Nerves.BootstrapTest do
     Nerves.Bootstrap.render_update_message(current_version, latest_version, nerves_ver)
 
     assert_receive {:mix_shell, :info, [message]}
-    assert message =~ "It is recommended to update your `:nerves`"
+    assert message =~ "This version requires `:nerves >= 1.8.0`"
   end
 
   test "Does not include nerves message when acceptable version in deps" do
@@ -149,6 +149,6 @@ defmodule Nerves.BootstrapTest do
     Nerves.Bootstrap.render_update_message(current_version, latest_version, nerves_ver)
 
     assert_receive {:mix_shell, :info, [message]}
-    refute message =~ "It is recommended to update your `:nerves`"
+    refute message =~ "This version requires `:nerves >= 1.8.0`"
   end
 end

@@ -6,6 +6,19 @@ defmodule Nerves.Bootstrap do
 
   @impl Application
   def start(_type, _args) do
+    nerves_ver = nerves_version()
+
+    if nerves_ver && Version.match?(nerves_ver, "< 1.8.0") do
+      message = """
+      You are using :nerves #{nerves_ver} which is incompatible with this version
+      of nerves_bootstrap and will result in compilation failures.
+
+      Please update to :nerves >= 1.8.0 or downgrade your nerves_bootstrap <= 1.11.5
+      """
+
+      Mix.shell().info([:yellow, message, :reset])
+    end
+
     Nerves.Bootstrap.Aliases.init()
     {:ok, self()}
   end
@@ -93,13 +106,10 @@ defmodule Nerves.Bootstrap do
           message <>
             """
 
-            It is recommended to update your `:nerves` version also as this update
-            utilizes updates and improvements from `:nerves >= 1.8.0`.
-            (You currently have #{nerves_ver})
+            This version requires `:nerves >= 1.8.0` (You currently have #{nerves_ver})
+            You must also update your `:nerves` dependency by running
 
               mix deps.update nerves
-
-            However, this is backwards compatible if you cannot update `:nerves` at this time.
             """,
         else: message
 
