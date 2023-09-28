@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.12.0 - 2023-09-27
+
+* Potentially breaking changes
+  * `:nerves >= 1.8.0` is now required to use this version of `nerves_bootstrap`.
+    If you keep up-to-date, then this won't be an issue for you.
+
+* Updates
+  * Removed legacy tasks (tooling now maintained in [`:nerves`](https://github.com/nerves-project/nerves))
+
+* New project generator updates
+  * Default to regulatory domain (`00`) for WiFi
+    * For US users, this means 5GHz won't work anymore since it's disabled in
+      `00` (NO-IR = no initiating radiation) until you update your config to
+      use `US`
+  * Bumped all Nerves systems to latest
+
 ## 1.11.5 - 2023-07-07
 
 * Updates
