@@ -41,6 +41,7 @@ defmodule Nerves.Bootstrap.Aliases do
     aliases
     |> append("deps.get", "nerves.bootstrap")
     |> append("deps.get", "nerves.deps.get")
+    |> prepend("deps.precompile", "nerves.bootstrap")
     |> replace("deps.update", &Nerves.Bootstrap.Aliases.deps_update/1)
   end
 

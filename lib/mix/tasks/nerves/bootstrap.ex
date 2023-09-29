@@ -28,12 +28,19 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
     end
 
     if Version.match?(nerves_ver, "< 1.8.0") do
-      Mix.raise(":nerves version requirement not met")
+      Mix.raise("""
+      You are using :nerves #{nerves_ver} which is incompatible with this version
+      of nerves_bootstrap and will result in compilation failures.
+
+      Please update to :nerves >= 1.8.0 or downgrade your nerves_bootstrap <= 1.11.5
+      """)
     end
 
-    unless Code.ensure_loaded?(Nerves.Env) do
+    if Mix.target() != :host and not Code.ensure_loaded?(Nerves.Env) do
       # The tooling mix tasks are maintained in :nerves so we need to
-      # ensure it is compiled here first so the tasks are available
+      # ensure it is compiled here first so the tasks are available.
+      # If the target is host, then this will be handled by the regular
+      # compilation process
       _ = Mix.Tasks.Deps.Loadpaths.run(["--no-compile"])
       Mix.Tasks.Deps.Compile.run(["nerves", "--include-children"])
     end
