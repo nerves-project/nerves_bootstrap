@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.12.1 - 2023-09-30
+
+* Fixes
+  * Nerves.Bootstrap would fail to start in some cases where the dependencies
+    had not been fetched and Nerves.Bootstrap would try to warn about the
+    `:nerves` version requirement. This check has been moved to
+    `deps.precompile` which happens after dependencies are fetched and also
+    helps halt the build process if the `:nerves` version requirement is not
+
 ## 1.12.0 - 2023-09-27
 
 * Potentially breaking changes
