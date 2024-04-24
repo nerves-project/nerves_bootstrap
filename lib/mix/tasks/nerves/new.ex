@@ -16,7 +16,7 @@ defmodule Mix.Tasks.Nerves.New do
 
   A `--target` option can be given to limit support to one or more of the
   [officially Nerves
-  systems](https://hexdocs.pm/nerves/targets.html#supported-targets-and-systems).
+  systems](https://hexdocs.pm/nerves/supported-targets.html).
 
   A `--cookie` options can be given to set the Erlang distribution
   cookie in `vm.args`. This defaults to a randomly generated string.
@@ -264,7 +264,7 @@ defmodule Mix.Tasks.Nerves.New do
     Mix.shell().info("""
     Your Nerves project was created successfully.
 
-    You should now pick a target. See https://hexdocs.pm/nerves/targets.html#content
+    You should now pick a target. See https://hexdocs.pm/nerves/supported-targets.html
     for supported targets. If your target is on the list, set `MIX_TARGET`
     to its tag name:
 

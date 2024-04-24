@@ -12,7 +12,7 @@ a short name like `rpi3` that maps to a Nerves system image for that platform.
 All of this logic is in the generated `mix.exs` and may be customized. For more
 information about targets see:
 
-https://hexdocs.pm/nerves/targets.html#content
+https://hexdocs.pm/nerves/supported-targets.html
 
 ## Getting Started
 
