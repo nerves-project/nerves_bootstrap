@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.12.2 - 2024-04-24
+
+* Fixes
+  * Targets documentation URL was outdated
+  * Simplify searching for SSH keys in the `nerves.new` generated config
+
+* Updates
+  * Changes to new Elixir slack URL in template README.md
+  * Adds Discord to template README.md
+
 ## 1.12.1 - 2023-09-30
 
 * Fixes
