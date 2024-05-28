@@ -45,7 +45,7 @@
 
 -noshell<%= if Version.match?(System.version(), ">= 1.15.0") do %>
 -user elixir
--run elixir start_iex
+-run elixir <%= if Version.match?(System.version(), ">= 1.17.0"), do: "start_cli", else: "start_iex" %>
 <% else %>
 -user Elixir.IEx.CLI
 <% end %>
