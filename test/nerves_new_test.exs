@@ -117,7 +117,10 @@ defmodule Nerves.NewTest do
 
       expected =
         if Version.match?(System.version(), ">= 1.15.0") do
-          ~r/-user elixir\n-run elixir start_iex/
+          function =
+            if Version.match?(System.version(), ">= 1.17.0"), do: "start_cli", else: "start_iex"
+
+          ~r/-user elixir\n-run elixir #{function}/
         else
           ~r/-user Elixir.IEx.CLI/
         end
