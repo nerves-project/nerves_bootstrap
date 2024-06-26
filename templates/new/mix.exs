@@ -25,8 +25,8 @@ defmodule <%= app_module %>.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {<%= app_module %>.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools],
+      mod: {<%= app_module %>.Application, []}
     ]
   end
 
