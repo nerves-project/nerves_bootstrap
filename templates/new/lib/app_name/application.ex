@@ -36,8 +36,4 @@ defmodule <%= app_module %>.Application do
       # {<%= app_module %>.Worker, arg},
     ]
   end
-
-  def target() do
-    Application.get_env(:<%= app_name %>, :target)
-  end
 end
