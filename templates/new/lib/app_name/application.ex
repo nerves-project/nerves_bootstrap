@@ -7,10 +7,6 @@ defmodule <%= app_module %>.Application do
 
   @impl true
   def start(_type, _args) do
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: <%= app_module %>.Supervisor]
-
     children =
       [
         # Children for all targets
@@ -18,11 +14,14 @@ defmodule <%= app_module %>.Application do
         # {<%= app_module %>.Worker, arg},
       ] ++ children(target())
 
+    # See https://hexdocs.pm/elixir/Supervisor.html
+    # for other strategies and supported options
+    opts = [strategy: :one_for_one, name: <%= app_module %>.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
   # List all child processes to be supervised
-  def children(:host) do
+  defp children(:host) do
     [
       # Children that only run on the host
       # Starts a worker by calling: <%= app_module %>.Worker.start_link(arg)
@@ -30,7 +29,7 @@ defmodule <%= app_module %>.Application do
     ]
   end
 
-  def children(_target) do
+  defp children(_target) do
     [
       # Children for all targets except host
       # Starts a worker by calling: <%= app_module %>.Worker.start_link(arg)
