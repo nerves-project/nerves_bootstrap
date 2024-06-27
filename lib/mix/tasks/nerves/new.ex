@@ -60,7 +60,7 @@ defmodule Mix.Tasks.Nerves.New do
   @shoehorn_vsn "0.9.1"
   @runtime_vsn "0.13.0"
   @ring_logger_vsn "0.11.0"
-  @nerves_pack_vsn "0.7.0"
+  @nerves_pack_vsn "0.7.1"
   @toolshed_vsn "0.4.0"
 
   @elixir_vsn "~> 1.11"
