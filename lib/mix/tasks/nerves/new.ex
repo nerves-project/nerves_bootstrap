@@ -72,7 +72,7 @@ defmodule Mix.Tasks.Nerves.New do
     {:rpi3, "1.24"},
     {:rpi3a, "1.24"},
     {:rpi4, "1.24"},
-    {:rpi5, "1.24"},
+    {:rpi5, "0.2"},
     {:bbb, "2.19"},
     {:osd32mp1, "0.15"},
     {:x86_64, "1.24"},
