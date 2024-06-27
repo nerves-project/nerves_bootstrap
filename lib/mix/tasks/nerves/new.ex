@@ -63,7 +63,7 @@ defmodule Mix.Tasks.Nerves.New do
   @nerves_pack_vsn "0.7.1"
   @toolshed_vsn "0.4.0"
 
-  @elixir_vsn "~> 1.11"
+  @elixir_requirement "~> 1.13"
 
   @targets [
     {:rpi, "1.24"},
@@ -124,9 +124,9 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   def run(argv) do
-    unless Version.match?(System.version(), @elixir_vsn) do
+    unless Version.match?(System.version(), @elixir_requirement) do
       Mix.raise("""
-      Nerves Bootstrap v#{@bootstrap_vsn} creates projects that require Elixir #{@elixir_vsn}.
+      Nerves Bootstrap v#{@bootstrap_vsn} creates projects that require Elixir #{@elixir_requirement}.
 
       You have Elixir #{System.version()}. Please update your Elixir version or downgrade
       the version of Nerves Bootstrap that you're using.
@@ -197,6 +197,7 @@ defmodule Mix.Tasks.Nerves.New do
     targets = if targets == [], do: @targets, else: targets
     cookie = opts[:cookie]
     source_date_epoch = Keyword.get(opts, :source_date_epoch, generate_source_date_epoch())
+    elixir_version = System.version() |> Version.parse!()
 
     binding = [
       app_name: app,
@@ -205,7 +206,7 @@ defmodule Mix.Tasks.Nerves.New do
       shoehorn_vsn: @shoehorn_vsn,
       runtime_vsn: @runtime_vsn,
       ring_logger_vsn: @ring_logger_vsn,
-      elixir_req: @elixir_vsn,
+      elixir_req: "~> #{elixir_version.major}.#{elixir_version.minor}",
       nerves_dep: nerves_dep(nerves_path),
       in_umbrella: in_umbrella?,
       nerves_pack?: nerves_pack?,
