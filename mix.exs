@@ -8,7 +8,7 @@ defmodule Nerves.Bootstrap.MixProject do
     [
       app: :nerves_bootstrap,
       version: @version,
-      elixir: "~> 1.11",
+      elixir: "~> 1.13",
       aliases: aliases(),
       xref: [exclude: [Nerves.Env, Hex, Hex.API.Package, EEx]],
       docs: docs(),
