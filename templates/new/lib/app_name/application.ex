@@ -12,7 +12,7 @@ defmodule <%= app_module %>.Application do
         # Children for all targets
         # Starts a worker by calling: <%= app_module %>.Worker.start_link(arg)
         # {<%= app_module %>.Worker, arg},
-      ] ++ children(target())
+      ] ++ children(Nerves.Runtime.mix_target())
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
