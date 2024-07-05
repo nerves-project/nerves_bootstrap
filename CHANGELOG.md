@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.13.0 - 2024-07-05
+
+Adds support for Elixir 1.17 and OTP 27. This now requires
+Elixir 1.13 as the minimum supported version
+
+* New project generator updates
+  * Adjust `vm.args.eex` to support Elixir 1.17 changes
+  * Synchronized to match the Elixir `mix new` generated content
+  * Removes the generated `target/0` function in favor of `Nerves.Runtime.mix_target()`
+  * Generated `mix.exs` now uses the current Elixir version in use
+    as the required version for the newly generated project
+  * Various dependency updates
+
 ## 1.12.2 - 2024-04-24
 
 * Fixes
