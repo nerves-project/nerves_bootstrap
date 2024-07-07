@@ -1,4 +1,4 @@
-## Customize flags given to the VM: http://erlang.org/doc/man/erl.html
+## Customize flags given to the VM: https://www.erlang.org/doc/apps/erts/erl_cmd.html
 
 ## Do not set -name or -sname here. Prefer configuring them at runtime
 ## Configure -setcookie in the mix.exs release section or at runtime
@@ -21,7 +21,7 @@
 +C multi_time_warp
 
 ## Load code at system startup
-## See http://erlang.org/doc/system_principles/system_principles.html#code-loading-strategy
+## See https://www.erlang.org/doc/system/system_principles.html#code-loading-strategy
 -mode embedded
 
 # Load code as per the boot script since not using archives
@@ -29,13 +29,13 @@
 -code_path_choice strict
 
 ## Disable scheduler busy wait to reduce idle CPU usage and avoid delaying
-## other OS processes. See http://erlang.org/doc/man/erl.html#+sbwt
+## other OS processes. See https://www.erlang.org/doc/apps/erts/erl_cmd.html#+sbwt
 +sbwt none
 +sbwtdcpu none
 +sbwtdio none
 
 ## Save the shell history between reboots
-## See http://erlang.org/doc/man/kernel_app.html for additional options
+## See https://www.erlang.org/doc/apps/kernel/kernel_app for additional options
 -kernel shell_history enabled
 
 ## Enable heartbeat monitoring of the Erlang runtime system
