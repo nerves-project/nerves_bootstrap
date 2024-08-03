@@ -12,7 +12,7 @@ defmodule <%= app_module %>.Application do
         # Children for all targets
         # Starts a worker by calling: <%= app_module %>.Worker.start_link(arg)
         # {<%= app_module %>.Worker, arg},
-      ] ++ children(Nerves.Runtime.mix_target())
+      ] ++ target_children()
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
@@ -21,19 +21,23 @@ defmodule <%= app_module %>.Application do
   end
 
   # List all child processes to be supervised
-  defp children(:host) do
-    [
-      # Children that only run on the host
-      # Starts a worker by calling: <%= app_module %>.Worker.start_link(arg)
-      # {<%= app_module %>.Worker, arg},
-    ]
-  end
-
-  defp children(_target) do
-    [
-      # Children for all targets except host
-      # Starts a worker by calling: <%= app_module %>.Worker.start_link(arg)
-      # {<%= app_module %>.Worker, arg},
-    ]
+  if Mix.target() == :host do
+    defp target_children() do
+      [
+        # Children that only run on the host during development or test.
+        # In general, prefer using `config/host.exs` for differences.
+        #
+        # Starts a worker by calling: Host.Worker.start_link(arg)
+        # {Host.Worker, arg},
+      ]
+    end
+  else
+    defp target_children() do
+      [
+        # Children for all targets except host
+        # Starts a worker by calling: Target.Worker.start_link(arg)
+        # {Target.Worker, arg},
+      ]
+    end
   end
 end
