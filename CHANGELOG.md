@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.13.1 - 2024-09-27
+
+* New project generator updates
+  * Fix dialyzer warning in generated project
+  * Adjust Erlang doc URLS in `vm.args.eex` to the new locations
+
 ## 1.13.0 - 2024-07-05
 
 Adds support for Elixir 1.17 and OTP 27. This now requires
