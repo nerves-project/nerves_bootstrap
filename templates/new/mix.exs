@@ -45,6 +45,7 @@ defmodule <%= app_module %>.MixProject do
 
       # Dependencies for all targets except :host
       {:nerves_pack, "~> <%= nerves_pack_vsn %>", targets: @all_targets},<% end %>
+      {:mndp, "~> 0.1"},
 
       # Dependencies for specific targets
       # NOTE: It's generally low risk and recommended to follow minor version
