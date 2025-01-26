@@ -54,7 +54,7 @@ defmodule Nerves.Bootstrap do
         :ok
 
       latest_version ->
-        render_update_message(current_version, latest_version, nerves_version())
+        render_update_message(current_version, latest_version)
     end
   rescue
     _e -> :ok
@@ -69,8 +69,8 @@ defmodule Nerves.Bootstrap do
     |> List.first()
   end
 
-  @spec render_update_message(any, %{:pre => any, optional(any) => any}, String.t() | nil) :: :ok
-  def render_update_message(current_version, %{pre: pre} = latest_version, nerves_ver \\ nil) do
+  @spec render_update_message(any, %{:pre => any, optional(any) => any}) :: :ok
+  def render_update_message(current_version, %{pre: pre} = latest_version) do
     message =
       "A new version of Nerves bootstrap is available(#{current_version} < #{latest_version}), " <>
         if pre == [] do
@@ -86,19 +86,6 @@ defmodule Nerves.Bootstrap do
             mix archive.install hex nerves_bootstrap #{latest_version}
           """
         end
-
-    message =
-      if nerves_ver && Version.match?(nerves_ver, "< 1.8.0"),
-        do:
-          message <>
-            """
-
-            This version requires `:nerves >= 1.8.0` (You currently have #{nerves_ver})
-            You must also update your `:nerves` dependency by running
-
-              mix deps.update nerves
-            """,
-        else: message
 
     Mix.shell().info([:yellow, message, :reset])
   end

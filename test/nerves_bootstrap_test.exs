@@ -133,24 +133,4 @@ defmodule Nerves.BootstrapTest do
     assert_receive {:mix_shell, :info, [message]}
     assert message =~ "mix local.nerves"
   end
-
-  test "adds message when old nerves version is used" do
-    current_version = Version.parse!("0.8.0")
-    latest_version = Version.parse!("0.8.1")
-    nerves_ver = "1.7.16"
-    Nerves.Bootstrap.render_update_message(current_version, latest_version, nerves_ver)
-
-    assert_receive {:mix_shell, :info, [message]}
-    assert message =~ "This version requires `:nerves >= 1.8.0`"
-  end
-
-  test "Does not include nerves message when acceptable version in deps" do
-    current_version = Version.parse!("0.8.0")
-    latest_version = Version.parse!("0.8.1")
-    nerves_ver = "1.8.0"
-    Nerves.Bootstrap.render_update_message(current_version, latest_version, nerves_ver)
-
-    assert_receive {:mix_shell, :info, [message]}
-    refute message =~ "This version requires `:nerves >= 1.8.0`"
-  end
 end
