@@ -118,8 +118,7 @@ tasks to support cross-compilation and firmware creation:
 [
   "deps.loadpaths": ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"],
   "deps.compile": ["nerves.bootstrap", "nerves.loadpaths", "deps.compile"],
-  # This is just helper to prevent trying to run tasks on host that were
-  # compiled for a target
+  # This returns a nicer error when MIX_TARGET is set when calling 'mix run'
   run: [Nerves.Bootstrap.Aliases.run/1]
 ]
 ```
