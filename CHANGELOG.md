@@ -180,7 +180,7 @@ Elixir 1.13 as the minimum supported version
 
 * New project generator updates
   * Bump [NervesPack to 0.4](https://hexdocs.pm/nerves_pack/changelog.html#v0-4-0)
-    which drops `:nerves_firwmare_ssh` in favor of `:nerves_ssh` and
+    which drops `:nerves_firmware_ssh` in favor of `:nerves_ssh` and
     `:ssh_subsystem_fwup` for access and updates.
   * Bump Nerves to `~> 1.6.3`
   * Bump NervesRuntime to `~> 0.11.3`

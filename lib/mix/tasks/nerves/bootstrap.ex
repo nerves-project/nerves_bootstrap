@@ -52,7 +52,7 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
 
   defp debug(msg) do
     if System.get_env("NERVES_DEBUG") == "1" do
-      Mix.shell().info([:inverse, "|nerves_boostrap| #{msg}", :reset])
+      Mix.shell().info([:inverse, "|nerves_bootstrap| #{msg}", :reset])
     end
   end
 end
