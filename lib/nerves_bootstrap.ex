@@ -105,16 +105,6 @@ defmodule Nerves.Bootstrap do
     Mix.shell().info([:yellow, message, :reset])
   end
 
-  @spec mix_target() :: atom()
-  def mix_target() do
-    if function_exported?(Mix, :target, 0) do
-      apply(Mix, :target, [])
-    else
-      (System.get_env("MIX_TARGET") || "host")
-      |> String.to_atom()
-    end
-  end
-
   defp filter_pre_release(releases, %{pre: []}) do
     releases
     |> Enum.filter(&(Map.get(&1, :pre) == []))
