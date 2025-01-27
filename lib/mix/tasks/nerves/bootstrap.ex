@@ -17,6 +17,8 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
   """
   use Mix.Task
 
+  alias Nerves.Bootstrap.UpdateChecker
+
   @impl Mix.Task
   def run(_args) do
     debug("load nerves START")
@@ -45,7 +47,7 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
       Mix.Tasks.Deps.Compile.run(["nerves", "--include-children"])
     end
 
-    Nerves.Bootstrap.check_for_update()
+    UpdateChecker.check()
 
     debug("load nerves END")
   end
