@@ -9,7 +9,7 @@ defmodule Nerves.Bootstrap.Aliases do
       adjusted_config =
         config
         |> update_host_config()
-        |> update_target_config(Nerves.Bootstrap.mix_target())
+        |> update_target_config(Mix.target())
 
       :ok = Mix.ProjectStack.push(name, adjusted_config, file)
     else
@@ -55,17 +55,17 @@ defmodule Nerves.Bootstrap.Aliases do
 
   @spec run([String.t()]) :: :ok
   def run(args) do
-    case Nerves.Bootstrap.mix_target() do
-      :host ->
-        Mix.Tasks.Run.run(args)
+    target = Mix.target()
 
-      target ->
-        msg = """
-        You are trying to run code compiled for #{target}
-        on your host. Please unset MIX_TARGET to run in host mode.
-        """
+    if target == :host do
+      Mix.Tasks.Run.run(args)
+    else
+      msg = """
+      You are trying to run code compiled for #{target}
+      on your host. Please unset MIX_TARGET to run in host mode.
+      """
 
-        Mix.shell().error([:inverse, :red, "|nerves_bootstrap| ", msg, :reset])
+      Mix.shell().error([:inverse, :red, "|nerves_bootstrap| ", msg, :reset])
     end
   end
 
