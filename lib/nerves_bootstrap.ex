@@ -63,41 +63,41 @@ defmodule Nerves.Bootstrap do
   @spec check_for_update([Version.t()], Version.t()) :: Version.t() | nil
   def check_for_update(releases, current_version) do
     releases
-    |> filter_pre_release(current_version)
     |> Enum.filter(&(Version.compare(&1, current_version) == :gt))
+    |> Enum.filter(pre_release_filter(current_version))
     |> Enum.sort(&(Version.compare(&1, &2) == :gt))
     |> List.first()
   end
 
-  @spec render_update_message(any, %{:pre => any, optional(any) => any}) :: :ok
-  def render_update_message(current_version, %{pre: pre} = latest_version) do
-    message =
-      "A new version of Nerves bootstrap is available(#{current_version} < #{latest_version}), " <>
-        if pre == [] do
-          """
-          You can update by running
+  @spec render_update_message(Version.t(), Version.t()) :: :ok
+  def render_update_message(current_version, latest_version) do
+    upgrade =
+      if latest_version.pre == [] do
+        "mix local.nerves"
+      else
+        "mix archive.install hex nerves_bootstrap #{latest_version}"
+      end
 
-            mix local.nerves
-          """
-        else
-          """
-          You can update by running
+    Mix.shell().info([
+      :yellow,
+      """
+      A new version of Nerves bootstrap is available (#{current_version} < #{latest_version}).
 
-            mix archive.install hex nerves_bootstrap #{latest_version}
-          """
-        end
+      You can update by running
 
-    Mix.shell().info([:yellow, message, :reset])
+        #{upgrade}
+      """,
+      :reset
+    ])
   end
 
-  defp filter_pre_release(releases, %{pre: []}) do
-    releases
-    |> Enum.filter(&(Map.get(&1, :pre) == []))
+  # Return a function that filters releases based on whether the current version is a pre-release
+  defp pre_release_filter(%{pre: []}) do
+    &(Map.get(&1, :pre) == [])
   end
 
-  defp filter_pre_release(releases, %{major: major, minor: minor, patch: patch}) do
-    releases
-    |> Enum.filter(fn
+  defp pre_release_filter(%{major: major, minor: minor, patch: patch}) do
+    fn
       %{pre: []} ->
         true
 
@@ -106,6 +106,6 @@ defmodule Nerves.Bootstrap do
 
       _ ->
         false
-    end)
+    end
   end
 end
