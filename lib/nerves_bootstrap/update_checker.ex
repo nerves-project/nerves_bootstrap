@@ -1,4 +1,6 @@
 defmodule Nerves.Bootstrap.UpdateChecker do
+  @moduledoc false
+
   @doc """
   Check for a nerves_bootstrap release
   """
@@ -30,9 +32,11 @@ defmodule Nerves.Bootstrap.UpdateChecker do
 
   @spec select_update([Version.t()], Version.t()) :: Version.t() | nil
   def select_update(releases, current_version) do
+    req = Version.parse_requirement!("> #{current_version}")
+    allow_pre = current_version.pre != []
+
     releases
-    |> Enum.filter(&(Version.compare(&1, current_version) == :gt))
-    |> Enum.filter(pre_release_filter(current_version))
+    |> Enum.filter(&Version.match?(&1, req, allow_pre: allow_pre))
     |> Enum.sort(&(Version.compare(&1, &2) == :gt))
     |> List.first()
   end
@@ -57,23 +61,5 @@ defmodule Nerves.Bootstrap.UpdateChecker do
       """,
       :reset
     ])
-  end
-
-  # Return a function that filters releases based on whether the current version is a pre-release
-  defp pre_release_filter(%{pre: []}) do
-    &(Map.get(&1, :pre) == [])
-  end
-
-  defp pre_release_filter(%{major: major, minor: minor, patch: patch}) do
-    fn
-      %{pre: []} ->
-        true
-
-      %{major: ^major, minor: ^minor, patch: ^patch} ->
-        true
-
-      _ ->
-        false
-    end
   end
 end

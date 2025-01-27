@@ -20,11 +20,10 @@ defmodule UpdateChecker.UpdateCheckerTest do
     current_version = Version.parse!("1.0.0-rc.0")
 
     releases = [
-      "1.1.0-rc.0",
-      "1.0.0-rc.1",
       "0.8.2",
       "1.0.0-rc.0",
-      "0.8.1"
+      "0.8.1",
+      "1.0.0-rc.1"
     ]
 
     releases = Enum.map(releases, &Version.parse!/1)
