@@ -73,7 +73,7 @@ defmodule Nerves.BootstrapTest do
     ]
 
     releases = Enum.map(releases, &Version.parse!/1)
-    assert %{minor: 8, patch: 2} = Nerves.Bootstrap.check_for_update(releases, current_version)
+    assert Version.parse!("0.8.2") == Nerves.Bootstrap.check_for_update(releases, current_version)
   end
 
   test "check for update will include pre release if on pre" do
@@ -89,7 +89,7 @@ defmodule Nerves.BootstrapTest do
 
     releases = Enum.map(releases, &Version.parse!/1)
 
-    assert %{minor: 0, pre: ["rc", 1]} =
+    assert Version.parse!("1.0.0-rc.1") ==
              Nerves.Bootstrap.check_for_update(releases, current_version)
   end
 
@@ -106,7 +106,7 @@ defmodule Nerves.BootstrapTest do
 
     releases = Enum.map(releases, &Version.parse!/1)
 
-    assert %{major: 1, minor: 0, patch: 0, pre: []} =
+    assert Version.parse!("1.0.0") ==
              Nerves.Bootstrap.check_for_update(releases, current_version)
   end
 
