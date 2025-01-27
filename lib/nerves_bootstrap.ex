@@ -2,8 +2,6 @@ defmodule Nerves.Bootstrap do
   @moduledoc false
   use Application
 
-  @version Mix.Project.config()[:version]
-
   @impl Application
   def start(_type, _args) do
     Nerves.Bootstrap.Aliases.init()
@@ -14,7 +12,7 @@ defmodule Nerves.Bootstrap do
   Returns the version of nerves_bootstrap
   """
   @spec version() :: String.t()
-  def version(), do: @version
+  def version(), do: unquote(Mix.Project.config()[:version])
 
   @doc """
   Read the Nerves dependency version of the bootstrapped project
