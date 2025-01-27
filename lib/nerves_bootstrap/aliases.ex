@@ -36,8 +36,7 @@ defmodule Nerves.Bootstrap.Aliases do
     |> add_target_aliases()
   end
 
-  @spec add_host_aliases(keyword()) :: keyword()
-  def add_host_aliases(aliases) do
+  defp add_host_aliases(aliases) do
     aliases
     |> append("deps.get", "nerves.bootstrap")
     |> append("deps.get", "nerves.deps.get")
@@ -45,8 +44,7 @@ defmodule Nerves.Bootstrap.Aliases do
     |> replace("deps.update", &Nerves.Bootstrap.Aliases.deps_update/1)
   end
 
-  @spec add_target_aliases(keyword()) :: keyword()
-  def add_target_aliases(aliases) do
+  defp add_target_aliases(aliases) do
     aliases
     |> prepend("deps.loadpaths", "nerves.loadpaths")
     |> prepend("deps.loadpaths", "nerves.bootstrap")
