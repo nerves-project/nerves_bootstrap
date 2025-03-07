@@ -58,9 +58,22 @@ defmodule Nerves.Bootstrap.MixProject do
 
   defp package do
     [
-      files: ["CHANGELOG.md", "lib", "LICENSE", "mix.exs", "README.md", "test", "templates"],
+      files: [
+        "CHANGELOG.md",
+        "lib",
+        "LICENSES/*",
+        "mix.exs",
+        "NOTICE",
+        "README.md",
+        "REUSE.toml",
+        "templates"
+      ],
       licenses: ["Apache-2.0"],
-      links: %{"GitHub" => @source_url}
+      links: %{
+        "GitHub" => @source_url,
+        "REUSE Compliance" =>
+          "https://api.reuse.software/info/github.com/nerves-project/nerves_bootstrap"
+      }
     ]
   end
 

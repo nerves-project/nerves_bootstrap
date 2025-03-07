@@ -1,3 +1,13 @@
+# SPDX-FileCopyrightText: 2016 Justin Schneck
+# SPDX-FileCopyrightText: 2017 Frank Hunleth
+# SPDX-FileCopyrightText: 2019 Milton Mazzarri
+# SPDX-FileCopyrightText: 2019 Todd Resudek
+# SPDX-FileCopyrightText: 2020 TORIFUKU Kaiou
+# SPDX-FileCopyrightText: 2022 Jason Axelson
+# SPDX-FileCopyrightText: 2022 Jon Carstens
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 defmodule Mix.Tasks.Nerves.New do
   @shortdoc "Creates a new Nerves application"
   @moduledoc """

@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2017 Timmo Verlaan
+# SPDX-FileCopyrightText: 2019 Frank Hunleth
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 defmodule Mix.Tasks.Local.Nerves do
   @shortdoc "Updates the Nerves bootstrap archive locally"
   @moduledoc """

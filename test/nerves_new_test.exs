@@ -1,3 +1,14 @@
+# SPDX-FileCopyrightText: 2017 Justin Schneck
+# SPDX-FileCopyrightText: 2018 Frank Hunleth
+# SPDX-FileCopyrightText: 2019 Milton Mazzarri
+# SPDX-FileCopyrightText: 2019 Todd Resudek
+# SPDX-FileCopyrightText: 2020 Connor Rigby
+# SPDX-FileCopyrightText: 2020 Jon Carstens
+# SPDX-FileCopyrightText: 2022 Ryota Kinukawa
+# SPDX-FileCopyrightText: 2023 Masatoshi Nishiguchi
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 Code.require_file("mix_helper.exs", __DIR__)
 
 defmodule Nerves.NewTest do
