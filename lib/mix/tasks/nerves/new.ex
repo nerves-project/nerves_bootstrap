@@ -76,6 +76,11 @@ defmodule Mix.Tasks.Nerves.New do
   @elixir_requirement "~> 1.13"
 
   @targets [
+    {:bbb, "2.19"},
+    {:grisp2, "0.8"},
+    {:osd32mp1, "0.15"},
+    {:mangopi_mq_pro, "0.6"},
+    {:qemu_aarch64, "0.1"},
     {:rpi, "1.24"},
     {:rpi0, "1.24"},
     {:rpi2, "1.24"},
@@ -83,11 +88,7 @@ defmodule Mix.Tasks.Nerves.New do
     {:rpi3a, "1.24"},
     {:rpi4, "1.24"},
     {:rpi5, "0.2"},
-    {:bbb, "2.19"},
-    {:osd32mp1, "0.15"},
-    {:x86_64, "1.24"},
-    {:grisp2, "0.8"},
-    {:mangopi_mq_pro, "0.6"}
+    {:x86_64, "1.24"}
   ]
 
   @new [
