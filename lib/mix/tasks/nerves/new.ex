@@ -114,7 +114,7 @@ defmodule Mix.Tasks.Nerves.New do
   root = Path.expand("../../../../templates", __DIR__)
 
   for {format, source, _} <- @new do
-    unless format == :keep do
+    if format != :keep do
       @external_resource Path.join(root, source)
       defp render(unquote(source)), do: unquote(File.read!(Path.join(root, source)))
     end
@@ -135,7 +135,7 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   def run(argv) do
-    unless Version.match?(System.version(), @elixir_requirement) do
+    if !Version.match?(System.version(), @elixir_requirement) do
       Mix.raise("""
       Nerves Bootstrap v#{@bootstrap_vsn} creates projects that require Elixir #{@elixir_requirement}.
 
@@ -188,7 +188,7 @@ defmodule Mix.Tasks.Nerves.New do
       Enum.map(targets, fn target ->
         target = String.to_atom(target)
 
-        unless target in default_targets do
+        if target not in default_targets do
           targets = Enum.map_join(@targets, "\n  ", &elem(&1, 0))
 
           Mix.raise("""
@@ -307,7 +307,7 @@ defmodule Mix.Tasks.Nerves.New do
   defp switch_to_string({name, val}), do: name <> "=" <> val
 
   defp check_application_name!(name, from_app_flag) do
-    unless name =~ recompile(~r/^[a-z][\w_]*$/) do
+    if !(name =~ recompile(~r/^[a-z][\w_]*$/)) do
       extra =
         if from_app_flag do
           ""
@@ -324,7 +324,7 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   defp check_module_name_validity!(name) do
-    unless name =~ recompile(~r/^[A-Z]\w*(\.[A-Z]\w*)*$/) do
+    if !(name =~ recompile(~r/^[A-Z]\w*(\.[A-Z]\w*)*$/)) do
       Mix.raise(
         "Module name must be a valid Elixir alias (for example: Foo.Bar), got: #{inspect(name)}"
       )
