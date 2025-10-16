@@ -15,11 +15,16 @@ defmodule Nerves.Bootstrap.MixProject do
       description: description(),
       package: package(),
       deps: deps(),
-      dialyzer: dialyzer(),
-      preferred_cli_env: %{
-        credo: :lint,
+      dialyzer: dialyzer()
+    ]
+  end
+
+  def cli do
+    [
+      preferred_envs: %{
         dialyzer: :lint,
         docs: :docs,
+        credo: :lint,
         "hex.publish": :docs,
         "hex.build": :docs
       }
