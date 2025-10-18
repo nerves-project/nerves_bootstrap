@@ -137,7 +137,7 @@ the source code, build it and install your changes locally:
 ```bash
 git clone https://github.com/nerves-project/nerves_bootstrap.git
 cd nerves_bootstrap
-mix do deps.get, archive.build, archive.install
+mix do deps.get + archive.build + archive.install
 ```
 
 ## License
