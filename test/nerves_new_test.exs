@@ -120,7 +120,7 @@ defmodule Nerves.NewTest do
       Mix.Tasks.Nerves.New.run([@app_name])
 
       assert_file("#{@app_name}/rel/vm.args.eex", fn file ->
-        assert file =~ "-mode embedded"
+        refute file =~ "-mode embedded"
       end)
     end)
   end
