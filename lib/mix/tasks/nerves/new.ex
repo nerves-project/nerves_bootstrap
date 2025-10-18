@@ -83,9 +83,9 @@ defmodule Mix.Tasks.Nerves.New do
     {:qemu_aarch64, "0.1"},
     {:rpi, "1.24"},
     {:rpi0, "1.24"},
+    {:rpi0_2, "1.31"},
     {:rpi2, "1.24"},
     {:rpi3, "1.24"},
-    {:rpi3a, "1.24"},
     {:rpi4, "1.24"},
     {:rpi5, "0.2"},
     {:x86_64, "1.24"}
