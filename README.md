@@ -1,3 +1,11 @@
+<!--
+  SPDX-FileCopyrightText: 2018 Frank Hunleth
+  SPDX-FileCopyrightText: 2019 Justin Schneck
+  SPDX-FileCopyrightText: 2020 Jon Carstens
+  SPDX-FileCopyrightText: 2022 Jason Axelson
+  SPDX-License-Identifier: CC-BY-4.0
+-->
+
 # Nerves.Bootstrap
 
 [![Hex version](https://img.shields.io/hexpm/v/nerves_bootstrap.svg "Hex version")](https://hex.pm/packages/nerves_bootstrap)

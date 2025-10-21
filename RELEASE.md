@@ -1,3 +1,8 @@
+<!--
+  SPDX-FileCopyrightText: None
+  SPDX-License-Identifier: CC0-1.0
+-->
+
 # Nerves Bootstrap Release Procedure
 
 1. Create a branch/PR for the Bootstrap release (e.g. `0.5.x`)

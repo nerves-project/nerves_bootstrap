@@ -8,9 +8,7 @@ path = [
  ".formatter.exs",
  ".github/dependabot.yml",
  ".gitignore",
- "CHANGELOG.md",
  "NOTICE",
- "RELEASE.md",
  "REUSE.toml",
  "mix.exs",
  "mix.lock"
@@ -18,14 +16,6 @@ path = [
 precedence = "aggregate"
 SPDX-FileCopyrightText = "None"
 SPDX-License-Identifier = "CC0-1.0"
-
-[[annotations]]
-path = [
- "README.md"
-]
-precedence = "aggregate"
-SPDX-FileCopyrightText = "2018 Frank Hunleth"
-SPDX-License-Identifier = "CC-BY-4.0"
 
 # Make sure all generated code doesn't come with licensing obligations
 [[annotations]]
