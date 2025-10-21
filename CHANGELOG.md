@@ -5,6 +5,20 @@
 
 # Changelog
 
+## 1.14.0 - 2025-10-20
+
+* New project generator updates
+  * In `vm.args.eex`, use interactive mode rather than embedded mode as a
+    default. Interactive mode boot performance has improved and it's generally a
+    more user friendly default for those who don't know about it.
+  * Replaced `rpi3a` target with `rpi0_2` to encourage Raspberry Pi Zero 2W
+    users to prefer it.
+
+* Changes
+  * Disable Elixir 1.19 parallel compilation. This is intended to be a temporary
+    fix until the Nerves build issue can be fixed.
+  * Add REUSE compliance for licensing and copyright info
+
 ## 1.13.1 - 2024-09-27
 
 * New project generator updates
