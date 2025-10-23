@@ -15,6 +15,7 @@ defmodule <%= app_module %>.MixProject do
       build_path: "../../_build",
       config_path: "../../config/config.exs",
       lockfile: "../../mix.lock",<% end %>
+      listeners: listeners(Mix.target(), Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       releases: [{@app, release()}],
@@ -66,4 +67,8 @@ defmodule <%= app_module %>.MixProject do
       strip_beams: Mix.env() == :prod or [keep: ["Docs"]]
     ]
   end
+
+  # Uncomment the following line if using Phoenix > 1.8.
+  # defp listeners(:host, :dev), do: [Phoenix.CodeReloader]
+  defp listeners(_, _), do: []
 end
