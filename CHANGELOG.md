@@ -5,6 +5,12 @@
 
 # Changelog
 
+## 1.14.1 - 2025-11-04
+
+* Changes
+  * Add guidance in mix.exs for specifying listeners so that they're not
+    included in target builds. This mainly affects Phoenix users.
+
 ## 1.14.0 - 2025-10-20
 
 * New project generator updates
