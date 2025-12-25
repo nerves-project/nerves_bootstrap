@@ -5,6 +5,13 @@
 
 # Changelog
 
+## 1.14.2 - 2025-12-25
+
+* Changes
+  * Remove question for whether to install deps on `nerves.new` since it
+    interfered with scripted use, and you always had to run `mix deps.get` to
+    download the Nerves system anyway.
+
 ## 1.14.1 - 2025-11-04
 
 * Changes
