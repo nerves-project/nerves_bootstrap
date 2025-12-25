@@ -229,18 +229,8 @@ defmodule Mix.Tasks.Nerves.New do
     ]
 
     copy_from(path, binding, @new)
-    # Parallel installs
-    install? = Mix.shell().yes?("\nFetch and install dependencies?")
 
-    File.cd!(path, fn ->
-      if install? && Code.ensure_loaded?(Hex) do
-        cmd("mix deps.get")
-      end
-
-      cmd("mix format")
-
-      print_mix_info(path)
-    end)
+    print_mix_info(path)
   end
 
   defp recompile(regex) do
@@ -248,26 +238,6 @@ defmodule Mix.Tasks.Nerves.New do
       apply(Regex, :recompile!, [regex])
     else
       regex
-    end
-  end
-
-  defp cmd(cmd) do
-    Mix.shell().info([:green, "* running ", :reset, cmd])
-
-    case Mix.shell().cmd(cmd, quiet: true) do
-      0 ->
-        true
-
-      _ ->
-        Mix.shell().error([
-          :red,
-          "* error ",
-          :reset,
-          "command failed to execute, " <>
-            "please run the following command again after installation: \"#{cmd}\""
-        ])
-
-        false
     end
   end
 
