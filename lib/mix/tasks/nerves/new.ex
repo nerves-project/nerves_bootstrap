@@ -242,34 +242,33 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   defp print_mix_info(path) do
-    command = ["$ cd #{path}"]
-
     Mix.shell().info("""
     Your Nerves project was created successfully.
 
     You should now pick a target. See https://hexdocs.pm/nerves/supported-targets.html
-    for supported targets. If your target is on the list, set `MIX_TARGET`
+    for supported target tags. If your target is on the list, set `MIX_TARGET`
     to its tag name:
 
-    For example, for the Raspberry Pi 3 you can either
-      $ export MIX_TARGET=rpi3
-    Or prefix `mix` commands like the following:
-      $ MIX_TARGET=rpi3 mix firmware
+    For example, run the following for the Raspberry Pi 5:
+
+      $ export MIX_TARGET=rpi5
 
     If you will be using a custom system, update the `mix.exs`
-    dependencies to point to desired system's package.
+    dependencies to point to the desired system's package.
 
     Now download the dependencies and build a firmware archive:
-      #{Enum.join(command, "\n")}
+
+      $ cd #{path}
       $ mix deps.get
       $ mix firmware
 
-    If your target boots up using an SDCard (like the Raspberry Pi 3),
-    then insert an SDCard into a reader on your computer and run:
+    If your target boots up using a MicroSD card like a Raspberry Pi 5,
+    then insert the card into a reader on your computer and run:
+
       $ mix burn
 
-    Plug the SDCard into the target and power it up. See target documentation
-    above for more information and other targets.
+    Then plug the MicroSD card into the target and power it up. See target
+    documentation above for more information and other targets.
     """)
   end
 
