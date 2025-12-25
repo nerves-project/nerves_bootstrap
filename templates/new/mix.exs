@@ -18,8 +18,7 @@ defmodule <%= app_module %>.MixProject do
       listeners: listeners(Mix.target(), Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      releases: [{@app, release()}],
-      preferred_cli_target: [run: :host, test: :host]
+      releases: [{@app, release()}]
     ]
   end
 
@@ -29,6 +28,10 @@ defmodule <%= app_module %>.MixProject do
       extra_applications: [:logger, :runtime_tools],
       mod: {<%= app_module %>.Application, []}
     ]
+  end
+
+  def cli do
+    [preferred_targets: [run: :host, test: :host]]
   end
 
   # Run "mix help deps" to learn about dependencies.
