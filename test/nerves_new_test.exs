@@ -227,6 +227,7 @@ defmodule Nerves.NewTest do
 
       assert_file("#{@app_name}/mix.exs", fn file ->
         refute file =~ ~r"nerves_pack"
+        refute file =~ ~r"all_targets"
       end)
 
       assert_file("#{@app_name}/config/config.exs", fn file ->

@@ -3,8 +3,8 @@ defmodule <%= app_module %>.MixProject do
 
   @app :<%= app_name %>
   @version "0.1.0"
-  @all_targets <%= inspect(Enum.map(targets, &elem(&1, 0))) %>
-
+<%= if nerves_pack? do %>  @all_targets <%= inspect(Enum.map(targets, &elem(&1, 0))) %>
+<% end %>
   def project do
     [
       app: @app,
