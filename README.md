@@ -39,7 +39,7 @@ mix local.nerves
 If you need to force a specific version, run:
 
 ```bash
-mix archive.install hex nerves_bootstrap 1.0.1
+mix archive.install hex nerves_bootstrap 1.14.3
 ```
 
 ## Mix tasks

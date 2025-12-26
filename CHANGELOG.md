@@ -5,6 +5,12 @@
 
 # Changelog
 
+## 1.14.3 - 2025-12-26
+
+* Changes
+  * Fix Elixir 1.19 deprecation warning in a `mix nerves.new` project
+  * Fix unused `@all_targets` warning when creating a `--no-nerves-pack` project
+
 ## 1.14.2 - 2025-12-25
 
 * Changes
