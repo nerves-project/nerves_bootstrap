@@ -5,6 +5,12 @@
 
 # Changelog
 
+## 1.14.4 - 2026-01-11
+
+* Changes
+  * Remove old code that was triggering an Elixir 1.20 warning when installing
+    the archive
+
 ## 1.14.3 - 2025-12-26
 
 * Changes
