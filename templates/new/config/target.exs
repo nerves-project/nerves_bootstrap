@@ -12,6 +12,13 @@ config :logger, backends: [RingLogger]
 
 config :shoehorn, init: [:nerves_runtime<%= if nerves_pack? do %>, :nerves_pack<% end %>]
 <%= if nerves_pack? do %>
+# Enable the system startup guard to check that all OTP applications
+# started. If they didn't and you're on a Nerves system that supports
+# test runs of new firmware, the firmware will automatically roll
+# back to the previous version. Delete this if implementing your own
+# way of validating that firmware is good.
+config :nerves_runtime, startup_guard_enabled: true
+
 # Erlinit can be configured without a rootfs_overlay. See
 # https://github.com/nerves-project/erlinit/ for more information on
 # configuring erlinit.

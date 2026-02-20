@@ -65,10 +65,10 @@ defmodule Mix.Tasks.Nerves.New do
                             v = Version.parse!(@bootstrap_vsn)
                             "#{v.major}.#{v.minor}"
                           )
-  @nerves_vsn "1.10"
+  @nerves_vsn "1.13"
   @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
   @shoehorn_vsn "0.9.1"
-  @runtime_vsn "0.13.0"
+  @runtime_vsn "0.13.12"
   @ring_logger_vsn "0.11.0"
   @nerves_pack_vsn "0.7.1"
   @toolshed_vsn "0.4.0"
@@ -81,13 +81,13 @@ defmodule Mix.Tasks.Nerves.New do
     {:osd32mp1, "0.15"},
     {:mangopi_mq_pro, "0.6"},
     {:qemu_aarch64, "0.1"},
-    {:rpi, "1.24"},
-    {:rpi0, "1.24"},
-    {:rpi0_2, "1.31"},
-    {:rpi2, "1.24"},
-    {:rpi3, "1.24"},
-    {:rpi4, "1.24"},
-    {:rpi5, "0.2"},
+    {:rpi, "2.0"},
+    {:rpi0, "2.0"},
+    {:rpi0_2, "2.0"},
+    {:rpi2, "2.0"},
+    {:rpi3, "2.0"},
+    {:rpi4, "2.0"},
+    {:rpi5, "2.0"},
     {:x86_64, "1.24"}
   ]
 

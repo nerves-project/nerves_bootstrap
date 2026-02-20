@@ -32,13 +32,13 @@ defmodule Nerves.NewTest do
 
       assert_file("#{@app_name}/mix.exs", fn file ->
         assert file =~ "@app :#{@app_name}"
-        assert file =~ "{:nerves_system_rpi, \"~> 1.24\", runtime: false, targets: :rpi"
-        assert file =~ "{:nerves_system_rpi0, \"~> 1.24\", runtime: false, targets: :rpi0"
-        assert file =~ "{:nerves_system_rpi0_2, \"~> 1.31\", runtime: false, targets: :rpi0_2"
-        assert file =~ "{:nerves_system_rpi2, \"~> 1.24\", runtime: false, targets: :rpi2"
-        assert file =~ "{:nerves_system_rpi3, \"~> 1.24\", runtime: false, targets: :rpi3"
-        assert file =~ "{:nerves_system_rpi4, \"~> 1.24\", runtime: false, targets: :rpi4"
-        assert file =~ "{:nerves_system_rpi5, \"~> 0.2\", runtime: false, targets: :rpi5"
+        assert file =~ "{:nerves_system_rpi, \"~> 2.0\", runtime: false, targets: :rpi"
+        assert file =~ "{:nerves_system_rpi0, \"~> 2.0\", runtime: false, targets: :rpi0"
+        assert file =~ "{:nerves_system_rpi0_2, \"~> 2.0\", runtime: false, targets: :rpi0_2"
+        assert file =~ "{:nerves_system_rpi2, \"~> 2.0\", runtime: false, targets: :rpi2"
+        assert file =~ "{:nerves_system_rpi3, \"~> 2.0\", runtime: false, targets: :rpi3"
+        assert file =~ "{:nerves_system_rpi4, \"~> 2.0\", runtime: false, targets: :rpi4"
+        assert file =~ "{:nerves_system_rpi5, \"~> 2.0\", runtime: false, targets: :rpi5"
         assert file =~ "{:nerves_system_bbb, \"~> 2.19\", runtime: false, targets: :bbb"
 
         assert file =~
@@ -64,8 +64,8 @@ defmodule Nerves.NewTest do
 
       assert_file("#{@app_name}/mix.exs", fn file ->
         assert file =~ "@app :#{@app_name}"
-        assert file =~ "{:nerves_system_rpi, \"~> 1.24\", runtime: false, targets: :rpi"
-        refute file =~ "{:nerves_system_rpi0, \"~> 1.24\", runtime: false, targets: :rpi0"
+        assert file =~ "{:nerves_system_rpi, \"~> 2.0\", runtime: false, targets: :rpi"
+        refute file =~ "{:nerves_system_rpi0, \"~> 2.0\", runtime: false, targets: :rpi0"
       end)
     end)
   end
@@ -78,9 +78,9 @@ defmodule Nerves.NewTest do
 
       assert_file("#{@app_name}/mix.exs", fn file ->
         assert file =~ "@app :#{@app_name}"
-        assert file =~ "{:nerves_system_rpi, \"~> 1.24\", runtime: false, targets: :rpi"
-        assert file =~ "{:nerves_system_rpi3, \"~> 1.24\", runtime: false, targets: :rpi3"
-        refute file =~ "{:nerves_system_rpi0, \"~> 1.24\", runtime: false, targets: :rpi0"
+        assert file =~ "{:nerves_system_rpi, \"~> 2.0\", runtime: false, targets: :rpi"
+        assert file =~ "{:nerves_system_rpi3, \"~> 2.0\", runtime: false, targets: :rpi3"
+        refute file =~ "{:nerves_system_rpi0, \"~> 2.0\", runtime: false, targets: :rpi0"
       end)
     end)
   end
