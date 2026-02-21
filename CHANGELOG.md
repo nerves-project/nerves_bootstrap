@@ -5,6 +5,11 @@
 
 # Changelog
 
+## 1.14.5 - 2026-02-20
+
+* Changes
+  * Use `nerves_system_rpi*` `v2.0` systems by default in new Nerves projects
+
 ## 1.14.4 - 2026-01-11
 
 * Changes
