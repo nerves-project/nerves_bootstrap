@@ -5,11 +5,22 @@
 defmodule Nerves.Bootstrap.UpdateChecker do
   @moduledoc false
 
+  @check_interval_seconds 86400
+
   @doc """
   Check for a nerves_bootstrap release
   """
   @spec check() :: :ok
   def check() do
+    if should_check?() do
+      do_check()
+      mark_checked()
+    else
+      :ok
+    end
+  end
+
+  defp do_check() do
     Hex.start()
     {:ok, {200, resp, _}} = Hex.API.Package.get("hexpm", "nerves_bootstrap")
 
@@ -65,5 +76,42 @@ defmodule Nerves.Bootstrap.UpdateChecker do
       """,
       :reset
     ])
+  end
+
+  @doc false
+  @spec should_check?() :: boolean()
+  def should_check?() do
+    case File.stat(check_file_path()) do
+      {:ok, %{mtime: mtime}} ->
+        mtime_unix = mtime |> NaiveDateTime.from_erl!() |> DateTime.from_naive!("Etc/UTC")
+        now = DateTime.utc_now()
+        seconds_passed = DateTime.diff(now, mtime_unix)
+
+        # Check if time as passed or there's something really off with the time
+        seconds_passed >= @check_interval_seconds or seconds_passed < -@check_interval_seconds
+
+      {:error, _} ->
+        true
+    end
+  end
+
+  @doc false
+  @spec mark_checked() :: :ok
+  def mark_checked() do
+    path = check_file_path()
+    File.mkdir_p!(Path.dirname(path))
+    File.touch!(path)
+  end
+
+  defp check_file_path() do
+    Path.join(data_dir(), "nerves_bootstrap_update_check")
+  end
+
+  # Match Nerves library's handling
+  defp data_dir() do
+    case System.get_env("XDG_DATA_HOME") do
+      directory when is_binary(directory) -> Path.join(directory, "nerves")
+      nil -> Path.expand("~/.nerves")
+    end
   end
 end
