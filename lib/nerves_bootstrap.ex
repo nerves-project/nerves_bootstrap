@@ -35,16 +35,4 @@ defmodule Nerves.Bootstrap do
       _ -> true
     end
   end
-
-  @doc """
-  Read the Nerves dependency version of the bootstrapped project
-  """
-  @spec nerves_version() :: String.t() | nil
-  def nerves_version() do
-    if path = Mix.Project.deps_paths()[:nerves] do
-      Mix.Project.in_project(:nerves, path, fn _ -> Mix.Project.config()[:version] end)
-    end
-  catch
-    _, _ -> nil
-  end
 end

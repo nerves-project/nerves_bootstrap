@@ -23,7 +23,7 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
   def run(_args) do
     debug("load nerves START")
 
-    nerves_ver = Nerves.Bootstrap.nerves_version()
+    nerves_ver = nerves_version()
 
     if is_nil(nerves_ver) do
       Mix.raise(":nerves is required as a dependency of this project")
@@ -56,5 +56,13 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
     if System.get_env("NERVES_DEBUG") == "1" do
       Mix.shell().info([:inverse, "|nerves_bootstrap| #{msg}", :reset])
     end
+  end
+
+  defp nerves_version() do
+    if path = Mix.Project.deps_paths()[:nerves] do
+      Mix.Project.in_project(:nerves, path, fn _ -> Mix.Project.config()[:version] end)
+    end
+  catch
+    _, _ -> nil
   end
 end
