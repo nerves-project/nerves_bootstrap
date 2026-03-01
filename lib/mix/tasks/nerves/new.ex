@@ -58,8 +58,6 @@ defmodule Mix.Tasks.Nerves.New do
   use Mix.Task
   import Mix.Generator
 
-  @nerves Path.expand("../../../..", __DIR__)
-
   @bootstrap_vsn Mix.Project.config()[:version]
   @bootstrap_vsn_no_patch (
                             v = Version.parse!(@bootstrap_vsn)
@@ -177,7 +175,6 @@ defmodule Mix.Tasks.Nerves.New do
   defp run(app, mod, path, opts) do
     System.delete_env("MIX_TARGET")
 
-    nerves_path = nerves_path(path, Keyword.get(opts, :dev, false))
     in_umbrella? = in_umbrella?(path)
     nerves_pack? = Keyword.get(opts, :nerves_pack, true)
 
@@ -218,7 +215,7 @@ defmodule Mix.Tasks.Nerves.New do
       runtime_vsn: @runtime_vsn,
       ring_logger_vsn: @ring_logger_vsn,
       elixir_req: "~> #{elixir_version.major}.#{elixir_version.minor}",
-      nerves_dep: nerves_dep(nerves_path),
+      nerves_dep: @nerves_dep,
       in_umbrella: in_umbrella?,
       nerves_pack?: nerves_pack?,
       nerves_pack_vsn: @nerves_pack_vsn,
@@ -306,27 +303,6 @@ defmodule Mix.Tasks.Nerves.New do
     if Code.ensure_loaded?(name) do
       Mix.raise("Module name #{inspect(name)} is already taken, please choose another name")
     end
-  end
-
-  defp nerves_dep("deps/nerves"), do: @nerves_dep
-  defp nerves_dep(path), do: ~s[{:nerves, path: #{inspect(path)}, runtime: false, override: true}]
-
-  defp nerves_path(path, true) do
-    absolute = Path.expand(path)
-    relative = Path.relative_to(absolute, @nerves)
-
-    if absolute == relative do
-      Mix.raise("--dev project must be inside Nerves directory")
-    end
-
-    relative
-    |> Path.split()
-    |> Enum.map(fn _ -> ".." end)
-    |> Path.join()
-  end
-
-  defp nerves_path(_path, false) do
-    "deps/nerves"
   end
 
   defp copy_from(target_dir, binding, mapping) when is_list(mapping) do
