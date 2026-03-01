@@ -3,17 +3,19 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-defmodule Nerves.BootstrapTest do
+defmodule Nerves.Bootstrap.AliasTest do
   use ExUnit.Case
+
+  alias Nerves.Bootstrap.Aliases
 
   test "aliases are injected properly" do
     deps_loadpaths = ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"]
     deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
-    deps_update = [&Nerves.Bootstrap.Aliases.deps_update/1]
+    deps_update = [&Aliases.deps_update/1]
     deps_precompile = ["nerves.bootstrap", "deps.precompile"]
     deps_compile = ["nerves.bootstrap", "nerves.loadpaths", "deps.compile"]
 
-    aliases = Nerves.Bootstrap.add_aliases([])
+    aliases = Aliases.add_aliases([])
     assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
     assert Keyword.get(aliases, :"deps.get") == deps_get
     assert Keyword.get(aliases, :"deps.update") == deps_update
@@ -29,7 +31,7 @@ defmodule Nerves.BootstrapTest do
       custom: ["custom"]
     ]
 
-    aliases = Nerves.Bootstrap.add_aliases(custom_aliases)
+    aliases = Aliases.add_aliases(custom_aliases)
 
     assert Keyword.get(aliases, :"deps.loadpaths") == [
              "nerves.bootstrap",
@@ -47,7 +49,7 @@ defmodule Nerves.BootstrapTest do
 
     assert Keyword.get(aliases, :"deps.update") == [
              "custom",
-             &Nerves.Bootstrap.Aliases.deps_update/1
+             &Aliases.deps_update/1
            ]
 
     assert Keyword.get(aliases, :custom) == ["custom"]
@@ -56,13 +58,13 @@ defmodule Nerves.BootstrapTest do
   test "aliases are dropped if they already exist" do
     deps_loadpaths = ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"]
     deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
-    deps_update = [&Nerves.Bootstrap.Aliases.deps_update/1]
+    deps_update = [&Aliases.deps_update/1]
 
     nerves_aliases = [
       "deps.loadpaths": deps_loadpaths
     ]
 
-    aliases = Nerves.Bootstrap.add_aliases(nerves_aliases)
+    aliases = Aliases.add_aliases(nerves_aliases)
     assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
     assert Keyword.get(aliases, :"deps.get") == deps_get
     assert Keyword.get(aliases, :"deps.update") == deps_update
