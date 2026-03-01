@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-defmodule UpdateChecker.UpdateCheckerTest do
+defmodule Nerves.Bootstrap.UpdateCheckerTest do
   use ExUnit.Case
 
   alias Nerves.Bootstrap.UpdateChecker
