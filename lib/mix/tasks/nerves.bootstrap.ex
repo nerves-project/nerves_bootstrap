@@ -4,22 +4,17 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 defmodule Mix.Tasks.Nerves.Bootstrap do
-  @moduledoc """
-  Bootstrap Nerves tooling into the current Mix tooling
+  # Bootstrap Nerves tooling into the current Mix tooling
+  #
+  # The purpose of this task is to ensure the Nerves integration is compiled
+  # first and available to be injected into the Mix tooling since Nerves.Bootstrap
+  # is available as an archive. (i.e. this is like having `:nerves` as a
+  # dependency of this archive even though archives do not allow traditional
+  # dependencies)
+  #
+  # It is not intended to be run manually
 
-  The Nerves lib contains all the tasks and tooling for setting up the
-  environment needed to use the Nerves project. However, some of that
-  tooling needs to be injected early in the build process before everything
-  is compiled.
-
-  The purpose of this task is to ensure the Nerves integration is compiled
-  first and available to be injected into the Mix tooling since Nerves.Bootstrap
-  is available as an archive. (i.e. this is like having `:nerves` as a
-  dependency of this archive even though archives do not allow traditional
-  dependencies)
-
-  It is not intended to be run manually
-  """
+  @moduledoc false
   use Mix.Task
 
   alias Nerves.Bootstrap.UpdateChecker
