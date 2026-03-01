@@ -53,9 +53,4 @@ defmodule Nerves.Bootstrap do
   catch
     _, _ -> nil
   end
-
-  @doc """
-  Add the required Nerves bootstrap aliases to the existing ones
-  """
-  defdelegate add_aliases(aliases), to: Nerves.Bootstrap.Aliases
 end
