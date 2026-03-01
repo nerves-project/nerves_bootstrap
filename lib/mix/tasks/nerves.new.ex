@@ -109,7 +109,7 @@ defmodule Mix.Tasks.Nerves.New do
   @reserved_names ~w[nerves]
 
   # Embed all defined templates
-  root = Path.expand("../../../../templates", __DIR__)
+  root = Path.expand("../../../templates", __DIR__)
 
   for {format, source, _} <- @new do
     if format != :keep do
