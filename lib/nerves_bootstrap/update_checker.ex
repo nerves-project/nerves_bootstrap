@@ -5,6 +5,7 @@
 defmodule Nerves.Bootstrap.UpdateChecker do
   @moduledoc false
 
+  @bootstrap_vsn Mix.Project.config()[:version]
   @check_interval_seconds 86400
 
   @doc """
@@ -24,9 +25,7 @@ defmodule Nerves.Bootstrap.UpdateChecker do
     Hex.start()
     {:ok, {200, resp, _}} = Hex.API.Package.get("hexpm", "nerves_bootstrap")
 
-    current_version =
-      Nerves.Bootstrap.version()
-      |> Version.parse!()
+    current_version = Version.parse!(@bootstrap_vsn)
 
     release_versions =
       resp

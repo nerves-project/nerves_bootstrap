@@ -37,12 +37,6 @@ defmodule Nerves.Bootstrap do
   end
 
   @doc """
-  Returns the version of nerves_bootstrap
-  """
-  @spec version() :: String.t()
-  def version(), do: unquote(Mix.Project.config()[:version])
-
-  @doc """
   Read the Nerves dependency version of the bootstrapped project
   """
   @spec nerves_version() :: String.t() | nil
