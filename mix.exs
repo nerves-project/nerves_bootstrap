@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: None
 # SPDX-License-Identifier: CC0-1.0
-defmodule Nerves.Bootstrap.MixProject do
+defmodule NervesBootstrap.MixProject do
   use Mix.Project
 
   @version "1.15.0"
@@ -35,8 +35,7 @@ defmodule Nerves.Bootstrap.MixProject do
 
   def application do
     [
-      extra_applications: [],
-      mod: {Nerves.Bootstrap, []}
+      mod: {NervesBootstrap, []}
     ]
   end
 

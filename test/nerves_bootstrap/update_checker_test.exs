@@ -2,10 +2,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-defmodule Nerves.Bootstrap.UpdateCheckerTest do
+defmodule NervesBootstrap.UpdateCheckerTest do
   use ExUnit.Case
 
-  alias Nerves.Bootstrap.UpdateChecker
+  alias NervesBootstrap.UpdateChecker
 
   @check_timestamp_file "nerves/nerves_bootstrap_update_check"
 

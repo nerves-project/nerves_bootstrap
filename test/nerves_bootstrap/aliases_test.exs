@@ -3,10 +3,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-defmodule Nerves.Bootstrap.AliasTest do
+defmodule NervesBootstrap.AliasTest do
   use ExUnit.Case
 
-  alias Nerves.Bootstrap.Aliases
+  alias NervesBootstrap.Aliases
 
   test "aliases are injected properly" do
     deps_loadpaths = ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"]

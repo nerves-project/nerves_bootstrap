@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-defmodule Nerves.Bootstrap.UpdateChecker do
+defmodule NervesBootstrap.UpdateChecker do
   @moduledoc false
 
   @bootstrap_vsn Mix.Project.config()[:version]

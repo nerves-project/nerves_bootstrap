@@ -6,19 +6,19 @@
   SPDX-License-Identifier: CC-BY-4.0
 -->
 
-# Nerves.Bootstrap
+# NervesBootstrap
 
 [![Hex version](https://img.shields.io/hexpm/v/nerves_bootstrap.svg "Hex version")](https://hex.pm/packages/nerves_bootstrap)
-[![API docs](https://img.shields.io/hexpm/v/nerves_bootstrap.svg?label=hexdocs "API docs")](https://hexdocs.pm/nerves_bootstrap/Nerves.Bootstrap.html)
+[![API docs](https://img.shields.io/hexpm/v/nerves_bootstrap.svg?label=hexdocs "API docs")](https://hexdocs.pm/nerves_bootstrap/index.html)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/nerves-project/nerves_bootstrap/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/nerves-project/nerves_bootstrap/tree/main)
 [![REUSE status](https://api.reuse.software/badge/github.com/nerves-project/nerves_bootstrap)](https://api.reuse.software/info/github.com/nerves-project/nerves_bootstrap)
 
-Nerves.Bootstrap is an Elixir archive that brings Nerves support to Elixir's Mix
+NervesBootstrap is an Elixir archive that brings Nerves support to Elixir's Mix
 build tool and provides a new project generator, `mix nerves.new`.
 
 We recommend reading the [Nerves Installation
 Guide](https://hexdocs.pm/nerves/installation.html) for installing and using
-Nerves. Read on for details specific to Nerves.Bootstrap.
+Nerves. Read on for details specific to NervesBootstrap.
 
 ## Installation
 
@@ -29,7 +29,7 @@ run the follow to install the official archive:
 mix archive.install hex nerves_bootstrap
 ```
 
-From then on, Nerves.Bootstrap checks for new versions and will let you know. To
+From then on, NervesBootstrap checks for new versions and will let you know. To
 manually upgrade either run the above line or the following:
 
 ```bash
@@ -45,7 +45,7 @@ mix archive.install hex nerves_bootstrap 1.14.3
 ## Mix tasks
 
 This section provides a high level overview of Mix tasks provided by
-Nerves.Bootstrap. For additional details, run `mix help task`.
+NervesBootstrap. For additional details, run `mix help task`.
 
 ### mix nerves.new
 
@@ -94,7 +94,7 @@ to the `nerves_bootstrap` archive. If one exists, you'll be prompted to update.
 
 ## Integration with your project
 
-Nerves.Bootstrap injects Nerves-specific build tasks into the `mix` build process via
+NervesBootstrap injects Nerves-specific build tasks into the `mix` build process via
 an `Application.start/1` call in your project's `config.exs`. If you use `mix
 nerves.new`, your project will be created with these lines and no additional
 work is needed.
@@ -108,10 +108,10 @@ Application.start(:nerves_bootstrap)
 
 ## Internals
 
-Nerves.Bootstrap uses Mix aliases to hook into Mix build steps.
+NervesBootstrap uses Mix aliases to hook into Mix build steps.
 
 Aliases vary based on whether you are compiling for your host or your target
-device. For host builds, Nerves.Bootstrap injects the following tasks to add
+device. For host builds, NervesBootstrap injects the following tasks to add
 support for downloading pre-compiled archives.
 
 ```elixir
@@ -121,7 +121,7 @@ support for downloading pre-compiled archives.
 ]
 ```
 
-When `MIX_TARGET` is set, Nerves.Bootstrap injects the following additional
+When `MIX_TARGET` is set, NervesBootstrap injects the following additional
 tasks to support cross-compilation and firmware creation:
 
 ```elixir
@@ -129,17 +129,17 @@ tasks to support cross-compilation and firmware creation:
   "deps.loadpaths": ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"],
   "deps.compile": ["nerves.bootstrap", "nerves.loadpaths", "deps.compile"],
   # This returns a nicer error when MIX_TARGET is set when calling 'mix run'
-  run: [Nerves.Bootstrap.Aliases.run/1]
+  run: [NervesBootstrap.Aliases.run/1]
 ]
 ```
 
-Nerves.Bootstrap provides only minimal code to inject the Nerves tooling. The
+NervesBootstrap provides only minimal code to inject the Nerves tooling. The
 main Nerves tooling is the [`Nerves`](https://github.com/nerves-project/nerves)
 library.
 
 ## Local development
 
-If you need to modify Nerves.Bootstrap, here's what you should do to get
+If you need to modify NervesBootstrap, here's what you should do to get
 the source code, build it and install your changes locally:
 
 ```bash
