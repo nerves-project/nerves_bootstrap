@@ -21,8 +21,6 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
 
   @impl Mix.Task
   def run(_args) do
-    debug("load nerves START")
-
     nerves_ver = nerves_version()
 
     if is_nil(nerves_ver) do
@@ -48,14 +46,6 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
     end
 
     UpdateChecker.check()
-
-    debug("load nerves END")
-  end
-
-  defp debug(msg) do
-    if System.get_env("NERVES_DEBUG") == "1" do
-      Mix.shell().info([:inverse, "|nerves_bootstrap| #{msg}", :reset])
-    end
   end
 
   defp nerves_version() do

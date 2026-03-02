@@ -66,12 +66,10 @@ defmodule Nerves.Bootstrap.Aliases do
     if target == :host do
       Mix.Tasks.Run.run(args)
     else
-      msg = """
-      You are trying to run code compiled for #{target}
+      Mix.shell().error("""
+      You are trying to run code compiled for the '#{target}' target
       on your host. Please unset MIX_TARGET to run in host mode.
-      """
-
-      Mix.shell().error([:inverse, :red, "|nerves_bootstrap| ", msg, :reset])
+      """)
     end
   end
 

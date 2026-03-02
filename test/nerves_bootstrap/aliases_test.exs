@@ -69,4 +69,29 @@ defmodule Nerves.Bootstrap.AliasTest do
     assert Keyword.get(aliases, :"deps.get") == deps_get
     assert Keyword.get(aliases, :"deps.update") == deps_update
   end
+
+  test "mix run prints an error on non-host targets" do
+    previous_target = Mix.State.get(:target)
+    previous_mix_target_env = System.get_env("MIX_TARGET")
+
+    on_exit(fn ->
+      Mix.State.put(:target, previous_target)
+
+      case previous_mix_target_env do
+        nil -> System.delete_env("MIX_TARGET")
+        value -> System.put_env("MIX_TARGET", value)
+      end
+    end)
+
+    System.put_env("MIX_TARGET", "rpi3")
+    Mix.State.put(:target, :rpi3)
+
+    Nerves.Bootstrap.Aliases.run([])
+
+    assert_receive {:mix_shell, :error, message}
+
+    text = IO.iodata_to_binary(message)
+    assert text =~ "You are trying to run code compiled for the 'rpi3' target"
+    assert text =~ "Please unset MIX_TARGET to run in host mode."
+  end
 end
