@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: None
+# SPDX-License-Identifier: CC0-1.0
+
 # Run `mix dialyzer --format short` for strings
 [
   {"lib/nerves_bootstrap/update_checker.ex:25:9:unknown_function Function Hex.start/0 does not exist."},

@@ -1,16 +1,11 @@
+# SPDX-FileCopyrightText: None
+# SPDX-License-Identifier: CC0-1.0
+
 version = 1
 
 [[annotations]]
 path = [
- ".circleci/config.yml",
- ".credo.exs",
- ".dialyzer_ignore.exs",
- ".formatter.exs",
- ".github/dependabot.yml",
- ".gitignore",
  "NOTICE",
- "REUSE.toml",
- "mix.exs",
  "mix.lock"
 ]
 precedence = "aggregate"
@@ -20,22 +15,8 @@ SPDX-License-Identifier = "CC0-1.0"
 # Make sure all generated code doesn't come with licensing obligations
 [[annotations]]
 path = [
- "templates/new/mix.exs",
- "templates/new/test/app_name_test.exs",
- "templates/new/test/test_helper.exs",
- "templates/new/config/host.exs",
- "templates/new/config/config.exs",
- "templates/new/config/target.exs",
- "templates/new/README.md",
- "templates/new/rel/vm.args.eex",
- "templates/new/.gitignore",
- "templates/new/lib/app_name/application.ex",
- "templates/new/lib/app_name.ex",
- "templates/new/rootfs_overlay/etc/iex.exs",
- "templates/new/.formatter.exs",
+ "templates/new/**"
 ]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "None"
 SPDX-License-Identifier = "CC0-1.0"
-
-
