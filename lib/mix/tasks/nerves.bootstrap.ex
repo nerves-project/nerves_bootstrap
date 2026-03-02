@@ -3,11 +3,11 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-defmodule Mix.Tasks.Nerves.Bootstrap do
+defmodule Mix.Tasks.NervesBootstrap do
   # Bootstrap Nerves tooling into the current Mix tooling
   #
   # The purpose of this task is to ensure the Nerves integration is compiled
-  # first and available to be injected into the Mix tooling since Nerves.Bootstrap
+  # first and available to be injected into the Mix tooling since NervesBootstrap
   # is available as an archive. (i.e. this is like having `:nerves` as a
   # dependency of this archive even though archives do not allow traditional
   # dependencies)
@@ -17,7 +17,7 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
   @moduledoc false
   use Mix.Task
 
-  alias Nerves.Bootstrap.UpdateChecker
+  alias NervesBootstrap.UpdateChecker
 
   @impl Mix.Task
   def run(_args) do

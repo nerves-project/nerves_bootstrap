@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-defmodule Nerves.Bootstrap do
+defmodule NervesBootstrap do
   @moduledoc false
   use Application
 
@@ -24,7 +24,7 @@ defmodule Nerves.Bootstrap do
       System.delete_env("MIX_OS_DEPS_COMPILE_PARTITION_COUNT")
     end
 
-    Nerves.Bootstrap.Aliases.init()
+    NervesBootstrap.Aliases.init()
     {:ok, self()}
   end
 

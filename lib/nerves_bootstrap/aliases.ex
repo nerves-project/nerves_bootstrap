@@ -4,7 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-defmodule Nerves.Bootstrap.Aliases do
+defmodule NervesBootstrap.Aliases do
   @moduledoc false
 
   @spec init() :: :ok
@@ -47,7 +47,7 @@ defmodule Nerves.Bootstrap.Aliases do
     |> append("deps.get", "nerves.bootstrap")
     |> append("deps.get", "nerves.deps.get")
     |> prepend("deps.precompile", "nerves.bootstrap")
-    |> replace("deps.update", &Nerves.Bootstrap.Aliases.deps_update/1)
+    |> replace("deps.update", &NervesBootstrap.Aliases.deps_update/1)
   end
 
   defp add_target_aliases(aliases) do
@@ -56,7 +56,7 @@ defmodule Nerves.Bootstrap.Aliases do
     |> prepend("deps.loadpaths", "nerves.bootstrap")
     |> prepend("deps.compile", "nerves.loadpaths")
     |> prepend("deps.compile", "nerves.bootstrap")
-    |> replace("run", &Nerves.Bootstrap.Aliases.run/1)
+    |> replace("run", &NervesBootstrap.Aliases.run/1)
   end
 
   @spec run([String.t()]) :: :ok
