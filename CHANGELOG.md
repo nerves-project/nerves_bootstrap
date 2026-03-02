@@ -5,6 +5,19 @@
 
 # Changelog
 
+## 1.15.0 - 2026-03-02
+
+This release primarily cleans up the code base so that it's easier to maintain
+backward compatibility with future Nerves tooling updates.
+
+* Changes
+  * Check for archive updates once a day rather than every time. Saves 100-500ms
+    per run depending on your network bandwidth.
+  * Removed several functions from the public API. None of these are believed to be
+    breaking since the functions would have been inconvenient at best to use.
+    Mix tasks are unaffected.
+  * Removed `--dev` option from `mix nerves.new`
+
 ## 1.14.5 - 2026-02-20
 
 * Changes
