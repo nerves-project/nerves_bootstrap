@@ -23,7 +23,7 @@ Nerves. Read on for details specific to NervesBootstrap.
 ## Installation
 
 The first time you use Nerves and whenever you update your Elixir installation,
-run the follow to install the official archive:
+run the following to install the official archive:
 
 ```bash
 mix archive.install hex nerves_bootstrap
@@ -49,7 +49,7 @@ NervesBootstrap. For additional details, run `mix help task`.
 
 ### mix nerves.new
 
-A mix task for creating new Nerves projects.
+A Mix task for creating new Nerves projects.
 
 ```bash
 mix nerves.new my_project
@@ -79,7 +79,7 @@ mix burn
 Generated projects include [NervesPack](https://hex.pm/packages/nerves_pack) in
 their dependency list. NervesPack depends on most of the Nerves-specific
 libraries that you'll need at the beginning of your project. This includes those
-needed for networking, firmware updates, and various helpful utilities.  If you
+needed for networking, firmware updates, and various helpful utilities. If you
 want a minimal project that does not include NervesPack, pass
 `--no-nerves-pack`:
 
@@ -119,7 +119,7 @@ does that. Therefore, NervesBootstrap injects Mix aliases into the project being
 built so that it's called before any library is built.
 
 It's far easier to lock dependent library versions for regular Mix dependencies
-(those listed in your `mix.exs`) than for Mix archives.  NervesBootstrap is a
+(those listed in your `mix.exs`) than for Mix archives. NervesBootstrap is a
 Mix archive. To address this, as much code as possible is put in the [`Nerves`
 library](https://github.com/nerves-project/nerves) which is then listed in the
 `mix.exs` and can be version locked via the `mix.lock` file.
