@@ -86,7 +86,7 @@ defmodule Nerves.Bootstrap.AliasTest do
     System.put_env("MIX_TARGET", "rpi3")
     Mix.State.put(:target, :rpi3)
 
-    Nerves.Bootstrap.Aliases.run([])
+    Aliases.run([])
 
     assert_receive {:mix_shell, :error, message}
 
