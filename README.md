@@ -106,36 +106,27 @@ import Config
 Application.start(:nerves_bootstrap)
 ```
 
-## Internals
+## Design
 
-NervesBootstrap uses Mix aliases to hook into Mix build steps.
+While the Nerves tooling provides many features, the two primary ones are the
+ability to download pre-compiled build artifacts and then to set environment
+variables to make native code compilers (e.g., C, C++, Rust, Zig, etc.) compile
+for the right platform.
 
-Aliases vary based on whether you are compiling for your host or your target
-device. For host builds, NervesBootstrap injects the following tasks to add
-support for downloading pre-compiled archives.
+When Mix compiles a library, it makes sure to compile all of its dependencies
+first. It would be easy if every Elixir library depended on Nerves, but no one
+does that. Therefore, NervesBootstrap injects Mix aliases into the project being
+built so that it's called before any library is built.
 
-```elixir
-[
-  "deps.get": ["deps.get", "nerves.bootstrap", "nerves.deps.get"],
-  "deps.update": ["deps.update", "nerves.bootstrap", "nerves.deps.get"]
-]
-```
+It's far easier to lock dependent library versions for regular Mix dependencies
+(those listed in your `mix.exs`) than for Mix archives.  NervesBootstrap is a
+Mix archive. To address this, as much code as possible is put in the [`Nerves`
+library](https://github.com/nerves-project/nerves) which is then listed in the
+`mix.exs` and can be version locked via the `mix.lock` file.
 
-When `MIX_TARGET` is set, NervesBootstrap injects the following additional
-tasks to support cross-compilation and firmware creation:
-
-```elixir
-[
-  "deps.loadpaths": ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"],
-  "deps.compile": ["nerves.bootstrap", "nerves.loadpaths", "deps.compile"],
-  # This returns a nicer error when MIX_TARGET is set when calling 'mix run'
-  run: [NervesBootstrap.Aliases.run/1]
-]
-```
-
-NervesBootstrap provides only minimal code to inject the Nerves tooling. The
-main Nerves tooling is the [`Nerves`](https://github.com/nerves-project/nerves)
-library.
+Therefore, what NervesBootstrap really does is ensure that Nerves and its
+dependencies have been compiled. Then it runs a Mix task in the Nerves library
+to instrument the build.
 
 ## Local development
 
