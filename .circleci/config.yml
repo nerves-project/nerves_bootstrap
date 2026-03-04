@@ -34,7 +34,7 @@ jobs:
     steps:
       - run:
           name: Install system dependencies
-          command: apk add --no-cache git
+          command: apk add --no-cache build-base libmnl-dev git squashfs-tools xz fwup
       - checkout
       - run:
           name: Install hex and rebar
@@ -47,11 +47,13 @@ jobs:
       - run: mix deps.get
       - run: mix test
       - run: mix archive.build
-      - run: mix archive.install
+      - run: mix archive.install --force
+      - run: mix test --include integration:host
       - when:
           condition:
             matches: { <<: *latest, value: << parameters.tag >> }
           steps:
+            - run: mix test --include integration:target
             - run: mix format --check-formatted
             - run: mix deps.unlock --check-unused
             - run: mix docs
@@ -94,7 +96,9 @@ workflows:
           matrix:
             parameters:
               tag: *tags
-
+          filters:
+            tags:
+              only: /.*/
       - automerge:
           requires: *tags
           context: org-global

@@ -139,6 +139,19 @@ cd nerves_bootstrap
 mix do deps.get + archive.build + archive.install
 ```
 
+This project includes integration tests to make sure that the Mix archive
+actually works. These tests don't run by default since they involve installing
+the archive globally and take a long time. You'll want to run `mix local.nerves`
+afterwards to clean up since this isn't done by default. To run:
+
+```bash
+# Run host-only integration tests
+mix test --include integration:host
+
+# Run all integration tests (requires compatible OTP version)
+mix test --include integration
+```
+
 ## License
 
 All original source code in this project is licensed under Apache-2.0.

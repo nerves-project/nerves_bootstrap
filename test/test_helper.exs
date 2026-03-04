@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 Mix.shell(Mix.Shell.Process)
-ExUnit.start()
+ExUnit.start(exclude: [:integration])
 
 defmodule MixHelper do
   @moduledoc false
@@ -18,7 +18,9 @@ defmodule MixHelper do
 
   @spec in_tmp(atom(), (-> any())) :: any()
   def in_tmp(which, function) do
-    path = Path.join(tmp_path(), to_string(which))
+    # Remove spaces to avoid elixir_make's warning and some paths that really need to be quoted
+    dir = which |> to_string() |> String.replace(" ", "_")
+    path = Path.join(tmp_path(), dir)
     File.rm_rf!(path)
     File.mkdir_p!(path)
     File.cd!(path, function)
