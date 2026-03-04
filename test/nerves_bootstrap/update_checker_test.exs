@@ -124,6 +124,8 @@ defmodule NervesBootstrap.UpdateCheckerTest do
     File.mkdir!(Path.join(tmp_dir, "nerves"))
 
     on_exit(fn ->
+      File.rm_rf!(tmp_dir)
+
       if previous_value do
         System.put_env("XDG_DATA_HOME", previous_value)
       else
