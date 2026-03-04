@@ -70,6 +70,11 @@ defmodule NervesBootstrap.AliasTest do
     assert Keyword.get(aliases, :"deps.update") == deps_update
   end
 
+  test "mix run delegates to Mix.Tasks.Run on host target" do
+    # Mix.target() defaults to :host in tests, so this exercises the host branch
+    Aliases.run(["-e", "nil"])
+  end
+
   test "mix run prints an error on non-host targets" do
     previous_target = Mix.State.get(:target)
     previous_mix_target_env = System.get_env("MIX_TARGET")
