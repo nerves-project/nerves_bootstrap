@@ -111,6 +111,28 @@ defmodule NervesBootstrap.UpdateCheckerTest do
     end
   end
 
+  describe "check/0" do
+    @tag :tmp_dir
+    test "returns :ok immediately when recently checked", %{tmp_dir: tmp_dir} do
+      set_data_dir(tmp_dir)
+      UpdateChecker.mark_checked()
+
+      assert :ok == UpdateChecker.check()
+    end
+
+    @tag :tmp_dir
+    test "runs do_check and rescues when Hex is unavailable", %{tmp_dir: tmp_dir} do
+      set_data_dir(tmp_dir)
+
+      # No check file exists, so should_check?() returns true and do_check() runs.
+      # Hex isn't started in test, so do_check() rescues and mark_checked() runs.
+      assert :ok == UpdateChecker.check()
+
+      # Verify mark_checked() was called by confirming a subsequent check is skipped
+      refute UpdateChecker.should_check?()
+    end
+  end
+
   defp manual_mark_checked(tmp_dir, offset) do
     path = Path.join(tmp_dir, @check_timestamp_file)
     timestamp = System.os_time(:second) + offset
