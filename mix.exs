@@ -17,7 +17,11 @@ defmodule NervesBootstrap.MixProject do
       description: description(),
       package: package(),
       deps: deps(),
-      dialyzer: dialyzer()
+      dialyzer: dialyzer(),
+      test_coverage: [
+        summary: [threshold: 75],
+        ignore_modules: [Mix.Tasks.Local.Nerves, NervesBootstrap]
+      ]
     ]
   end
 
