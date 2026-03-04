@@ -13,7 +13,7 @@ defmodule MixHelper do
   # Much <3 to Phoenix for this code
   @spec tmp_path() :: binary()
   def tmp_path() do
-    Path.expand("../../tmp", __DIR__)
+    Path.expand("../tmp", __DIR__)
   end
 
   @spec in_tmp(atom(), (-> any())) :: any()
