@@ -9,8 +9,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-Code.require_file("mix_helper.exs", __DIR__)
-
 defmodule Nerves.NewTest do
   use ExUnit.Case
   import MixHelper
