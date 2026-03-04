@@ -71,7 +71,7 @@ defmodule Mix.Tasks.Nerves.New do
   @nerves_pack_vsn "0.7.1"
   @toolshed_vsn "0.4.0"
 
-  @elixir_requirement "~> 1.13"
+  @elixir_requirement "~> 1.15"
 
   @targets [
     {:bbb, "2.19"},
