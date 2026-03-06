@@ -23,7 +23,7 @@ config :nerves_runtime, startup_guard_enabled: true
 # https://github.com/nerves-project/erlinit/ for more information on
 # configuring erlinit.
 
-# Advance the system clock on devices without real-time clocks.
+# Advance the system clock on devices without a real-time clock.
 config :nerves, :erlinit, update_clock: true
 
 # Configure the device for SSH IEx prompt access and firmware updates
