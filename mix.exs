@@ -38,9 +38,15 @@ defmodule NervesBootstrap.MixProject do
   end
 
   def application do
-    [
-      mod: {NervesBootstrap, []}
-    ]
+    # 1. Don't start Nerves tooling automatically when testing
+    # 2. Don't include any `:extra_applications` even if they're need since
+    #    user applications call `Application.start/1` and not
+    #    `Application.ensure_all_started/`
+    if Mix.env() in [:dev, :prod] do
+      [mod: {NervesBootstrap, []}]
+    else
+      []
+    end
   end
 
   def aliases do
