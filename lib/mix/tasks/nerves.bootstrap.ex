@@ -21,6 +21,8 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
 
   @impl Mix.Task
   def run(_args) do
+    UpdateChecker.check()
+
     nerves_ver = nerves_version()
 
     if is_nil(nerves_ver) do
@@ -45,7 +47,9 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
       Mix.Tasks.Deps.Compile.run(["nerves", "--include-children"])
     end
 
-    UpdateChecker.check()
+    # Do not call Nerves Bootstrap code from other modules here. The modules
+    # aren't available in Elixir 1.18 and earlier if `:nerves` doesn't pull
+    # them in.
   end
 
   defp nerves_version() do
