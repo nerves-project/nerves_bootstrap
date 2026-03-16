@@ -11,6 +11,7 @@ defmodule NervesBootstrap.MixProject do
       app: :nerves_bootstrap,
       version: @version,
       elixir: "~> 1.15",
+      elixirc_paths: ["lib", "compat"],
       aliases: aliases(),
       xref: [exclude: [Nerves.Env, Hex, Hex.API.Package, EEx]],
       docs: docs(),
@@ -74,6 +75,7 @@ defmodule NervesBootstrap.MixProject do
     [
       files: [
         "CHANGELOG.md",
+        "compat",
         "lib",
         "LICENSES/*",
         "mix.exs",
