@@ -5,6 +5,22 @@
 
 # Changelog
 
+## 1.15.1 - 2026-03-16
+
+This release doesn't change any functionality. It contains internal changes to
+break a cyclic dependency with the `:nerves` package and help the maintainers.
+
+This continues the prep work for bigger future Nerves tooling updates.
+
+* Changes
+  * Check for Nerves Bootstrap updates first (once a day) to avoid running the
+    check after loadpaths removed bootstrap from code paths. This fixes a
+    potential update failure.
+  * Move private bootstrap API to the NervesBootstrap package. The one call
+    that's used by older versions of Nerves is still available, but maintained
+    separately. I.e., nothing should break.
+  * Added many unit and integration tests
+
 ## 1.15.0 - 2026-03-02
 
 This release primarily cleans up the code base so that it's easier to maintain
