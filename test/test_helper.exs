@@ -3,6 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 Mix.shell(Mix.Shell.Process)
+
+# By default, exclude all integration tests
+# Users can run them with: mix test --include integration
 ExUnit.start(exclude: [:integration])
 
 defmodule MixHelper do
