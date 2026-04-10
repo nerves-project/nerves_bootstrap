@@ -9,7 +9,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-defmodule Nerves.NewTest do
+defmodule Mix.Tasks.Nerves.NewTest do
   use ExUnit.Case
   import MixHelper
 
