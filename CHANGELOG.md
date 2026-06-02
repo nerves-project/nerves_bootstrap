@@ -257,7 +257,7 @@ Elixir 1.13 as the minimum supported version
 ## 1.9.0
 
 * New project generator updates
-  * Bump [NervesPack to 0.4](https://hexdocs.pm/nerves_pack/changelog.html#v0-4-0)
+  * Bump [NervesPack to 0.4](https://nerves-pack.hexdocs.pm/changelog.html#v0-4-0)
     which drops `:nerves_firmware_ssh` in favor of `:nerves_ssh` and
     `:ssh_subsystem_fwup` for access and updates.
   * Bump Nerves to `~> 1.6.3`
@@ -383,7 +383,7 @@ dependencies for a device. This lets you switch between building for different
 boards and your host. Elixir 1.8 pulls this support into `mix` and lets you
 annotate dependencies for which targets they should be used.
 
-See the [project update guide](https://hexdocs.pm/nerves/updating-projects.html#updating-from-v1-3-x-to-v1-4-x) to learn how to migrate your project.
+See the [project update guide](https://nerves.hexdocs.pm/updating-projects.html#updating-from-v1-3-x-to-v1-4-x) to learn how to migrate your project.
 
 * Enhancements
   * New projects are generated for Elixir 1.8.

@@ -63,7 +63,7 @@ defmodule <%= app_module %>.MixProject do
     [
       overwrite: true,
 <%= if nerves_pack? do %>      # Erlang distribution is not started automatically.
-      # See https://hexdocs.pm/nerves_pack/readme.html#erlang-distribution
+      # See https://nerves-pack.hexdocs.pm/readme.html#erlang-distribution
 <% end %>      cookie: <%= if cookie do %>"<%= cookie %>"<% else %>"#{@app}_cookie"<% end %>,
       include_erts: &Nerves.Release.erts/0,
       steps: [&Nerves.Release.init/1, :assemble],

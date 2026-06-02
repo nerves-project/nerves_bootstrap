@@ -10,8 +10,8 @@ config :nerves_runtime,
        # this allows us to use a pre-populated InMemory store when running on
        # host for development and testing.
        #
-       # https://hexdocs.pm/nerves_runtime/readme.html#using-nerves_runtime-in-tests
-       # https://hexdocs.pm/nerves_runtime/readme.html#nerves-system-and-firmware-metadata
+       # https://nerves-runtime.hexdocs.pm/readme.html#using-nerves_runtime-in-tests
+       # https://nerves-runtime.hexdocs.pm/readme.html#nerves-system-and-firmware-metadata
 
        "nerves_fw_active" => "a",
        "a.nerves_fw_architecture" => "generic",

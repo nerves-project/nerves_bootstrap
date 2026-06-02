@@ -9,7 +9,7 @@
 # NervesBootstrap
 
 [![Hex version](https://img.shields.io/hexpm/v/nerves_bootstrap.svg "Hex version")](https://hex.pm/packages/nerves_bootstrap)
-[![API docs](https://img.shields.io/hexpm/v/nerves_bootstrap.svg?label=hexdocs "API docs")](https://hexdocs.pm/nerves_bootstrap/index.html)
+[![API docs](https://img.shields.io/hexpm/v/nerves_bootstrap.svg?label=hexdocs "API docs")](https://nerves-bootstrap.hexdocs.pm/index.html)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/nerves-project/nerves_bootstrap/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/nerves-project/nerves_bootstrap/tree/main)
 [![REUSE status](https://api.reuse.software/badge/github.com/nerves-project/nerves_bootstrap)](https://api.reuse.software/info/github.com/nerves-project/nerves_bootstrap)
 
@@ -17,7 +17,7 @@ NervesBootstrap is an Elixir archive that brings Nerves support to Elixir's Mix
 build tool and provides a new project generator, `mix nerves.new`.
 
 We recommend reading the [Nerves Installation
-Guide](https://hexdocs.pm/nerves/installation.html) for installing and using
+Guide](https://nerves.hexdocs.pm/installation.html) for installing and using
 Nerves. Read on for details specific to NervesBootstrap.
 
 ## Installation
