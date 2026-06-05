@@ -8,6 +8,7 @@ defmodule Integration.CompilationTest do
 
   # Allow a minute in case downloads are slow
   @test_timeout 120_000
+  @current_otp 29
 
   setup_all do
     # Build and install the current bootstrap archive
@@ -28,7 +29,7 @@ defmodule Integration.CompilationTest do
   @tag :integration
   @tag timeout: @test_timeout
   test "building host with a new project", context do
-    if otp_release() == 28 do
+    if otp_release() == @current_otp do
       in_tmp(context.test, fn ->
         Mix.Tasks.Nerves.New.run(["my_test_project"])
 
@@ -42,7 +43,7 @@ defmodule Integration.CompilationTest do
   @tag :integration
   @tag timeout: @test_timeout
   test "building for rpi0 with a new project", context do
-    if otp_release() == 28 do
+    if otp_release() == @current_otp do
       in_tmp(context.test, fn ->
         Mix.Tasks.Nerves.New.run(["my_test_project"])
 
