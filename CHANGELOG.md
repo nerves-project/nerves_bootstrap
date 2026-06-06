@@ -5,6 +5,11 @@
 
 # Changelog
 
+## 1.15.2 - 2026-06-06
+
+* Changes
+  * Use new HexDoc URL format in new projects
+
 ## 1.15.1 - 2026-03-16
 
 This release doesn't change any functionality. It contains internal changes to
