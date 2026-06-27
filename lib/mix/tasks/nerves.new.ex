@@ -75,8 +75,6 @@ defmodule Mix.Tasks.Nerves.New do
 
   @targets [
     {:bbb, "2.19"},
-    {:grisp2, "0.8"},
-    {:osd32mp1, "0.15"},
     {:mangopi_mq_pro, "0.6"},
     {:qemu_aarch64, "0.1"},
     {:rpi, "2.0"},

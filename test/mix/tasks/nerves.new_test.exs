@@ -38,12 +38,7 @@ defmodule Mix.Tasks.Nerves.NewTest do
         assert file =~ "{:nerves_system_rpi4, \"~> 2.0\", runtime: false, targets: :rpi4"
         assert file =~ "{:nerves_system_rpi5, \"~> 2.0\", runtime: false, targets: :rpi5"
         assert file =~ "{:nerves_system_bbb, \"~> 2.19\", runtime: false, targets: :bbb"
-
-        assert file =~
-                 "{:nerves_system_osd32mp1, \"~> 0.15\", runtime: false, targets: :osd32mp1"
-
         assert file =~ "{:nerves_system_x86_64, \"~> 1.24\", runtime: false, targets: :x86_64"
-        assert file =~ "{:nerves_system_grisp2, \"~> 0.8\", runtime: false, targets: :grisp2"
 
         assert file =~
                  "{:nerves_system_mangopi_mq_pro, \"~> 0.6\", runtime: false, targets: :mangopi_mq_pro"
