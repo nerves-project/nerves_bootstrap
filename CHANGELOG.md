@@ -5,6 +5,13 @@
 
 # Changelog
 
+## 1.15.3 - 2026-06-27
+
+* Changes
+  * Remove OSD32MP1 and GRiSP2 from the default systems added to new projects.
+    This hopefully is temporary until these systems can have their Linux kernels
+    updated.
+
 ## 1.15.2 - 2026-06-06
 
 * Changes
