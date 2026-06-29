@@ -26,15 +26,33 @@ defmodule Mix.Tasks.Nerves.Bootstrap do
     nerves_ver = nerves_version()
 
     if is_nil(nerves_ver) do
-      Mix.raise(":nerves is required as a dependency of this project")
+      Mix.raise("""
+      Your project is using Nerves bootstrap but doesn't depend on Nerves.
+
+      Please check the dependency section of your mix.exs.
+      """)
     end
 
-    if Version.match?(nerves_ver, "< 1.8.0") do
+    # Check that the Nerves version is new enough to support this
+    # version of Nerves Bootstrap.
+    #
+    # This version of Nerves Bootstrap fails to install when the
+    # Elixir version is less than 1.15, so we're guaranteed that
+    # version. That forces a constraint on what Nerves versions
+    # can be used. Here's a truncated list for convenience.
+    #
+    # | Nerves version | Min Elixir version          | Max Elixir |
+    # |----------------|-----------------------------|------------|
+    # | 1.11.3         | 1.13                        | 1.18       |
+    # | 1.12.0         | 1.15.1                      | 1.19.      |
+    # | 1.14.3         | 1.15.1 (inherited)          | 1.20.      |
+
+    if Version.match?(nerves_ver, "< 1.11.3") do
       Mix.raise("""
       You are using :nerves #{nerves_ver} which is incompatible with this version
       of nerves_bootstrap and will result in compilation failures.
 
-      Please update to :nerves >= 1.8.0 or downgrade your nerves_bootstrap <= 1.11.5
+      Please update to :nerves >= 1.11.3.
       """)
     end
 
