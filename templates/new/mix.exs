@@ -10,7 +10,7 @@ defmodule <%= app_module %>.MixProject do
       app: @app,
       version: @version,
       elixir: "<%= elixir_req %>",
-      archives: [nerves_bootstrap: "~> <%= bootstrap_vsn %>"],<%= if in_umbrella do %>
+      archives: [nerves_bootstrap: "<%= bootstrap_req %>"],<%= if in_umbrella do %>
       deps_path: "../../deps",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
