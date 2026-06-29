@@ -5,6 +5,10 @@ defmodule Nerves1xOtp29.MixProject do
   @version "0.1.0"
   @all_targets [:rpi0]
 
+  if :erlang.system_info(:otp_release) != ~c"29" do
+    raise "This integration test is for Erlang/OTP 29 only. You're running #{:erlang.system_info(:otp_release)}"
+  end
+
   def project do
     [
       app: @app,
