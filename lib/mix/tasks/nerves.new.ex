@@ -131,6 +131,8 @@ defmodule Mix.Tasks.Nerves.New do
   end
 
   def run(argv) do
+    # This version check is needed since installing Nerves Bootstrap on an
+    # old version of Elixir only results in a warning.
     if !Version.match?(System.version(), @elixir_requirement) do
       Mix.raise("""
       Nerves Bootstrap v#{@bootstrap_vsn} creates projects that require Elixir #{@elixir_requirement}.
