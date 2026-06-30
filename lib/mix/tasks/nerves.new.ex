@@ -58,34 +58,42 @@ defmodule Mix.Tasks.Nerves.New do
   use Mix.Task
   import Mix.Generator
 
-  @bootstrap_vsn Mix.Project.config()[:version]
-  @bootstrap_req (
-                   v = Version.parse!(@bootstrap_vsn)
-                   "~> #{v.major}.#{v.minor}"
-                 )
-  @nerves_vsn "1.13"
-  @nerves_dep ~s[{:nerves, "~> #{@nerves_vsn}", runtime: false}]
-  @shoehorn_vsn "0.9.1"
-  @runtime_vsn "0.13.12"
-  @ring_logger_vsn "0.11.0"
-  @nerves_pack_vsn "0.7.1"
-  @toolshed_vsn "0.4.0"
+  alias NervesBootstrap.Versions
 
-  @elixir_requirement "~> 1.15"
-
-  @targets [
-    {:bbb, "2.19"},
-    {:mangopi_mq_pro, "0.6"},
-    {:qemu_aarch64, "0.1"},
-    {:rpi, "2.0"},
-    {:rpi0, "2.0"},
-    {:rpi0_2, "2.0"},
-    {:rpi2, "2.0"},
-    {:rpi3, "2.0"},
-    {:rpi4, "2.0"},
-    {:rpi5, "2.0"},
-    {:x86_64, "1.24"}
+  @default_targets [
+    :bbb,
+    :mangopi_mq_pro,
+    :qemu_aarch64,
+    :rpi,
+    :rpi0,
+    :rpi0_2,
+    :rpi2,
+    :rpi3,
+    :rpi4,
+    :rpi5,
+    :x86_64
   ]
+
+  # Mapping between easy-to-type target name and the actual Nerves system package
+  # It is ok for this list to contain more mappings than what's listed above.
+  @target_systems %{
+    bbb: :nerves_system_bbb,
+    grisp2: :nerves_system_grisp2,
+    mangopi_mq_pro: :nerves_system_mangopi_mq_pro,
+    npi_imx6ull: :nerves_system_npi_imx6ull,
+    osd32mp1: :nerves_system_osd32mp1,
+    qemu_aarch64: :nerves_system_qemu_aarch64,
+    rpi: :nerves_system_rpi,
+    rpi0: :nerves_system_rpi0,
+    rpi0_2: :nerves_system_rpi0_2,
+    rpi2: :nerves_system_rpi2,
+    rpi3: :nerves_system_rpi3,
+    rpi3a: :nerves_system_rpi3a,
+    rpi4: :nerves_system_rpi4,
+    rpi5: :nerves_system_rpi5,
+    trellis: :nerves_system_trellis,
+    x86_64: :nerves_system_x86_64
+  }
 
   @new [
     {:eex, "new/config/config.exs", "config/config.exs"},
@@ -127,15 +135,15 @@ defmodule Mix.Tasks.Nerves.New do
 
   @impl Mix.Task
   def run([version]) when version in ~w(-v --version) do
-    Mix.shell().info("Nerves Bootstrap v#{@bootstrap_vsn}")
+    Mix.shell().info("Nerves Bootstrap #{Versions.bootstrap_vsn()}")
   end
 
   def run(argv) do
     # This version check is needed since installing Nerves Bootstrap on an
     # old version of Elixir only results in a warning.
-    if !Version.match?(System.version(), @elixir_requirement) do
+    if not Versions.supported_elixir?() do
       Mix.raise("""
-      Nerves Bootstrap v#{@bootstrap_vsn} creates projects that require Elixir #{@elixir_requirement}.
+      Nerves Bootstrap #{Versions.bootstrap_vsn()} creates projects that require Elixir #{Versions.elixir_req()}.
 
       You have Elixir #{System.version()}. Please update your Elixir version or downgrade
       the version of Nerves Bootstrap that you're using.
@@ -179,19 +187,19 @@ defmodule Mix.Tasks.Nerves.New do
     nerves_pack? = Keyword.get(opts, :nerves_pack, true)
 
     targets = Keyword.get_values(opts, :target)
-    default_targets = Keyword.keys(@targets)
+    known_targets = Map.keys(@target_systems) |> Enum.sort()
 
     targets =
       Enum.map(targets, fn target ->
         target = String.to_atom(target)
 
-        if target not in default_targets do
-          targets = Enum.map_join(@targets, "\n  ", &elem(&1, 0))
+        if target not in known_targets do
+          targets = Enum.join(known_targets, "\n  ")
 
           Mix.raise("""
           Unknown target #{inspect(target)}
 
-          Officially supported targets:
+          Known targets:
             #{targets}
 
           If you don't want any of these targets, one option is to pick one
@@ -199,10 +207,10 @@ defmodule Mix.Tasks.Nerves.New do
           """)
         end
 
-        Enum.find(@targets, &(elem(&1, 0) == target))
+        target
       end)
 
-    targets = if targets == [], do: @targets, else: targets
+    targets = if targets == [], do: @default_targets, else: targets
     cookie = opts[:cookie]
     source_date_epoch = Keyword.get(opts, :source_date_epoch, generate_source_date_epoch())
     elixir_version = System.version() |> Version.parse!()
@@ -210,17 +218,13 @@ defmodule Mix.Tasks.Nerves.New do
     binding = [
       app_name: app,
       app_module: mod,
-      bootstrap_req: @bootstrap_req,
-      shoehorn_vsn: @shoehorn_vsn,
-      runtime_vsn: @runtime_vsn,
-      ring_logger_vsn: @ring_logger_vsn,
       elixir_req: "~> #{elixir_version.major}.#{elixir_version.minor}",
-      nerves_dep: @nerves_dep,
+      bootstrap_req: Versions.bootstrap_req(),
+      package_reqs: Versions.package_reqs(),
       in_umbrella: in_umbrella?,
       nerves_pack?: nerves_pack?,
-      nerves_pack_vsn: @nerves_pack_vsn,
-      toolshed_vsn: @toolshed_vsn,
       targets: targets,
+      target_systems: @target_systems,
       cookie: cookie,
       source_date_epoch: source_date_epoch
     ]

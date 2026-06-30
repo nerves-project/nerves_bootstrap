@@ -3,7 +3,7 @@ defmodule <%= app_module %>.MixProject do
 
   @app :<%= app_name %>
   @version "0.1.0"
-<%= if nerves_pack? do %>  @all_targets <%= inspect(Enum.map(targets, &elem(&1, 0))) %>
+<%= if nerves_pack? do %>  @all_targets <%= inspect(targets) %>
 <% end %>
   def project do
     [
@@ -38,24 +38,25 @@ defmodule <%= app_module %>.MixProject do
   defp deps do
     [
       # Dependencies for all targets
-      <%= nerves_dep %>,
-      {:shoehorn, "~> <%= shoehorn_vsn %>"},
-      {:ring_logger, "~> <%= ring_logger_vsn %>"},
-      {:toolshed, "~> <%= toolshed_vsn %>"},
+      {:nerves, "<%= package_reqs[:nerves] %>", runtime: false},
+
+      {:shoehorn, "<%= package_reqs[:shoehorn] %>"},
+      {:ring_logger, "<%= package_reqs[:ring_logger] %>"},
+      {:toolshed, "<%= package_reqs[:toolshed] %>"},
 
       # Allow Nerves.Runtime on host to support development, testing and CI.
       # See config/host.exs for usage.
-      {:nerves_runtime, "~> <%= runtime_vsn %>"},<%= if nerves_pack? do %>
+      {:nerves_runtime, "<%= package_reqs[:nerves_runtime] %>"},<%= if nerves_pack? do %>
 
       # Dependencies for all targets except :host
-      {:nerves_pack, "~> <%= nerves_pack_vsn %>", targets: @all_targets},<% end %>
+      {:nerves_pack, "<%= package_reqs[:nerves_pack] %>", targets: @all_targets},<% end %>
 
       # Dependencies for specific targets
       # NOTE: It's generally low risk and recommended to follow minor version
       # bumps to Nerves systems. Since these include Linux kernel and Erlang
       # version updates, please review their release notes in case
       # changes to your application are needed.
-<%= Enum.map_join(targets, ",\n", &~s|      {:nerves_system_#{elem(&1, 0)}, "~> #{elem(&1, 1)}", runtime: false, targets: :#{elem(&1, 0)}}|) %>
+<%= Enum.map_join(targets, ",\n", &~s|      {:#{target_systems[&1]}, "#{package_reqs[target_systems[&1]]}", runtime: false, targets: :#{&1}}|) %>
     ]
   end
 
