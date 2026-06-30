@@ -94,10 +94,21 @@ to the `nerves_bootstrap` archive. If one exists, you'll be prompted to update.
 
 ## Integration with your project
 
-NervesBootstrap injects Nerves-specific build tasks into the `mix` build process via
-an `Application.start/1` call in your project's `config.exs`. If you use `mix
-nerves.new`, your project will be created with these lines and no additional
-work is needed.
+The easiest route is to generate your project with `mix nerves.new`. This
+section only describes the NervesBootstrap integration, and there's way more to
+a Nerves project than just integrating with NervesBootstrap. The new project
+generator fills in those as well.
+
+Only continuing reading here if you want to know the details. Manually
+integrating projects is not recommended.
+
+The most important thing NervesBootstrap does is makes sure that the native code
+you have in your projects is compiled properly. To do this, it ensures that the
+code in the `:nerves` package gets compiled first so that it can affect the
+compilation of all other dependencies in your project.
+
+The trick to invoking NervesBootstrap early in the build process is to run
+`Application.start/1`  in your project's `config.exs` like this:
 
 ```elixir
 # config/config.exs
