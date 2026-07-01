@@ -23,6 +23,37 @@ defmodule NervesBootstrap.AliasTest do
     assert Keyword.get(aliases, :"deps.compile") == deps_compile
   end
 
+  test "target aliases are injected properly" do
+    deps_loadpaths = ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"]
+    deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
+    deps_update = [&Aliases.deps_update/1]
+    deps_precompile = ["nerves.bootstrap", "deps.precompile"]
+    deps_compile = ["nerves.bootstrap", "nerves.loadpaths", "deps.compile"]
+    run = [&Aliases.run/1]
+
+    aliases = [] |> Aliases.add_host_aliases() |> Aliases.add_target_aliases()
+    assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
+    assert Keyword.get(aliases, :"deps.get") == deps_get
+    assert Keyword.get(aliases, :"deps.update") == deps_update
+    assert Keyword.get(aliases, :"deps.precompile") == deps_precompile
+    assert Keyword.get(aliases, :"deps.compile") == deps_compile
+    assert Keyword.get(aliases, :run) == run
+    assert length(aliases) == 6
+  end
+
+  test "host aliases are injected properly" do
+    deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
+    deps_update = [&Aliases.deps_update/1]
+    deps_precompile = ["nerves.bootstrap", "deps.precompile"]
+
+    aliases = Aliases.add_host_aliases([])
+
+    assert Keyword.get(aliases, :"deps.get") == deps_get
+    assert Keyword.get(aliases, :"deps.update") == deps_update
+    assert Keyword.get(aliases, :"deps.precompile") == deps_precompile
+    assert length(aliases) == 3
+  end
+
   test "custom aliases are maintained" do
     custom_aliases = [
       "deps.loadpaths": ["custom", "nerves.bootstrap", "deps.loadpaths"],

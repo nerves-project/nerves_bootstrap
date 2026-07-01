@@ -42,7 +42,7 @@ defmodule NervesBootstrap.Aliases do
     |> add_target_aliases()
   end
 
-  defp add_host_aliases(aliases) do
+  def add_host_aliases(aliases) do
     aliases
     |> append("deps.get", "nerves.bootstrap")
     |> append("deps.get", "nerves.deps.get")
@@ -50,7 +50,7 @@ defmodule NervesBootstrap.Aliases do
     |> replace("deps.update", &NervesBootstrap.Aliases.deps_update/1)
   end
 
-  defp add_target_aliases(aliases) do
+  def add_target_aliases(aliases) do
     aliases
     |> prepend("deps.loadpaths", "nerves.loadpaths")
     |> prepend("deps.loadpaths", "nerves.bootstrap")
