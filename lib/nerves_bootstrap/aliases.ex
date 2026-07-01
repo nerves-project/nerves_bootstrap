@@ -7,42 +7,22 @@
 defmodule NervesBootstrap.Aliases do
   @moduledoc false
 
-  @spec init() :: :ok
-  def init() do
+  @spec inject_aliases_if_top((keyword() -> keyword())) :: :ok
+  def inject_aliases_if_top(add_aliases_fn) do
     with %{} <- Mix.ProjectStack.peek(),
          %{name: name, config: config, file: file} <- Mix.ProjectStack.pop(),
          nil <- Mix.ProjectStack.peek() do
-      adjusted_config =
-        config
-        |> update_host_config()
-        |> update_target_config(Mix.target())
+      adjusted_config = update_in(config, [:aliases], add_aliases_fn)
 
       :ok = Mix.ProjectStack.push(name, adjusted_config, file)
     else
       # We are not at the top of the stack. Do nothing.
-      _ ->
-        :ok
+      _ -> :ok
     end
   end
 
-  defp update_host_config(config) do
-    update_in(config, [:aliases], &add_host_aliases(&1))
-  end
-
-  defp update_target_config(config, :host), do: config
-
-  defp update_target_config(config, _target) do
-    update_in(config, [:aliases], &add_target_aliases(&1))
-  end
-
-  @spec add_aliases(keyword()) :: keyword()
-  def add_aliases(aliases) do
-    aliases
-    |> add_host_aliases()
-    |> add_target_aliases()
-  end
-
-  def add_host_aliases(aliases) do
+  @spec add_aliases(atom(), keyword()) :: keyword()
+  def add_aliases(:host, aliases) do
     aliases
     |> append("deps.get", "nerves.bootstrap")
     |> append("deps.get", "nerves.deps.get")
@@ -50,8 +30,12 @@ defmodule NervesBootstrap.Aliases do
     |> replace("deps.update", &NervesBootstrap.Aliases.deps_update/1)
   end
 
-  def add_target_aliases(aliases) do
+  def add_aliases(_target, aliases) do
     aliases
+    |> append("deps.get", "nerves.bootstrap")
+    |> append("deps.get", "nerves.deps.get")
+    |> prepend("deps.precompile", "nerves.bootstrap")
+    |> replace("deps.update", &NervesBootstrap.Aliases.deps_update/1)
     |> prepend("deps.loadpaths", "nerves.loadpaths")
     |> prepend("deps.loadpaths", "nerves.bootstrap")
     |> prepend("deps.compile", "nerves.loadpaths")

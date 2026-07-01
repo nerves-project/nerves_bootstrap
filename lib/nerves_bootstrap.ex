@@ -8,6 +8,8 @@ defmodule NervesBootstrap do
   @moduledoc false
   use Application
 
+  alias NervesBootstrap.Aliases
+
   @impl Application
   def start(_type, _args) do
     if Version.match?(System.version(), ">= 1.19.0") and has_compile_partition_count?() do
@@ -24,7 +26,7 @@ defmodule NervesBootstrap do
       System.delete_env("MIX_OS_DEPS_COMPILE_PARTITION_COUNT")
     end
 
-    NervesBootstrap.Aliases.init()
+    Aliases.inject_aliases_if_top(&Aliases.add_aliases(Mix.target(), &1))
     {:ok, self()}
   end
 
