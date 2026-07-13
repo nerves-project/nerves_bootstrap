@@ -108,7 +108,7 @@ code in the `:nerves` package gets compiled first so that it can affect the
 compilation of all other dependencies in your project.
 
 The trick to invoking NervesBootstrap early in the build process is to run
-`Application.start/1`  in your project's `config.exs` like this:
+`Application.start/1` in your project's `config.exs` like this:
 
 ```elixir
 # config/config.exs
@@ -130,8 +130,8 @@ does that. Therefore, NervesBootstrap injects Mix aliases into the project being
 built so that it's called before any library is built.
 
 It's far easier to lock dependent library versions for regular Mix dependencies
-(those listed in your `mix.exs`) than for Mix archives. NervesBootstrap is a
-Mix archive. To address this, as much code as possible is put in the [`Nerves`
+(those listed in your `mix.exs`) than for Mix archives. NervesBootstrap is a Mix
+archive. To address this, as much code as possible is put in the [`Nerves`
 library](https://github.com/nerves-project/nerves) which is then listed in the
 `mix.exs` and can be version locked via the `mix.lock` file.
 
@@ -141,8 +141,8 @@ to instrument the build.
 
 ## Local development
 
-If you need to modify NervesBootstrap, here's what you should do to get
-the source code, build it and install your changes locally:
+If you need to modify NervesBootstrap, here's what you should do to get the
+source code, build it and install your changes locally:
 
 ```bash
 git clone https://github.com/nerves-project/nerves_bootstrap.git
