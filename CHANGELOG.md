@@ -5,6 +5,17 @@
 
 # Changelog
 
+## 1.16.0 - 2026-07-13
+
+This release primarily includes internal code cleanup and more unit tests.
+
+* Changes
+  * `mix nerves.new <project> --target <target>` supports some not-yet-official Nerves
+    targets. For example, `mix nerves.new my_project --target trellis` adds support for
+    the Nerves Starter Kit. Run `mix nerves.new my_project --target list` to get
+    a list of known targets.
+  * Documentation and error message updates
+
 ## 1.15.3 - 2026-06-27
 
 * Changes
