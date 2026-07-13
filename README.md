@@ -61,14 +61,14 @@ supported Nerves devices. Just like the Elixir new project generator,
 
 Generated projects will boot and provide an IEx prompt over the default console
 for the device. Here's a script for creating a new project and building it for a
-Raspberry Pi 3:
+Raspberry Pi 5:
 
 ```bash
 mix nerves.new my_project
 cd my_project
 
-# Set MIX_TARGET to select Raspberry Pi 3-specific dependencies in the mix.exs
-export MIX_TARGET=rpi3
+# Set MIX_TARGET to select Raspberry Pi 5-specific dependencies in the mix.exs
+export MIX_TARGET=rpi5
 
 # Download dependencies, build firmware and write it to a MicroSD card
 mix deps.get

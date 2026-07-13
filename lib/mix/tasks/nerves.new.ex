@@ -42,13 +42,13 @@ defmodule Mix.Tasks.Nerves.New do
 
       mix nerves.new blinky --module Blinky
 
-  Generate a project that only supports Raspberry Pi 3
+  Generate a project that only supports Raspberry Pi 5
 
-      mix nerves.new blinky --target rpi3
+      mix nerves.new blinky --target rpi5
 
-  Generate a project that supports Raspberry Pi 3 and Raspberry Pi Zero
+  Generate a project that supports Raspberry Pi 5 and Raspberry Pi Zero
 
-      mix nerves.new blinky --target rpi3 --target rpi0
+      mix nerves.new blinky --target rpi5 --target rpi0
 
   Generate a project without `nerves_pack`
 
