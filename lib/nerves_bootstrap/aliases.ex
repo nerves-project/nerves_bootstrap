@@ -21,6 +21,14 @@ defmodule NervesBootstrap.Aliases do
     end
   end
 
+  @spec add_aliases(keyword()) :: keyword()
+  def add_aliases(aliases) do
+    aliases
+    |> prepend("deps.loadpaths", "nerves_bootstrap.init")
+    |> prepend("compile", "nerves_bootstrap.init")
+    |> replace("run", &NervesBootstrap.Aliases.run/1)
+  end
+
   @spec add_error_report_aliases(String.t(), keyword()) :: keyword()
   def add_error_report_aliases(msg, aliases) do
     raise_fun = raise_alias(msg)

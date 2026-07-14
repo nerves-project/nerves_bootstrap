@@ -8,111 +8,182 @@ defmodule NervesBootstrap.AliasTest do
 
   alias NervesBootstrap.Aliases
 
-  test "target aliases are injected properly" do
-    deps_loadpaths = ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"]
-    deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
-    deps_update = [&Aliases.deps_update/1]
-    deps_precompile = ["nerves.bootstrap", "deps.precompile"]
-    deps_compile = ["nerves.bootstrap", "nerves.loadpaths", "deps.compile"]
-    run = [&Aliases.run/1]
+  describe "add_aliases/1" do
+    test "aliases are injected properly" do
+      deps_loadpaths = ["nerves_bootstrap.init", "deps.loadpaths"]
+      compile = ["nerves_bootstrap.init", "compile"]
 
-    aliases = Aliases.add_aliases_v1(:target, [])
-    assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
-    assert Keyword.get(aliases, :"deps.get") == deps_get
-    assert Keyword.get(aliases, :"deps.update") == deps_update
-    assert Keyword.get(aliases, :"deps.precompile") == deps_precompile
-    assert Keyword.get(aliases, :"deps.compile") == deps_compile
-    assert Keyword.get(aliases, :run) == run
-    assert length(aliases) == 6
+      aliases = Aliases.add_aliases([])
+      assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
+      assert Keyword.get(aliases, :compile) == compile
+      assert Keyword.get(aliases, :run) == [&NervesBootstrap.Aliases.run/1]
+    end
+
+    test "custom aliases are maintained" do
+      custom_aliases = [
+        "deps.loadpaths": ["custom", "deps.loadpaths"],
+        compile: ["custom", "compile"],
+        "deps.update": ["custom"],
+        custom: ["custom"]
+      ]
+
+      aliases = Aliases.add_aliases(custom_aliases)
+
+      assert Keyword.get(aliases, :"deps.loadpaths") == [
+               "nerves_bootstrap.init",
+               "custom",
+               "deps.loadpaths"
+             ]
+
+      assert Keyword.get(aliases, :compile) == [
+               "nerves_bootstrap.init",
+               "custom",
+               "compile"
+             ]
+
+      assert Keyword.get(aliases, :run) == [&NervesBootstrap.Aliases.run/1]
+      assert Keyword.get(aliases, :custom) == ["custom"]
+    end
+
+    test "aliases are dropped if they already exist" do
+      deps_loadpaths = ["nerves_bootstrap.init", "deps.loadpaths"]
+      compile = ["nerves_bootstrap.init", "compile"]
+
+      nerves_aliases = [
+        "deps.loadpaths": deps_loadpaths,
+        compile: compile
+      ]
+
+      aliases = Aliases.add_aliases(nerves_aliases)
+      assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
+      assert Keyword.get(aliases, :compile) == compile
+    end
+
+    test "replace skipped if user has already replaced" do
+      # See v1 version of this test for how it used to append the Nerves tooling's run
+      # replacement even when the user's mix.exs overrode the default.
+      custom_aliases = [run: ["custom"]]
+      aliases = Aliases.add_aliases(custom_aliases)
+      assert Keyword.get(aliases, :run) == ["custom"]
+    end
   end
 
-  test "host aliases are injected properly" do
-    deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
-    deps_update = [&Aliases.deps_update/1]
-    deps_precompile = ["nerves.bootstrap", "deps.precompile"]
+  describe "add_aliases_v1/1" do
+    test "target aliases are injected properly" do
+      deps_loadpaths = ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"]
+      deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
+      deps_update = [&Aliases.deps_update/1]
+      deps_precompile = ["nerves.bootstrap", "deps.precompile"]
+      deps_compile = ["nerves.bootstrap", "nerves.loadpaths", "deps.compile"]
+      run = [&Aliases.run/1]
 
-    aliases = Aliases.add_aliases_v1(:host, [])
+      aliases = Aliases.add_aliases_v1(:target, [])
+      assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
+      assert Keyword.get(aliases, :"deps.get") == deps_get
+      assert Keyword.get(aliases, :"deps.update") == deps_update
+      assert Keyword.get(aliases, :"deps.precompile") == deps_precompile
+      assert Keyword.get(aliases, :"deps.compile") == deps_compile
+      assert Keyword.get(aliases, :run) == run
+      assert length(aliases) == 6
+    end
 
-    assert Keyword.get(aliases, :"deps.get") == deps_get
-    assert Keyword.get(aliases, :"deps.update") == deps_update
-    assert Keyword.get(aliases, :"deps.precompile") == deps_precompile
-    assert length(aliases) == 3
+    test "host aliases are injected properly" do
+      deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
+      deps_update = [&Aliases.deps_update/1]
+      deps_precompile = ["nerves.bootstrap", "deps.precompile"]
+
+      aliases = Aliases.add_aliases_v1(:host, [])
+
+      assert Keyword.get(aliases, :"deps.get") == deps_get
+      assert Keyword.get(aliases, :"deps.update") == deps_update
+      assert Keyword.get(aliases, :"deps.precompile") == deps_precompile
+      assert length(aliases) == 3
+    end
+
+    test "custom aliases are maintained" do
+      custom_aliases = [
+        "deps.loadpaths": ["custom", "nerves.bootstrap", "deps.loadpaths"],
+        "deps.get": ["deps.get", "nerves.bootstrap", "custom"],
+        "deps.update": ["custom"],
+        custom: ["custom"]
+      ]
+
+      aliases = Aliases.add_aliases_v1(:target, custom_aliases)
+
+      assert Keyword.get(aliases, :"deps.loadpaths") == [
+               "nerves.bootstrap",
+               "nerves.loadpaths",
+               "custom",
+               "deps.loadpaths"
+             ]
+
+      assert Keyword.get(aliases, :"deps.get") == [
+               "deps.get",
+               "custom",
+               "nerves.bootstrap",
+               "nerves.deps.get"
+             ]
+
+      assert Keyword.get(aliases, :"deps.update") == [
+               "custom",
+               &Aliases.deps_update/1
+             ]
+
+      assert Keyword.get(aliases, :custom) == ["custom"]
+    end
+
+    test "aliases are dropped if they already exist" do
+      deps_loadpaths = ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"]
+      deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
+      deps_update = [&Aliases.deps_update/1]
+
+      nerves_aliases = [
+        "deps.loadpaths": deps_loadpaths
+      ]
+
+      aliases = Aliases.add_aliases_v1(:host, nerves_aliases)
+      assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
+      assert Keyword.get(aliases, :"deps.get") == deps_get
+      assert Keyword.get(aliases, :"deps.update") == deps_update
+    end
+
+    test "v1 replace appends alias even if nothing to replace" do
+      # This preserves v1 semantics
+      custom_aliases = [run: ["custom"]]
+      aliases = Aliases.add_aliases_v1(:target, custom_aliases)
+      assert Keyword.get(aliases, :run) == ["custom", &NervesBootstrap.Aliases.run/1]
+    end
   end
 
-  test "custom aliases are maintained" do
-    custom_aliases = [
-      "deps.loadpaths": ["custom", "nerves.bootstrap", "deps.loadpaths"],
-      "deps.get": ["deps.get", "nerves.bootstrap", "custom"],
-      "deps.update": ["custom"],
-      custom: ["custom"]
-    ]
+  describe "run/1" do
+    test "mix run delegates to Mix.Tasks.Run on host target" do
+      # Mix.target() defaults to :host in tests, so this exercises the host branch
+      Aliases.run(["-e", "nil"])
+    end
 
-    aliases = Aliases.add_aliases_v1(:target, custom_aliases)
+    test "mix run prints an error on non-host targets" do
+      previous_target = Mix.State.get(:target)
+      previous_mix_target_env = System.get_env("MIX_TARGET")
 
-    assert Keyword.get(aliases, :"deps.loadpaths") == [
-             "nerves.bootstrap",
-             "nerves.loadpaths",
-             "custom",
-             "deps.loadpaths"
-           ]
+      on_exit(fn ->
+        Mix.State.put(:target, previous_target)
 
-    assert Keyword.get(aliases, :"deps.get") == [
-             "deps.get",
-             "custom",
-             "nerves.bootstrap",
-             "nerves.deps.get"
-           ]
+        case previous_mix_target_env do
+          nil -> System.delete_env("MIX_TARGET")
+          value -> System.put_env("MIX_TARGET", value)
+        end
+      end)
 
-    assert Keyword.get(aliases, :"deps.update") == [
-             "custom",
-             &Aliases.deps_update/1
-           ]
+      System.put_env("MIX_TARGET", "rpi3")
+      Mix.State.put(:target, :rpi3)
 
-    assert Keyword.get(aliases, :custom) == ["custom"]
-  end
+      Aliases.run([])
 
-  test "aliases are dropped if they already exist" do
-    deps_loadpaths = ["nerves.bootstrap", "nerves.loadpaths", "deps.loadpaths"]
-    deps_get = ["deps.get", "nerves.bootstrap", "nerves.deps.get"]
-    deps_update = [&Aliases.deps_update/1]
+      assert_receive {:mix_shell, :error, message}
 
-    nerves_aliases = [
-      "deps.loadpaths": deps_loadpaths
-    ]
-
-    aliases = Aliases.add_aliases_v1(:host, nerves_aliases)
-    assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
-    assert Keyword.get(aliases, :"deps.get") == deps_get
-    assert Keyword.get(aliases, :"deps.update") == deps_update
-  end
-
-  test "mix run delegates to Mix.Tasks.Run on host target" do
-    # Mix.target() defaults to :host in tests, so this exercises the host branch
-    Aliases.run(["-e", "nil"])
-  end
-
-  test "mix run prints an error on non-host targets" do
-    previous_target = Mix.State.get(:target)
-    previous_mix_target_env = System.get_env("MIX_TARGET")
-
-    on_exit(fn ->
-      Mix.State.put(:target, previous_target)
-
-      case previous_mix_target_env do
-        nil -> System.delete_env("MIX_TARGET")
-        value -> System.put_env("MIX_TARGET", value)
-      end
-    end)
-
-    System.put_env("MIX_TARGET", "rpi3")
-    Mix.State.put(:target, :rpi3)
-
-    Aliases.run([])
-
-    assert_receive {:mix_shell, :error, message}
-
-    text = IO.iodata_to_binary(message)
-    assert text =~ "You are trying to run code compiled for the 'rpi3' target"
-    assert text =~ "Please unset MIX_TARGET to run in host mode."
+      text = IO.iodata_to_binary(message)
+      assert text =~ "You are trying to run code compiled for the 'rpi3' target"
+      assert text =~ "Please unset MIX_TARGET to run in host mode."
+    end
   end
 end

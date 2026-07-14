@@ -55,12 +55,7 @@ defmodule NervesBootstrap do
         start_nerves_v1(nerves_version)
 
       true ->
-        report_error("""
-        You are using :nerves #{nerves_version} which is not supported by this version
-        of nerves_bootstrap.
-
-        Please update your version of nerves_bootstrap.
-        """)
+        start_nerves_v2()
     end
 
     {:ok, self()}
@@ -69,6 +64,10 @@ defmodule NervesBootstrap do
   defp start_nerves_v1(nerves_version) do
     workaround_v1_compile_partition_issue(nerves_version)
     Aliases.inject_aliases_if_top(&Aliases.add_aliases_v1(Mix.target(), &1))
+  end
+
+  defp start_nerves_v2() do
+    Aliases.inject_aliases_if_top(&Aliases.add_aliases/1)
   end
 
   defp handle_undownloaded_nerves_package() do

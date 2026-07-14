@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 defmodule Mix.Tasks.Nerves.Bootstrap do
-  # Bootstrap Nerves tooling into the current Mix tooling
+  # Nerves v1 initialization
   #
   # The purpose of this task is to ensure the Nerves integration is compiled
   # first and available to be injected into the Mix tooling since NervesBootstrap
