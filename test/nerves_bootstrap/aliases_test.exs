@@ -16,7 +16,7 @@ defmodule NervesBootstrap.AliasTest do
     deps_compile = ["nerves.bootstrap", "nerves.loadpaths", "deps.compile"]
     run = [&Aliases.run/1]
 
-    aliases = Aliases.add_aliases(:target, [])
+    aliases = Aliases.add_aliases_v1(:target, [])
     assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
     assert Keyword.get(aliases, :"deps.get") == deps_get
     assert Keyword.get(aliases, :"deps.update") == deps_update
@@ -31,7 +31,7 @@ defmodule NervesBootstrap.AliasTest do
     deps_update = [&Aliases.deps_update/1]
     deps_precompile = ["nerves.bootstrap", "deps.precompile"]
 
-    aliases = Aliases.add_aliases(:host, [])
+    aliases = Aliases.add_aliases_v1(:host, [])
 
     assert Keyword.get(aliases, :"deps.get") == deps_get
     assert Keyword.get(aliases, :"deps.update") == deps_update
@@ -47,7 +47,7 @@ defmodule NervesBootstrap.AliasTest do
       custom: ["custom"]
     ]
 
-    aliases = Aliases.add_aliases(:target, custom_aliases)
+    aliases = Aliases.add_aliases_v1(:target, custom_aliases)
 
     assert Keyword.get(aliases, :"deps.loadpaths") == [
              "nerves.bootstrap",
@@ -80,7 +80,7 @@ defmodule NervesBootstrap.AliasTest do
       "deps.loadpaths": deps_loadpaths
     ]
 
-    aliases = Aliases.add_aliases(:host, nerves_aliases)
+    aliases = Aliases.add_aliases_v1(:host, nerves_aliases)
     assert Keyword.get(aliases, :"deps.loadpaths") == deps_loadpaths
     assert Keyword.get(aliases, :"deps.get") == deps_get
     assert Keyword.get(aliases, :"deps.update") == deps_update
