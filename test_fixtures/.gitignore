@@ -1,1 +1,2 @@
+# Ignore lockfiles - we want tests to resolve latest compatible versions
 mix.lock
