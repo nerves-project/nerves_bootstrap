@@ -69,6 +69,9 @@ defmodule Integration.CompilationTest do
   test "nerves 1.x rpi0", _context do
     path = fixture_for_nerves_version(1)
     clean_build!(path)
+
+    # Nerves 1.x downloads artifacts in the deps.get step. Check that they exist
+    # before attempting to build firmware just in case.
     get_deps!(path, "rpi0", &artifact_check/0)
     build_firmware!(path, "rpi0")
   end
