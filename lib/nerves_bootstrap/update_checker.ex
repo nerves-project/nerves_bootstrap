@@ -8,6 +8,8 @@ defmodule NervesBootstrap.UpdateChecker do
   @bootstrap_vsn Mix.Project.config()[:version]
   @check_interval_seconds 86400
 
+  @compile {:no_warn_undefined, [Hex.API.Package]}
+
   @doc """
   Check for a nerves_bootstrap release
   """

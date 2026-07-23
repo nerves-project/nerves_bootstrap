@@ -11,7 +11,6 @@ defmodule NervesBootstrap.MixProject do
       app: :nerves_bootstrap,
       version: @version,
       elixir: "~> 1.15",
-      elixirc_options: [no_warn_undefined: [Nerves.Env, Hex, Hex.API.Package, EEx]],
       elixirc_paths: ["lib", "compat"],
       aliases: aliases(),
       docs: docs(),
