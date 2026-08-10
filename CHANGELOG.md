@@ -5,6 +5,15 @@
 
 # Changelog
 
+## 1.17.0 - 2026-08-10
+
+This release adds support for the Nerves 2.x mix integration. At the time of
+this release, Nerves 2.0.0 has not been released so `mix nerves.new` continues
+to create Nerves 1.x projects.
+
+There are no plans to drop support for the Nerves 1.x mix integration since it's
+easy to support both.
+
 ## 1.16.0 - 2026-07-13
 
 This release primarily includes internal code cleanup and more unit tests.
