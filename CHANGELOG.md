@@ -5,6 +5,12 @@
 
 # Changelog
 
+## 1.17.1 - 2026-08-25
+
+* Changes
+  * (Nerves 2) Serialize first-time Nerves build to improve error messages when
+    `mix deps.get` hasn't been run.
+
 ## 1.17.0 - 2026-08-10
 
 This release adds support for the Nerves 2.x mix integration. At the time of
