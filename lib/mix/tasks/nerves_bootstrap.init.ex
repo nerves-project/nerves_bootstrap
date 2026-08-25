@@ -20,7 +20,14 @@ defmodule Mix.Tasks.NervesBootstrap.Init do
 
     if not Code.ensure_loaded?(Nerves) do
       # Compile Nerves and its dependencies
-      Mix.Tasks.Deps.Compile.run(["--include-children", "nerves"])
+
+      # Run compilation here serially since the error messages are better for
+      # common things like not running 'mix deps.get' first. Nerves also doesn't
+      # have a ton of dependencies so concurrent builds don't help this part
+      # a lot.
+      run_serial(fn ->
+        Mix.Tasks.Deps.Compile.run(["--include-children", "nerves"])
+      end)
 
       # Make Nerves available in the load path
       minimal_loadpaths()
@@ -44,5 +51,16 @@ defmodule Mix.Tasks.NervesBootstrap.Init do
       "--no-compile",
       "--no-listeners"
     ])
+  end
+
+  defp run_serial(fun) do
+    key = "MIX_OS_DEPS_COMPILE_PARTITION_COUNT"
+
+    old_count = System.get_env(key)
+    System.put_env(key, "1")
+
+    fun.()
+
+    System.put_env([{key, old_count}])
   end
 end
