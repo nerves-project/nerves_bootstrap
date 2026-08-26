@@ -10,6 +10,8 @@ defmodule NervesBootstrap do
 
   alias NervesBootstrap.Aliases
 
+  @unknown_nerves_version_string "<unknown>"
+
   @impl Application
   def start(_type, _args) do
     NervesBootstrap.UpdateChecker.check()
@@ -77,7 +79,7 @@ defmodule NervesBootstrap do
       # This is a workaround to not break the Nerves 1.x feature that
       # mix deps.get can both get the Nerves tooling for the first time AND
       # use it to download artifacts.
-      start_nerves_v1("<unknown>")
+      start_nerves_v1(@unknown_nerves_version_string)
     else
       disallow_compilation("""
       The :nerves package wasn't available at the beginning of compilation.
@@ -135,15 +137,20 @@ defmodule NervesBootstrap do
 
   defp workaround_v1_compile_partition_issue(nerves_version) do
     if Version.match?(System.version(), ">= 1.19.0") and has_compile_partition_count?() do
-      Mix.shell().error("""
-      Nerves #{nerves_version} does not support MIX_OS_DEPS_COMPILE_PARTITION_COUNT.
+      # The cause of an unknown version is almost certainly due to nerves not
+      # being downloaded yet. Rather than alert the user to something that may
+      # not even be a problem, just compile serially without the warning.
+      if nerves_version != @unknown_nerves_version_string do
+        Mix.shell().error("""
+        Nerves #{nerves_version} does not support MIX_OS_DEPS_COMPILE_PARTITION_COUNT.
 
-      Disabling it for this build. To silence this warning, either unset
-      MIX_OS_DEPS_COMPILE_PARTITION_COUNT or set it to 1 before you build.
+        Disabling it for this build. To silence this warning, either unset
+        MIX_OS_DEPS_COMPILE_PARTITION_COUNT or set it to 1 before you build.
 
-      Follow https://github.com/nerves-project/nerves/issues/1093 to track
-      progress.
-      """)
+        Follow https://github.com/nerves-project/nerves/issues/1093 to track
+        progress.
+        """)
+      end
 
       System.delete_env("MIX_OS_DEPS_COMPILE_PARTITION_COUNT")
     end
