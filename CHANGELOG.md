@@ -5,6 +5,14 @@
 
 # Changelog
 
+## 1.17.2 - 2026-08-26
+
+* Changes
+  * Silence warning when `MIX_OS_DEPS_COMPILE_PARTITION_COUNT` is set on Nerves
+    1 before deps have been resolved. The error message was a little confusing
+    since the actual Nerves version hadn't been resolved. Users get a warning on
+    the next run.
+
 ## 1.17.1 - 2026-08-25
 
 * Changes
