@@ -59,6 +59,12 @@ The generated project will support compilation for all of the officially
 supported Nerves devices. Just like the Elixir new project generator,
 `nerves.new` supports many options to tweak the output.
 
+Pass `--prerelease` to generate a project that uses Nerves 2:
+
+```bash
+mix nerves.new my_project --prerelease
+```
+
 Generated projects will boot and provide an IEx prompt over the default console
 for the device. Here's a script for creating a new project and building it for a
 Raspberry Pi 5:

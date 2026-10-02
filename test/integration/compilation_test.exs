@@ -42,6 +42,20 @@ defmodule Integration.CompilationTest do
 
   @tag :integration
   @tag timeout: @test_timeout
+  test "building host with a new Nerves 2.0 project", context do
+    if otp_release() == @current_otp do
+      in_tmp(context.test, fn ->
+        Mix.Tasks.Nerves.New.run(["--prerelease", "my_test_project"])
+
+        path = Path.join(File.cwd!(), "my_test_project")
+        get_deps!(path, "host")
+        build_firmware!(path, "host")
+      end)
+    end
+  end
+
+  @tag :integration
+  @tag timeout: @test_timeout
   test "building for rpi0 with a new project", context do
     if otp_release() == @current_otp do
       in_tmp(context.test, fn ->
@@ -58,22 +72,46 @@ defmodule Integration.CompilationTest do
   @tag :integration
   @tag timeout: @test_timeout
   test "nerves 1.x host", _context do
-    path = fixture_for_nerves_version(1)
-    clean_build!(path)
-    get_deps!(path, "host")
-    build_firmware!(path, "host")
+    with_nerves_fixture(1, fn path ->
+      clean_build!(path)
+      get_deps!(path, "host")
+      build_firmware!(path, "host")
+    end)
   end
 
   @tag :integration
   @tag timeout: @test_timeout
   test "nerves 1.x rpi0", _context do
-    path = fixture_for_nerves_version(1)
-    clean_build!(path)
+    with_nerves_fixture(1, fn path ->
+      clean_build!(path)
 
-    # Nerves 1.x downloads artifacts in the deps.get step. Check that they exist
-    # before attempting to build firmware just in case.
-    get_deps!(path, "rpi0", &artifact_check/0)
-    build_firmware!(path, "rpi0")
+      # Nerves 1.x downloads artifacts in the deps.get step. Check that they exist
+      # before attempting to build firmware just in case.
+      get_deps!(path, "rpi0", &artifact_check/0)
+      build_firmware!(path, "rpi0")
+    end)
+  end
+
+  # Tests for Nerves 2.x
+  @tag :integration
+  @tag timeout: @test_timeout
+  test "nerves 2.x host", _context do
+    with_nerves_fixture(2, fn path ->
+      clean_build!(path)
+      get_deps!(path, "host")
+      build_firmware!(path, "host")
+    end)
+  end
+
+  @tag :integration
+  @tag timeout: @test_timeout
+  test "nerves 2.x rpi0", _context do
+    with_nerves_fixture(2, fn path ->
+      clean_build!(path)
+
+      get_deps!(path, "host")
+      build_firmware!(path, "rpi0")
+    end)
   end
 
   defp artifact_check() do
@@ -151,8 +189,7 @@ defmodule Integration.CompilationTest do
     """)
   end
 
-  @spec fixture_for_nerves_version(integer()) :: String.t()
-  defp fixture_for_nerves_version(nerves_major_version) do
+  defp with_nerves_fixture(nerves_major_version, test) do
     otp = otp_release()
     name = "nerves_#{nerves_major_version}x_otp#{otp}"
 
@@ -161,14 +198,23 @@ defmodule Integration.CompilationTest do
     # the fixture.
     path = Path.expand("../../test_fixtures/#{name}", __DIR__)
 
-    if File.dir?(path) do
-      path
-    else
-      flunk("No fixture for Nerves v#{nerves_major_version}.x on OTP #{otp}. Tried #{path}")
+    cond do
+      File.dir?(path) ->
+        test.(path)
+
+      ignore_if_missing(nerves_major_version, otp) ->
+        :ok
+
+      true ->
+        flunk("No fixture for Nerves v#{nerves_major_version}.x on OTP #{otp}. Tried #{path}")
     end
   end
 
   defp otp_release() do
     :erlang.system_info(:otp_release) |> List.to_integer()
   end
+
+  defp ignore_if_missing(1, _otp), do: false
+  defp ignore_if_missing(2, otp) when otp < 29, do: true
+  defp ignore_if_missing(_nerves_major_version, _otp), do: false
 end

@@ -13,7 +13,7 @@ defmodule Mix.Tasks.Nerves.New do
   @moduledoc """
   Creates a new Nerves project
 
-      mix nerves.new PATH [--module MODULE] [--app APP] [--target TARGET] [--cookie STRING] [--no-nerves-pack]
+      mix nerves.new PATH [--module MODULE] [--app APP] [--target TARGET] [--cookie STRING] [--no-nerves-pack] [--prerelease]
 
   The project will be created at PATH. The application name and module name
   will be inferred from PATH unless `--module` or `--app` is given.
@@ -34,6 +34,9 @@ defmodule Mix.Tasks.Nerves.New do
   Generate a project without `nerves_pack` support by passing
   `--no-nerves-pack`.
 
+  Generate a project using the prerelease version of Nerves by passing
+  `--prerelease`.
+
   ## Examples
 
       mix nerves.new blinky
@@ -53,6 +56,10 @@ defmodule Mix.Tasks.Nerves.New do
   Generate a project without `nerves_pack`
 
       mix nerves.new blinky --no-nerves-pack
+
+  Generate a project using the prerelease version of Nerves
+
+      mix nerves.new blinky --prerelease
   """
 
   use Mix.Task
@@ -113,15 +120,21 @@ defmodule Mix.Tasks.Nerves.New do
     {:keep, "new/rel", "rel"}
   ]
 
+  @new_2 Enum.map(@new, fn {format, source, target} ->
+           {format, String.replace_prefix(source, "new/", "new-2/"), target}
+         end)
+
   @reserved_names ~w[nerves]
 
   # Embed all defined templates
   root = Path.expand("../../../templates", __DIR__)
 
-  for {format, source, _} <- @new do
-    if format != :keep do
-      @external_resource Path.join(root, source)
-      defp render(unquote(source)), do: unquote(File.read!(Path.join(root, source)))
+  for mapping <- [@new, @new_2] do
+    for {format, source, _} <- mapping do
+      if format != :keep do
+        @external_resource Path.join(root, source)
+        defp render(unquote(source)), do: unquote(File.read!(Path.join(root, source)))
+      end
     end
   end
 
@@ -131,6 +144,7 @@ defmodule Mix.Tasks.Nerves.New do
     target: :keep,
     cookie: :string,
     nerves_pack: :boolean,
+    prerelease: :boolean,
     source_date_epoch: :integer
   ]
 
@@ -230,7 +244,8 @@ defmodule Mix.Tasks.Nerves.New do
       source_date_epoch: source_date_epoch
     ]
 
-    copy_from(path, binding, @new)
+    template = if opts[:prerelease], do: @new_2, else: @new
+    copy_from(path, binding, template)
 
     print_mix_info(path)
   end

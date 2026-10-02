@@ -16,7 +16,8 @@ SPDX-License-Identifier = "CC0-1.0"
 # Make sure all generated code doesn't come with licensing obligations
 [[annotations]]
 path = [
- "templates/new/**"
+ "templates/new/**",
+ "templates/new-2/**"
 ]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "None"

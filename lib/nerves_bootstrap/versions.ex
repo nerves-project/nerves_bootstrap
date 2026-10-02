@@ -27,6 +27,7 @@ defmodule NervesBootstrap.Versions do
   def package_reqs() do
     %{
       nerves: "~> 1.13",
+      nerves_prerelease: "~> 2.0.0-pre.3",
       nerves_pack: "~> 0.7.1",
       nerves_runtime: "~> 0.13.12",
       nerves_system_bbb: "~> 2.19",
