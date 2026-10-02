@@ -49,6 +49,16 @@ defmodule Mix.Tasks.Nerves.NewTest do
     end)
   end
 
+  test "new prerelease project", context do
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run(["--prerelease", @app_name])
+
+      assert_file("#{@app_name}/mix.exs", fn file ->
+        assert file =~ ~s({:nerves, "~> 2.0.0-pre.3", runtime: false})
+      end)
+    end)
+  end
+
   test "new project single target", context do
     in_tmp(context.test, fn ->
       Mix.Tasks.Nerves.New.run([@app_name, "--target", "rpi"])
