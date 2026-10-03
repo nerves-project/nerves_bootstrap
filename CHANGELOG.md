@@ -5,6 +5,17 @@
 
 # Changelog
 
+## 1.17.3 - 2026-10-03
+
+* Changes
+  * Support creating a Nerves 2 project even though it's still prerelease.
+    Here's how: `mix nerves.new my_project_name --prerelease`
+  * Add `nerves_system_trellis` to the default target list. This makes it easier
+    to create new projects for the Goatmire 2025 Badge and the Nerves Starter
+    Kit
+  * Add `:logger_backends` to default project to remove large deprecation
+    warning from adding `RingLogger`.
+
 ## 1.17.2 - 2026-08-26
 
 * Changes
