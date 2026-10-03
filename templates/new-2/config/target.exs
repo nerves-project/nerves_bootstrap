@@ -1,16 +1,10 @@
 import Config
 
-# Use Ringlogger as the logger backend and remove :console.
-# See https://ring-logger.hexdocs.pm/readme.html for more information on
-# configuring ring_logger.
-
-config :logger, backends: [RingLogger]
-
 # Influence OTP application start order to ensure that logging and basic Nerves
 # services start as early as allowed. This can help with debugging misbehaving
 # applications and can also help perceived start time on slow devices.
 
-config :nerves, application_sort: [init: [:nerves_runtime<%= if nerves_pack? do %>, :nerves_pack<% end %>]]
+config :nerves, application_sort: [init: [:logger_backends, :nerves_runtime<%= if nerves_pack? do %>, :nerves_pack<% end %>]]
 <%= if nerves_pack? do %>
 # Enable the system startup guard to check that all OTP applications
 # started. If they didn't and you're on a Nerves system that supports
@@ -25,6 +19,10 @@ config :nerves_runtime, startup_guard_enabled: true
 
 # Advance the system clock on devices without a real-time clock.
 config :nerves, :erlinit, update_clock: true
+
+# Default to not starting so that the console logger isn't started. See
+# runtime.exs for logger configuration.
+config :logger, :default_handler, false
 
 # Configure the device for SSH IEx prompt access and firmware updates
 #

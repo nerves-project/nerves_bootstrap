@@ -55,6 +55,7 @@ defmodule Mix.Tasks.Nerves.NewTest do
 
       assert_file("#{@app_name}/mix.exs", fn file ->
         assert file =~ ~s({:nerves, "~> 2.0.0-pre.3", runtime: false})
+        assert file =~ ~s({:logger_backends, "~> 1.0"})
       end)
     end)
   end
@@ -166,7 +167,7 @@ defmodule Mix.Tasks.Nerves.NewTest do
         assert file =~ ~r/:ring_logger/
       end)
 
-      assert_file("#{@app_name}/config/target.exs", fn file ->
+      assert_file("#{@app_name}/config/runtime.exs", fn file ->
         assert file =~ ~r/RingLogger/
       end)
     end)

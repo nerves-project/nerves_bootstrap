@@ -1,11 +1,5 @@
 import Config
 
-# Use Ringlogger as the logger backend and remove :console.
-# See https://ring-logger.hexdocs.pm/readme.html for more information on
-# configuring ring_logger.
-
-config :logger, backends: [RingLogger]
-
 # Use shoehorn to start the main application. See the shoehorn
 # library documentation for more control in ordering how OTP
 # applications are started and handling failures.
@@ -25,6 +19,10 @@ config :nerves_runtime, startup_guard_enabled: true
 
 # Advance the system clock on devices without a real-time clock.
 config :nerves, :erlinit, update_clock: true
+
+# Default to not starting so that the console logger isn't started. See
+# runtime.exs for logger configuration.
+config :logger, :default_handler, false
 
 # Configure the device for SSH IEx prompt access and firmware updates
 #

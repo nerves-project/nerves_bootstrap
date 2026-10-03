@@ -46,6 +46,7 @@ defmodule NervesBootstrap.Versions do
       nerves_system_rpi5: "~> 2.0",
       nerves_system_trellis: "~> 0.4",
       nerves_system_x86_64: "~> 1.24",
+      logger_backends: "~> 1.0",
       ring_logger: "~> 0.11.0",
       shoehorn: "~> 0.9.1",
       toolshed: "~> 0.5.0"
