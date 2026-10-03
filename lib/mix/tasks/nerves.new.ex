@@ -71,6 +71,7 @@ defmodule Mix.Tasks.Nerves.New do
     :rpi3,
     :rpi4,
     :rpi5,
+    :trellis,
     :x86_64
   ]
 
