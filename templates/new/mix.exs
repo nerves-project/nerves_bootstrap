@@ -41,6 +41,7 @@ defmodule <%= app_module %>.MixProject do
       {:nerves, "<%= package_reqs[:nerves] %>", runtime: false},
 
       {:shoehorn, "<%= package_reqs[:shoehorn] %>"},
+      {:logger_backends, "<%= package_reqs[:logger_backends] %>"},
       {:ring_logger, "<%= package_reqs[:ring_logger] %>"},
       {:toolshed, "<%= package_reqs[:toolshed] %>"},
 

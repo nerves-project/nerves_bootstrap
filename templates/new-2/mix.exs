@@ -40,6 +40,7 @@ defmodule <%= app_module %>.MixProject do
       # Dependencies for all targets
       {:nerves, "<%= package_reqs[:nerves_prerelease] %>", runtime: false},
 
+      {:logger_backends, "<%= package_reqs[:logger_backends] %>"},
       {:ring_logger, "<%= package_reqs[:ring_logger] %>"},
       {:toolshed, "<%= package_reqs[:toolshed] %>"},
 
