@@ -75,7 +75,7 @@ defmodule NervesBootstrap do
   defp handle_undownloaded_nerves_package() do
     req = nerves_mix_requirement_string()
 
-    if definitely_nerves_1_x?(req) do
+    if definitely_nerves_1_x?(req, Mix.Dep.Lock.read()) do
       # This is a workaround to not break the Nerves 1.x feature that
       # mix deps.get can both get the Nerves tooling for the first time AND
       # use it to download artifacts.
@@ -116,16 +116,31 @@ defmodule NervesBootstrap do
   end
 
   @doc false
-  @spec definitely_nerves_1_x?(String.t() | nil) :: boolean
-  def definitely_nerves_1_x?(req) when is_binary(req) do
+  @spec definitely_nerves_1_x?(String.t() | nil, map()) :: boolean
+  def definitely_nerves_1_x?(req, lock \\ %{})
+
+  def definitely_nerves_1_x?(req, lock) when is_binary(req) do
     # See the calling context. This isn't meant to be perfect.
     case Version.parse_requirement(req) do
-      {:ok, r} -> Version.match?("1.999.999", r) and not Version.match?("2.999.999", r)
-      _ -> false
+      {:ok, r} ->
+        locked_nerves_1_x?(lock, r) or
+          (Version.match?("1.999.999", r) and not Version.match?("2.999.999", r))
+
+      _ ->
+        false
     end
   end
 
-  def definitely_nerves_1_x?(_req), do: false
+  def definitely_nerves_1_x?(_req, _lock), do: false
+
+  defp locked_nerves_1_x?(lock, req) do
+    with {:hex, _package, version, _, _, _, _, _} when is_binary(version) <- lock[:nerves],
+         {:ok, %Version{major: 1} = parsed} <- Version.parse(version) do
+      Version.match?(parsed, req)
+    else
+      _ -> false
+    end
+  end
 
   defp nerves_mix_requirement_string() do
     case Enum.find(Mix.Project.config()[:deps], &(elem(&1, 0) == :nerves)) do
