@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2018 Justin Schneck
 # SPDX-FileCopyrightText: 2022 Jon Carstens
+# SPDX-FileCopyrightText: 2026 Frank Hunleth
 #
 # SPDX-License-Identifier: Apache-2.0
 #
