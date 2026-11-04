@@ -4,7 +4,7 @@
 defmodule NervesBootstrap.MixProject do
   use Mix.Project
 
-  @version "1.17.3"
+  @version "1.17.4"
   @source_url "https://github.com/nerves-project/nerves_bootstrap"
 
   def project do

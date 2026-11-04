@@ -5,6 +5,13 @@
 
 # Changelog
 
+## 1.17.4 - 2026-11-04
+
+* Changes
+  * Improve Nerves 1.x detection before dependencies have been resolved. This
+    removes the need to run `mix deps.get` twice on CI due to package detection
+    incorrectly guessing Nerves 2.
+
 ## 1.17.3 - 2026-10-03
 
 * Changes
