@@ -92,6 +92,43 @@ defmodule Integration.CompilationTest do
     end)
   end
 
+  @tag :integration
+  @tag timeout: @test_timeout
+  test "locked nerves 1.x downloads artifacts on the first fetch with a mixed-major requirement",
+       context do
+    with_nerves_fixture(1, fn fixture ->
+      in_tmp(context.test, fn ->
+        project = fixture |> Path.join("mix.exs") |> File.read!()
+        File.write!("mix.exs", project)
+        File.cp_r!(Path.join(fixture, "config"), "config")
+        get_deps!(File.cwd!(), "host")
+        File.rename!("deps", "previous_deps")
+
+        mixed_project =
+          String.replace(
+            project,
+            ~s({:nerves, "~> 1.13"),
+            ~s({:nerves, "~> 1.11 or ~> 2.0 or ~> 2.0.0-dev")
+          )
+
+        File.write!("mix.exs", mixed_project)
+        artifacts = Path.join(File.cwd!(), "artifacts")
+
+        env = [
+          {"MIX_ENV", "dev"},
+          {"MIX_TARGET", "rpi0"},
+          {"NERVES_ARTIFACTS_DIR", artifacts}
+        ]
+
+        run_cmd("mix", ["deps.get"], File.cwd!(), env, fn ->
+          with :ok <- check_artifact_exists(artifacts, "nerves_system_rpi0-*") do
+            check_artifact_exists(artifacts, "nerves_toolchain_armv6_nerves_linux_gnueabihf-*")
+          end
+        end)
+      end)
+    end)
+  end
+
   # Tests for Nerves 2.x
   @tag :integration
   @tag timeout: @test_timeout
