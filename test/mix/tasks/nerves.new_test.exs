@@ -278,4 +278,189 @@ defmodule Mix.Tasks.Nerves.NewTest do
       end)
     end)
   end
+
+  describe "--igniter" do
+    setup do
+      test_pid = self()
+
+      # Stand in for `mix igniter.new`. See NervesBootstrap.IgniterNew.run/1.
+      Application.put_env(:nerves_bootstrap, :igniter_new_runner, fn [path | _] = argv ->
+        send(test_pid, {:igniter_new, argv})
+        File.mkdir_p!(Path.join(path, "config"))
+        File.write!(Path.join(path, "config/target.exs"), "import Config\n")
+        # igniter.new leaves the current directory in the new project
+        File.cd!(path)
+        :ok
+      end)
+
+      on_exit(fn -> Application.delete_env(:nerves_bootstrap, :igniter_new_runner) end)
+    end
+
+    test "delegates to igniter.new", context do
+      in_tmp(context.test, fn ->
+        cwd = File.cwd!()
+        Mix.Tasks.Nerves.New.run([@app_name, "--igniter"])
+
+        assert_received {:igniter_new,
+                         [
+                           @app_name,
+                           "--install",
+                           "nerves,nerves_ssh,mdns_lite,vintage_net,vintage_net_direct,vintage_net_ethernet,vintage_net_wifi,nerves_time,nerves_motd",
+                           "--sup",
+                           "--no-git",
+                           "--yes"
+                         ]}
+
+        assert_received {:mix_shell, :info,
+                         ["Your Nerves project was created successfully." <> _]}
+
+        # None of the template was used
+        refute_file("#{cwd}/#{@app_name}/mix.exs")
+        assert File.cwd!() == cwd
+      end)
+    end
+
+    test "passes options through", context do
+      in_tmp(context.test, fn ->
+        Mix.Tasks.Nerves.New.run([
+          "some/#{@app_name}",
+          "--igniter",
+          "--app",
+          "my_fw",
+          "--module",
+          "My.Fw",
+          "--target",
+          "rpi5",
+          "--target",
+          "rpi0",
+          "--no-nerves-pack",
+          "--install",
+          "nerves_motd,nerves_time",
+          "--install",
+          "nerves@path:/src/nerves"
+        ])
+
+        assert_received {:igniter_new,
+                         [
+                           "some/my_device",
+                           "--install",
+                           "nerves@path:/src/nerves,nerves_motd,nerves_time",
+                           "--module",
+                           "My.Fw",
+                           "--sup",
+                           "--no-git",
+                           "--with-args=--app my_fw",
+                           "--yes",
+                           "--target",
+                           "rpi5",
+                           "--target",
+                           "rpi0"
+                         ]}
+      end)
+    end
+
+    test "prerelease selects the Nerves prerelease", context do
+      in_tmp(context.test, fn ->
+        Mix.Tasks.Nerves.New.run([@app_name, "--igniter", "--prerelease"])
+
+        assert_received {:igniter_new, [@app_name, "--install", "nerves@2.0.0-pre." <> _ | _]}
+      end)
+    end
+
+    test "validates names and targets before running igniter.new", context do
+      in_tmp(context.test, fn ->
+        assert_raise Mix.Error, ~r/Unknown target :not_a_target/, fn ->
+          Mix.Tasks.Nerves.New.run([@app_name, "--igniter", "--target", "not_a_target"])
+        end
+
+        assert_raise Mix.Error, ~r/Application name must start with a letter/, fn ->
+          Mix.Tasks.Nerves.New.run(["007", "--igniter"])
+        end
+
+        assert_raise Mix.Error, ~r/cannot be named 'nerves'/, fn ->
+          Mix.Tasks.Nerves.New.run(["nerves", "--igniter"])
+        end
+
+        refute_received {:igniter_new, _}
+      end)
+    end
+
+    test "rejects options that only the template supports", context do
+      in_tmp(context.test, fn ->
+        assert_raise Mix.Error, "--cookie is not supported together with --igniter", fn ->
+          Mix.Tasks.Nerves.New.run([@app_name, "--igniter", "--cookie", "foo"])
+        end
+
+        assert_raise Mix.Error,
+                     "--source-date-epoch is not supported together with --igniter",
+                     fn ->
+                       Mix.Tasks.Nerves.New.run([
+                         @app_name,
+                         "--igniter",
+                         "--source-date-epoch",
+                         "1234"
+                       ])
+                     end
+
+        refute_received {:igniter_new, _}
+      end)
+    end
+
+    test "explains how to install igniter_new when it is missing", context do
+      Application.put_env(:nerves_bootstrap, :igniter_new_runner, fn _argv ->
+        {:error, :not_installed}
+      end)
+
+      in_tmp(context.test, fn ->
+        assert_raise Mix.Error, ~r/mix archive\.install hex igniter_new/, fn ->
+          Mix.Tasks.Nerves.New.run([@app_name, "--igniter"])
+        end
+
+        refute File.exists?(@app_name)
+      end)
+    end
+
+    test "fails when the installed Nerves had no installer", context do
+      Application.put_env(:nerves_bootstrap, :igniter_new_runner, fn [path | _] ->
+        File.mkdir_p!(path)
+        :ok
+      end)
+
+      in_tmp(context.test, fn ->
+        error =
+          assert_raise Mix.Error, fn ->
+            Mix.Tasks.Nerves.New.run([@app_name, "--igniter", "--app", "my_fw"])
+          end
+
+        assert error.message =~ "wasn't set up for Nerves"
+        assert error.message =~ "--install nerves@github:nerves-project/nerves"
+
+        assert error.message =~
+                 ~s(mix igniter.new my_device --install nerves,nerves_ssh,mdns_lite,vintage_net,vintage_net_direct,vintage_net_ethernet,vintage_net_wifi,nerves_time,nerves_motd --sup --no-git "--with-args=--app my_fw" --yes)
+      end)
+    end
+  end
+
+  test "--install requires --igniter", context do
+    in_tmp(context.test, fn ->
+      assert_raise Mix.Error, "--install is only supported together with --igniter", fn ->
+        Mix.Tasks.Nerves.New.run([@app_name, "--install", "nerves_motd"])
+      end
+
+      refute File.exists?(@app_name)
+    end)
+  end
+
+  test "the template is used without --igniter", context do
+    Application.put_env(:nerves_bootstrap, :igniter_new_runner, fn _argv ->
+      flunk("igniter.new must not be run")
+    end)
+
+    on_exit(fn -> Application.delete_env(:nerves_bootstrap, :igniter_new_runner) end)
+
+    in_tmp(context.test, fn ->
+      Mix.Tasks.Nerves.New.run([@app_name])
+      assert_file("#{@app_name}/config/target.exs")
+    end)
+  end
 end
