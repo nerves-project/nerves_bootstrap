@@ -92,6 +92,43 @@ want a minimal project that does not include NervesPack, pass
 mix nerves.new my_new_nerves_project --no-nerves-pack
 ```
 
+#### Igniter
+
+`mix nerves.new` can also create projects with
+[Igniter](https://igniter.hexdocs.pm). Rather than copying the built-in project
+template, this creates a plain Elixir project and lets Nerves and the other
+packages set themselves up by running their installers (`mix nerves.install`,
+etc.). It's opt-in and requires the `igniter_new` archive:
+
+```bash
+mix archive.install hex igniter_new
+mix nerves.new my_project --igniter --target rpi5
+```
+
+That's the same as running:
+
+```bash
+mix igniter.new my_project --install nerves,nerves_ssh,mdns_lite,vintage_net,vintage_net_direct,vintage_net_ethernet,vintage_net_wifi,nerves_time,nerves_motd --sup --no-git --yes --target rpi5
+```
+
+The libraries after `nerves` are what the project template gets from
+`nerves_pack`. They're installed directly since each one has its own installer.
+Pass `--no-nerves-pack` to leave them out and only install `nerves`.
+
+The `--app`, `--module`, `--target` and `--prerelease` options work with
+`--igniter` as well. `--cookie` doesn't. Use `--install` to install
+more packages or to change where a package comes from. Packages are specified
+like they are for `mix igniter.install`:
+
+```bash
+mix nerves.new my_project --igniter --install nerves_hub_link
+mix nerves.new my_project --igniter --no-nerves-pack --install nerves_ssh,mdns_lite
+mix nerves.new my_project --igniter --install nerves@github:nerves-project/nerves@v2
+```
+
+To add packages to the project afterwards, run `mix igniter.install <package>`
+in it.
+
 ### mix local.nerves
 
 This task checks [hex.pm](https://hex.pm/packages/nerves_bootstrap) for updates

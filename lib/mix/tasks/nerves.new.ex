@@ -13,7 +13,7 @@ defmodule Mix.Tasks.Nerves.New do
   @moduledoc """
   Creates a new Nerves project
 
-      mix nerves.new PATH [--module MODULE] [--app APP] [--target TARGET] [--cookie STRING] [--no-nerves-pack] [--prerelease]
+      mix nerves.new PATH [--module MODULE] [--app APP] [--target TARGET] [--cookie STRING] [--no-nerves-pack] [--prerelease] [--igniter [--install PACKAGES]]
 
   The project will be created at PATH. The application name and module name
   will be inferred from PATH unless `--module` or `--app` is given.
@@ -36,6 +36,10 @@ defmodule Mix.Tasks.Nerves.New do
 
   Generate a project using the prerelease version of Nerves by passing
   `--prerelease`.
+
+  Generate a project using [Igniter](https://igniter.hexdocs.pm) installers
+  instead of the built-in project template by passing `--igniter`.
+  See the Igniter section below.
 
   ## Examples
 
@@ -60,13 +64,60 @@ defmodule Mix.Tasks.Nerves.New do
   Generate a project using the prerelease version of Nerves
 
       mix nerves.new blinky --prerelease
+
+  ## Igniter
+
+  `--igniter` is an alternative way of creating the project. Rather than
+  copying the project template, it runs
+
+      mix igniter.new PATH --install nerves,nerves_ssh,mdns_lite,vintage_net,vintage_net_direct,vintage_net_ethernet,vintage_net_wifi,nerves_time,nerves_motd --sup --no-git --yes
+
+  which creates a plain Elixir project with `mix new` and then has each
+  package set itself up by running its installer (`mix nerves.install`, `mix
+  nerves_ssh.install`, etc.). Like with the project template, the project
+  uses the latest release of Nerves unless `--prerelease` is passed. The
+  version of Nerves that gets installed needs to have the `mix nerves.install`
+  task.
+
+  `nerves_pack` isn't installed. It has no code of its own, so the libraries
+  that it brings into template projects are installed directly instead.
+
+  This requires the `igniter_new` archive:
+
+      mix archive.install hex igniter_new
+
+  The other options work as follows with `--igniter`:
+
+    * `--app`, `--module` and `--target` have the same meaning. When no
+      targets are given, `mix nerves.install` adds the default ones.
+    * `--no-nerves-pack` only installs `nerves`. The libraries for SSH, mDNS,
+      networking and time synchronization are left out. Add the ones that you
+      want back with `--install`.
+    * `--prerelease` installs the prerelease version of Nerves that this
+      version of Nerves Bootstrap knows about rather than the latest release.
+    * `--install` adds to or changes the packages that get installed. It can
+      be passed more than once or be given a comma-separated list. Packages
+      are specified the same way as with `mix igniter.install`. For example,
+      `--install nerves_hub_link` adds a package and
+      `--install nerves@github:nerves-project/nerves@v2` replaces where
+      Nerves comes from. It is only allowed with `--igniter`.
+    * `--cookie` isn't supported. Change the cookie in the generated `mix.exs`.
+
+  Create a project for the Raspberry Pi 5 and Raspberry Pi Zero using Igniter:
+
+      mix nerves.new blinky --igniter --target rpi5 --target rpi0
   """
 
   use Mix.Task
   import Mix.Generator
 
+  alias NervesBootstrap.IgniterNew
   alias NervesBootstrap.Versions
 
+  # The default targets, the target to system mapping below and the Nerves
+  # system versions in `NervesBootstrap.Versions` are duplicated in the Nerves
+  # library's `Nerves.Igniter` module for use by `mix nerves.install`.
+  # test/nerves_bootstrap/nerves_sync_test.exs checks that they match.
   @default_targets [
     :bbb,
     :mangopi_mq_pro,
@@ -146,8 +197,21 @@ defmodule Mix.Tasks.Nerves.New do
     cookie: :string,
     nerves_pack: :boolean,
     prerelease: :boolean,
-    source_date_epoch: :integer
+    source_date_epoch: :integer,
+    igniter: :boolean,
+    install: :keep
   ]
+
+  # The success typings are the literals, which trips :underspecs
+  @dialyzer {:nowarn_function, default_targets: 0, target_systems: 0}
+
+  @doc false
+  @spec default_targets() :: [atom()]
+  def default_targets(), do: @default_targets
+
+  @doc false
+  @spec target_systems() :: %{atom() => atom()}
+  def target_systems(), do: @target_systems
 
   @impl Mix.Task
   def run([version]) when version in ~w(-v --version) do
@@ -199,33 +263,48 @@ defmodule Mix.Tasks.Nerves.New do
   defp run(app, mod, path, opts) do
     System.delete_env("MIX_TARGET")
 
-    in_umbrella? = in_umbrella?(path)
-    nerves_pack? = Keyword.get(opts, :nerves_pack, true)
+    targets = parse_targets!(opts)
 
+    cond do
+      opts[:igniter] ->
+        run_igniter(path, targets, opts)
+
+      Keyword.has_key?(opts, :install) ->
+        Mix.raise("--install is only supported together with --igniter")
+
+      true ->
+        run_template(app, mod, path, targets, opts)
+    end
+  end
+
+  defp parse_targets!(opts) do
     targets = Keyword.get_values(opts, :target)
     known_targets = Map.keys(@target_systems) |> Enum.sort()
 
-    targets =
-      Enum.map(targets, fn target ->
-        target = String.to_atom(target)
+    Enum.map(targets, fn target ->
+      target = String.to_atom(target)
 
-        if target not in known_targets do
-          targets = Enum.join(known_targets, "\n  ")
+      if target not in known_targets do
+        targets = Enum.join(known_targets, "\n  ")
 
-          Mix.raise("""
-          Unknown target #{inspect(target)}
+        Mix.raise("""
+        Unknown target #{inspect(target)}
 
-          Known targets:
-            #{targets}
+        Known targets:
+          #{targets}
 
-          If you don't want any of these targets, one option is to pick one
-          and change the references to it in the resulting mix.exs.
-          """)
-        end
+        If you don't want any of these targets, one option is to pick one
+        and change the references to it in the resulting mix.exs.
+        """)
+      end
 
-        target
-      end)
+      target
+    end)
+  end
 
+  defp run_template(app, mod, path, targets, opts) do
+    in_umbrella? = in_umbrella?(path)
+    nerves_pack? = Keyword.get(opts, :nerves_pack, true)
     targets = if targets == [], do: @default_targets, else: targets
     cookie = opts[:cookie]
     source_date_epoch = Keyword.get(opts, :source_date_epoch, generate_source_date_epoch())
@@ -249,6 +328,70 @@ defmodule Mix.Tasks.Nerves.New do
     copy_from(path, binding, template)
 
     print_mix_info(path)
+  end
+
+  # Options that only make sense for the project template
+  @template_only_switches [cookie: "--cookie", source_date_epoch: "--source-date-epoch"]
+
+  defp run_igniter(path, targets, opts) do
+    for {key, switch} <- @template_only_switches, Keyword.has_key?(opts, key) do
+      Mix.raise("#{switch} is not supported together with --igniter")
+    end
+
+    argv =
+      IgniterNew.argv(path,
+        app: opts[:app],
+        module: opts[:module],
+        targets: targets,
+        nerves_pack?: Keyword.get(opts, :nerves_pack, true),
+        prerelease?: Keyword.get(opts, :prerelease, false),
+        install: Keyword.get_values(opts, :install)
+      )
+
+    project_dir = Path.expand(path)
+
+    # igniter.new changes the current directory to the new project
+    case File.cd!(File.cwd!(), fn -> IgniterNew.run(argv) end) do
+      :ok ->
+        check_nerves_installed!(project_dir, argv)
+        print_mix_info(path)
+
+      {:error, :not_installed} ->
+        Mix.raise("""
+        The --igniter option requires the igniter_new archive. Install it by running:
+
+          mix archive.install hex igniter_new
+
+        Then try again, or run `mix nerves.new` without --igniter to create the
+        project from the built-in template.
+        """)
+    end
+  end
+
+  # Igniter adds packages that don't have installers to the dependency list
+  # and carries on. If that happened to Nerves, the result is a regular Elixir
+  # project.
+  defp check_nerves_installed!(project_dir, argv) do
+    if !File.regular?(Path.join(project_dir, "config/target.exs")) do
+      Mix.raise("""
+      The project at #{project_dir} was created, but it wasn't set up for Nerves.
+
+      This happens when the version of Nerves that was installed doesn't have
+      the `mix nerves.install` task.
+
+      Remove the project directory and then either run `mix nerves.new` without
+      --igniter or use --install to select a version of Nerves that has the
+      installer. For example, `--install nerves@github:nerves-project/nerves`.
+
+      The command that was run was:
+
+        mix igniter.new #{Enum.map_join(argv, " ", &quote_arg/1)}
+      """)
+    end
+  end
+
+  defp quote_arg(arg) do
+    if String.contains?(arg, " "), do: inspect(arg), else: arg
   end
 
   defp recompile(regex) do
